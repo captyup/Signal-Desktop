@@ -244,20 +244,31 @@ export function ConversationList({
       const row = getRow(index);
       if (!row) {
         assertDev(false, `Expected a row at index ${index}`);
+        return 0;
         return NORMAL_ROW_HEIGHT;
       }
+
       switch (row.type) {
         case RowType.Header:
         case RowType.SearchResultsLoadingFakeHeader:
+          return 0;
           return HEADER_ROW_HEIGHT;
         case RowType.SelectSingleGroup:
         case RowType.ContactCheckbox:
-        case RowType.Contact:
+        
         case RowType.CreateNewGroup:
         case RowType.FindByUsername:
         case RowType.FindByPhoneNumber:
+          return 0;
           return SELECT_ROW_HEIGHT;
+        case RowType.Contact:
+          if(row.contact.isMe) {
+            return 0;
+          } else {
+            return 112;
+          }
         default:
+          return 0;
           return NORMAL_ROW_HEIGHT;
       }
     },
@@ -297,24 +308,28 @@ export function ConversationList({
           break;
         case RowType.Contact: {
           const { isClickable = true, hasContextMenu = false } = row;
-          result = (
-            <ContactListItem
-              {...row.contact}
-              badge={getPreferredBadge(row.contact.badges)}
-              onClick={isClickable ? onSelectConversation : undefined}
-              i18n={i18n}
-              theme={theme}
-              hasContextMenu={hasContextMenu}
-              onAudioCall={
-                isClickable ? onOutgoingAudioCallInConversation : undefined
-              }
-              onVideoCall={
-                isClickable ? onOutgoingVideoCallInConversation : undefined
-              }
-              onBlock={isClickable ? blockConversation : undefined}
-              onRemove={isClickable ? removeConversation : undefined}
-            />
-          );
+          if (row.contact.isMe) {
+            result = undefined;
+          } else {
+            result = (
+              <ContactListItem
+                {...row.contact}
+                badge={getPreferredBadge(row.contact.badges)}
+                onClick={isClickable ? onSelectConversation : undefined}
+                i18n={i18n}
+                theme={theme}
+                hasContextMenu={hasContextMenu}
+                onAudioCall={
+                  isClickable ? onOutgoingAudioCallInConversation : undefined
+                }
+                onVideoCall={
+                  isClickable ? onOutgoingVideoCallInConversation : undefined
+                }
+                onBlock={isClickable ? blockConversation : undefined}
+                onRemove={isClickable ? removeConversation : undefined}
+              />
+            );
+          }
           break;
         }
         case RowType.ContactCheckbox:
@@ -419,33 +434,37 @@ export function ConversationList({
           break;
         }
         case RowType.CreateNewGroup:
-          result = (
+/*           result = (
             <ComposeStepButton
               icon={ComposeStepButtonIcon.Group}
               title={i18n('icu:createNewGroupButton')}
               onClick={showChooseGroupMembers}
             />
-          );
+          ); */
+          result = undefined;
           break;
         case RowType.FindByUsername:
-          result = (
+/*           result = (
             <ComposeStepButton
               icon={ComposeStepButtonIcon.Username}
               title={i18n('icu:LeftPane__compose__findByUsername')}
               onClick={showFindByUsername}
             />
-          );
+          ); */
+          result = undefined;
           break;
         case RowType.FindByPhoneNumber:
-          result = (
+/*           result = (
             <ComposeStepButton
               icon={ComposeStepButtonIcon.PhoneNumber}
               title={i18n('icu:LeftPane__compose__findByPhoneNumber')}
               onClick={showFindByPhoneNumber}
             />
-          );
+          ); */
+          result = undefined;
           break;
         case RowType.Header: {
+          /*
           const headerText = row.getHeaderText(i18n);
           result = (
             <div
@@ -455,6 +474,8 @@ export function ConversationList({
               {headerText}
             </div>
           );
+          */
+          result = undefined;
           break;
         }
         case RowType.MessageSearchResult:

@@ -15,6 +15,7 @@ function getNav(state: StateType): NavStateType {
 
 export const getSelectedNavTab = createSelector(getNav, nav => {
   return nav.selectedNavTab;
+  //return NavTab.Calls;
 });
 
 export const getOtherTabsUnreadStats = createSelector(

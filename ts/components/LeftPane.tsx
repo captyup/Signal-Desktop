@@ -453,7 +453,6 @@ export function LeftPane({
         startSearch,
       });
     };
-
     document.addEventListener('keydown', onKeyDown);
     return () => {
       document.removeEventListener('keydown', onKeyDown);
@@ -471,7 +470,9 @@ export function LeftPane({
     startComposing,
     startSearch,
   ]);
-
+  useEffect(() => {
+    startComposing();
+  }, []);
   const backgroundNode = helper.getBackgroundNode({
     i18n,
   });
@@ -708,7 +709,7 @@ export function LeftPane({
             showChooseGroupMembers,
           })}
         </div>
-        {(widthBreakpoint === WidthBreakpoint.Wide ||
+{/*         {(widthBreakpoint === WidthBreakpoint.Wide ||
           modeSpecificProps.mode !== LeftPaneMode.Inbox) && (
           <NavSidebarSearchHeader>
             {helper.getSearchInput({
@@ -729,7 +730,7 @@ export function LeftPane({
               showInbox,
             })}
           </NavSidebarSearchHeader>
-        )}
+        )} */}
         <div className="module-left-pane__dialogs">
           {!hideHeader &&
             dialogs.map(({ key, dialog }) => (
@@ -776,7 +777,7 @@ export function LeftPane({
                 }
                 showConversation={showConversation}
                 blockConversation={blockConversation}
-                onSelectConversation={onSelectConversation}
+                onSelectConversation={onOutgoingAudioCallInConversation}
                 onOutgoingAudioCallInConversation={
                   onOutgoingAudioCallInConversation
                 }

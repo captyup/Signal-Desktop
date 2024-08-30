@@ -194,7 +194,7 @@ export function CallsNewCall({
   const rowHeight = useCallback(
     ({ index }) => {
       if (rows.at(index)?.kind === 'conversation') {
-        return ListTile.heightCompact;
+        return 120;
       }
       // Height of .CallsNewCall__ListHeaderItem
       return 40;
@@ -229,12 +229,12 @@ export function CallsNewCall({
                 isMe={false}
                 title={item.conversation.title}
                 sharedGroupNames={[]}
-                size={AvatarSize.THIRTY_TWO}
+                size={AvatarSize.NINETY_SIX}
                 badge={undefined}
               />
             }
             title={<UserText text={item.conversation.title} />}
-            trailing={
+            /* trailing={
               <div className="CallsNewCall__ItemActions">
                 {item.conversation.type === 'direct' && (
                   <CallsNewCallButton
@@ -264,13 +264,16 @@ export function CallsNewCall({
                   i18n={i18n}
                 />
               </div>
-            }
+            } */
             onClick={() => {
-              onChangeCallsTabSelectedView({
+              /* onChangeCallsTabSelectedView({
                 type: 'conversation',
                 conversationId: item.conversation.id,
                 callHistoryGroup: null,
-              });
+              }); */
+              if (isNewCallEnabled) {
+                onOutgoingAudioCallInConversation(item.conversation.id);
+              }
             }}
           />
         </div>
@@ -288,7 +291,7 @@ export function CallsNewCall({
 
   return (
     <>
-      <NavSidebarSearchHeader>
+      {/* <NavSidebarSearchHeader>
         <SearchInput
           i18n={i18n}
           placeholder="Search"
@@ -296,7 +299,7 @@ export function CallsNewCall({
           onClear={handleSearchInputClear}
           value={queryInput}
         />
-      </NavSidebarSearchHeader>
+      </NavSidebarSearchHeader> */}
       {rows.length === 0 && (
         <div className="CallsNewCall__EmptyState">
           {query === '' ? (

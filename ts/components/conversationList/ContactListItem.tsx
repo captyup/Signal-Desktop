@@ -275,13 +275,13 @@ export const ContactListItem: FunctionComponent<PropsType> = React.memo(
               profileName={profileName}
               title={title}
               sharedGroupNames={sharedGroupNames}
-              size={AvatarSize.THIRTY_TWO}
+              size={AvatarSize.NINETY_SIX}
               unblurredAvatarUrl={unblurredAvatarUrl}
               // This is here to appease the type checker.
               {...(badge ? { badge, theme } : { badge: undefined })}
             />
           }
-          trailing={trailing}
+          //trailing={trailing}
           title={
             <>
               {headerName}

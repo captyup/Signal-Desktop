@@ -163,7 +163,7 @@ export function NavSidebar({
       className={classNames('NavSidebar', {
         'NavSidebar--narrow': widthBreakpoint === WidthBreakpoint.Narrow,
       })}
-      style={{ width }}
+      style={{ width:"100%" }}
     >
       {!hideHeader && (
         <div className="NavSidebar__Header">

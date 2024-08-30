@@ -91,13 +91,13 @@ export class LeftPaneComposeHelper extends LeftPaneHelper<LeftPaneComposePropsTy
   }>): ReactChild {
     return (
       <div className="module-left-pane__header__contents">
-        <button
+       {/*  <button
           onClick={this.getBackAction({ showInbox })}
           className="module-left-pane__header__contents__back-button"
           title={i18n('icu:backToInbox')}
           aria-label={i18n('icu:backToInbox')}
           type="button"
-        />
+        /> */}
         <div className="module-left-pane__header__contents__text">
           {i18n('icu:newConversation')}
         </div>

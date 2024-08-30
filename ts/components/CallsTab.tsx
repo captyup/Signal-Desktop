@@ -127,7 +127,7 @@ export function CallsTab({
   togglePip,
 }: CallsTabProps): JSX.Element {
   const [sidebarView, setSidebarView] = useState(
-    CallsTabSidebarView.CallsListView
+    CallsTabSidebarView.NewCallView
   );
   const [selectedView, setSelectedViewInner] =
     useState<CallsTabSelectedView | null>(null);
@@ -161,7 +161,7 @@ export function CallsTab({
   useEscapeHandling(
     sidebarView === CallsTabSidebarView.NewCallView
       ? () => {
-          updateSidebarView(CallsTabSidebarView.CallsListView);
+          updateSidebarView(CallsTabSidebarView.NewCallView);
         }
       : undefined
   );
@@ -177,7 +177,7 @@ export function CallsTab({
   const handleOutgoingAudioCallInConversation = useCallback(
     (conversationId: string) => {
       onOutgoingAudioCallInConversation(conversationId);
-      updateSidebarView(CallsTabSidebarView.CallsListView);
+      updateSidebarView(CallsTabSidebarView.NewCallView);
     },
     [updateSidebarView, onOutgoingAudioCallInConversation]
   );
@@ -185,7 +185,7 @@ export function CallsTab({
   const handleOutgoingVideoCallInConversation = useCallback(
     (conversationId: string) => {
       onOutgoingVideoCallInConversation(conversationId);
-      updateSidebarView(CallsTabSidebarView.CallsListView);
+      updateSidebarView(CallsTabSidebarView.NewCallView);
     },
     [updateSidebarView, onOutgoingVideoCallInConversation]
   );
@@ -213,11 +213,7 @@ export function CallsTab({
           hasPendingUpdate={hasPendingUpdate}
           navTabsCollapsed={navTabsCollapsed}
           onBack={
-            sidebarView === CallsTabSidebarView.NewCallView
-              ? () => {
-                  updateSidebarView(CallsTabSidebarView.CallsListView);
-                }
-              : null
+            null
           }
           onToggleNavTabsCollapse={onToggleNavTabsCollapse}
           requiresFullWidth
@@ -313,7 +309,8 @@ export function CallsTab({
             />
           )}
         </NavSidebar>
-        {selectedView == null ? (
+        
+        {/* {selectedView == null ? (
           <div className="CallsTab__EmptyState">
             <div className="CallsTab__EmptyStateIcon" />
             <p className="CallsTab__EmptyStateLabel">
@@ -357,8 +354,9 @@ export function CallsTab({
                 onCloseSelectedView
               )}
           </div>
-        )}
+        )} */}
       </div>
+   
       {confirmClearCallHistoryDialogOpen && (
         <ConfirmationDialog
           dialogName="CallsTab__ConfirmClearCallHistory"

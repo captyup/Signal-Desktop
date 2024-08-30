@@ -37,7 +37,7 @@ export function ChatsTab({
 }: ChatsTabProps): JSX.Element {
   return (
     <>
-      <div id="LeftPane">
+      <div id="LeftPane" style={{ width: '100%'}}>
         {renderLeftPane({
           otherTabsUnreadStats,
           collapsed: navTabsCollapsed,
@@ -46,7 +46,7 @@ export function ChatsTab({
           onToggleCollapse: onToggleNavTabsCollapse,
         })}
       </div>
-      <div className="Inbox__conversation-stack">
+{/*       <div className="Inbox__conversation-stack">
         <div id="toast" />
         {selectedConversationId ? (
           <div
@@ -70,7 +70,7 @@ export function ChatsTab({
             <div className="Inbox__padding" />
           </div>
         )}
-      </div>
+      </div> */}
     </>
   );
 }

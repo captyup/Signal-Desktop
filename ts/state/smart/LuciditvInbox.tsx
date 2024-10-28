@@ -7,8 +7,7 @@ import { isAlpha } from '../../util/version';
 import { getIntl } from '../selectors/user';
 import { SmartCustomizingPreferredReactionsModal } from './CustomizingPreferredReactionsModal';
 import { getIsCustomizingPreferredReactions } from '../selectors/preferredReactions';
-import type { SmartNavTabsProps } from './NavTabs';
-import { SmartNavTabs } from './NavTabs';
+import type { SmartNavTabsProps } from './LuciditvNavTabs';
 import { SmartStoriesTab } from './StoriesTab';
 import { SmartCallsTab } from './CallsTab';
 import { useItemsActions } from '../ducks/items';
@@ -20,6 +19,8 @@ import {
   getInboxFirstEnvelopeTimestamp,
 } from '../selectors/inbox';
 import { LuciditvInbox } from '../../components/LuciditvInbox';
+import { SmartLuciditvNavTabs } from './LuciditvNavTabs';
+import { SmartLuciditvChatsTab } from './LuciditvChatsTab';
 
 function renderChatsTab() {
   return <SmartChatsTab />;
@@ -33,15 +34,16 @@ function renderCustomizingPreferredReactionsModal() {
   return <SmartCustomizingPreferredReactionsModal />;
 }
 
-function renderNavTabs(props: SmartNavTabsProps) {
-  return <SmartNavTabs {...props} />;
+function renderNavTabs(_props: SmartNavTabsProps) {
+  // return <SmartLuciditvNavTabs {...props} />
+  return <SmartLuciditvChatsTab />;
 }
 
 function renderStoriesTab() {
   return <SmartStoriesTab />;
 }
 
-export const SmartInbox = memo(function SmartInbox(): JSX.Element {
+export const SmartLuciditvInbox = memo(function SmartInbox(): JSX.Element {
   const i18n = useSelector(getIntl);
   const isCustomizingPreferredReactions = useSelector(
     getIsCustomizingPreferredReactions

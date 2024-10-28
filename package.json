@@ -109,6 +109,7 @@
     "@signalapp/libsignal-client": "0.58.0",
     "@signalapp/ringrtc": "2.48.3",
     "@types/fabric": "4.5.3",
+    "antd": "^5.21.4",
     "backbone": "1.4.0",
     "blob-util": "2.0.2",
     "blueimp-load-image": "5.14.0",

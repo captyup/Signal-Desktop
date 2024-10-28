@@ -25,11 +25,11 @@ import { useConversationsActions } from '../ducks/conversations';
 import { useStoriesActions } from '../ducks/stories';
 import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { ModalContainer } from '../../components/ModalContainer';
-import { SmartInbox } from './Inbox';
 import { getApp } from '../selectors/app';
+import { SmartLuciditvInbox } from './LuciditvInbox';
 
 function renderInbox(): JSX.Element {
-  return <SmartInbox />;
+  return <SmartLuciditvInbox />;
 }
 
 function renderCallManager(): JSX.Element {

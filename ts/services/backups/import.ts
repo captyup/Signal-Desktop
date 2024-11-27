@@ -14,6 +14,7 @@ import { DataReader, DataWriter } from '../../sql/Client';
 import {
   AttachmentDownloadSource,
   type StoryDistributionWithMembersType,
+  type IdentityKeyType,
 } from '../../sql/Interface';
 import * as log from '../../logging/log';
 import { GiftBadgeStates } from '../../components/conversation/Message';
@@ -73,10 +74,13 @@ import { ReadStatus } from '../../messages/MessageReadStatus';
 import { SendStatus } from '../../messages/MessageSendState';
 import type { SendStateByConversationId } from '../../messages/MessageSendState';
 import { SeenStatus } from '../../MessageSeenStatus';
+import { constantTimeEqual } from '../../Crypto';
 import * as Bytes from '../../Bytes';
 import { BACKUP_VERSION, WALLPAPER_TO_BUBBLE_COLOR } from './constants';
+import { UnsupportedBackupVersion } from './errors';
 import type { AboutMe, LocalChatStyle } from './types';
 import { BackupType } from './types';
+import { getBackupMediaRootKey } from './crypto';
 import type { GroupV2ChangeDetailType } from '../../groups';
 import { queueAttachmentDownloads } from '../../util/queueAttachmentDownloads';
 import { isNotNil } from '../../util/isNotNil';
@@ -107,12 +111,15 @@ import type { RawBodyRange } from '../../types/BodyRange';
 import { fromAdminKeyBytes } from '../../util/callLinks';
 import { getRoomIdFromRootKey } from '../../util/callLinksRingrtc';
 import { loadAllAndReinitializeRedux } from '../allLoaders';
-import { resetBackupMediaDownloadProgress } from '../../util/backupMediaDownload';
+import {
+  resetBackupMediaDownloadProgress,
+  startBackupMediaDownload,
+} from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
+import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 
 const MAX_CONCURRENCY = 10;
 
-const CONVERSATION_OP_BATCH_SIZE = 10000;
 const SAVE_MESSAGE_BATCH_SIZE = 10000;
 
 // Keep 1000 recent messages in memory to speed up quote lookup.
@@ -202,10 +209,11 @@ export class BackupImportStream extends Writable {
     number,
     ConversationAttributesType
   >();
-  private readonly conversationOpBatch = new Map<
-    ConversationAttributesType,
-    'save' | 'update'
+  private readonly conversations = new Map<
+    string,
+    ConversationAttributesType
   >();
+  private readonly identityKeys = new Map<ServiceIdString, IdentityKeyType>();
   private readonly saveMessageBatch = new Set<MessageAttributesType>();
   private readonly stickerPacks = new Array<StickerPackPointerType>();
   private ourConversation?: ConversationAttributesType;
@@ -248,7 +256,25 @@ export class BackupImportStream extends Writable {
         log.info(`${this.logId}: got BackupInfo`);
 
         if (info.version?.toNumber() !== BACKUP_VERSION) {
-          throw new Error(`Unsupported backup version: ${info.version}`);
+          throw new UnsupportedBackupVersion(info.version);
+        }
+
+        if (Bytes.isEmpty(info.mediaRootBackupKey)) {
+          throw new Error('Missing mediaRootBackupKey');
+        }
+
+        const theirKey = info.mediaRootBackupKey;
+        const ourKey = getBackupMediaRootKey().serialize();
+        if (!constantTimeEqual(theirKey, ourKey)) {
+          // Use root key from integration test
+          if (isTestEnvironment(getEnvironment())) {
+            await window.storage.put(
+              'backupMediaRootKey',
+              info.mediaRootBackupKey
+            );
+          } else {
+            throw new Error('Incorrect mediaRootBackupKey');
+          }
         }
       } else {
         const frame = Backups.Frame.decode(data);
@@ -338,7 +364,7 @@ export class BackupImportStream extends Writable {
         this.backupType !== BackupType.TestOnlyPlaintext &&
         !isTestEnvironment(getEnvironment())
       ) {
-        await AttachmentDownloadManager.start();
+        await startBackupMediaDownload();
       }
 
       done();
@@ -432,22 +458,13 @@ export class BackupImportStream extends Writable {
   private async saveConversation(
     attributes: ConversationAttributesType
   ): Promise<void> {
-    this.conversationOpBatch.set(attributes, 'save');
-    if (this.conversationOpBatch.size >= CONVERSATION_OP_BATCH_SIZE) {
-      return this.flushConversations();
-    }
+    this.conversations.set(attributes.id, attributes);
   }
 
   private async updateConversation(
     attributes: ConversationAttributesType
   ): Promise<void> {
-    if (!this.conversationOpBatch.has(attributes)) {
-      this.conversationOpBatch.set(attributes, 'update');
-    }
-
-    if (this.conversationOpBatch.size >= CONVERSATION_OP_BATCH_SIZE) {
-      return this.flushConversations();
-    }
+    this.conversations.set(attributes.id, attributes);
   }
 
   private async saveMessage(attributes: MessageAttributesType): Promise<void> {
@@ -459,25 +476,27 @@ export class BackupImportStream extends Writable {
   }
 
   private async flushConversations(): Promise<void> {
-    const saves = new Array<ConversationAttributesType>();
     const updates = new Array<ConversationAttributesType>();
-    for (const [conversation, op] of this.conversationOpBatch) {
-      if (op === 'save') {
-        saves.push(conversation);
-      } else {
-        updates.push(conversation);
+
+    if (this.ourConversation) {
+      const us = this.conversations.get(this.ourConversation.id);
+      if (us) {
+        updates.push(us);
+        this.conversations.delete(us.id);
       }
     }
-    this.conversationOpBatch.clear();
+
+    const saves = Array.from(this.conversations.values());
+    this.conversations.clear();
+
+    const identityKeys = Array.from(this.identityKeys.values());
+    this.identityKeys.clear();
 
     // Queue writes at the same time to prevent races.
     await Promise.all([
-      saves.length > 0
-        ? DataWriter.saveConversations(saves)
-        : Promise.resolve(),
-      updates.length > 0
-        ? DataWriter.updateConversations(updates)
-        : Promise.resolve(),
+      DataWriter.saveConversations(saves),
+      DataWriter.updateConversations(updates),
+      DataWriter.bulkAddIdentityKeys(identityKeys),
     ]);
   }
 
@@ -513,6 +532,8 @@ export class BackupImportStream extends Writable {
       ourAci,
     });
 
+    const attachmentDownloadJobPromises: Array<Promise<unknown>> = [];
+
     // TODO (DESKTOP-7402): consider re-saving after updating the pending state
     for (const attributes of batch) {
       const { editHistory } = attributes;
@@ -533,11 +554,16 @@ export class BackupImportStream extends Writable {
         );
       }
 
-      // eslint-disable-next-line no-await-in-loop
-      await queueAttachmentDownloads(attributes, {
-        source: AttachmentDownloadSource.BACKUP_IMPORT,
-      });
+      if (hasAttachmentDownloads(attributes)) {
+        attachmentDownloadJobPromises.push(
+          queueAttachmentDownloads(attributes, {
+            source: AttachmentDownloadSource.BACKUP_IMPORT,
+          })
+        );
+      }
     }
+    await Promise.all(attachmentDownloadJobPromises);
+    await AttachmentDownloadManager.saveBatchedJobs();
   }
 
   private async saveCallHistory(
@@ -566,6 +592,8 @@ export class BackupImportStream extends Writable {
 
     strictAssert(Bytes.isNotEmpty(profileKey), 'Missing profile key');
     await storage.put('profileKey', profileKey);
+    this.ourConversation.profileKey = Bytes.toBase64(profileKey);
+    await this.updateConversation(this.ourConversation);
 
     if (username != null) {
       me.username = username;
@@ -793,11 +821,13 @@ export class BackupImportStream extends Writable {
         break;
     }
 
+    const serviceId = aci ?? pni;
+
     const attrs: ConversationAttributesType = {
       id: generateUuid(),
       type: 'private',
       version: 2,
-      serviceId: aci ?? pni,
+      serviceId,
       pni,
       e164,
       removalStage,
@@ -812,6 +842,17 @@ export class BackupImportStream extends Writable {
       expireTimerVersion: 1,
     };
 
+    if (serviceId != null && Bytes.isNotEmpty(contact.identityKey)) {
+      this.identityKeys.set(serviceId, {
+        id: serviceId,
+        publicKey: contact.identityKey,
+        verified: contact.identityState || 0,
+        firstUse: true,
+        timestamp: this.now,
+        nonblockingApproval: true,
+      });
+    }
+
     if (contact.notRegistered) {
       const timestamp = contact.notRegistered.unregisteredTimestamp?.toNumber();
       attrs.discoveredUnregisteredAt = timestamp || this.now;
@@ -824,7 +865,6 @@ export class BackupImportStream extends Writable {
     }
 
     if (contact.blocked) {
-      const serviceId = aci || pni;
       if (serviceId) {
         await window.storage.blocked.addBlockedServiceId(serviceId);
       }
@@ -1287,6 +1327,11 @@ export class BackupImportStream extends Writable {
         ...attributes,
         ...(await this.fromStandardMessage(item.standardMessage, chatConvo.id)),
       };
+    } else if (item.viewOnceMessage) {
+      attributes = {
+        ...attributes,
+        ...(await this.fromViewOnceMessage(item.viewOnceMessage)),
+      };
     } else {
       const result = await this.fromNonBubbleChatItem(item, {
         aboutMe,
@@ -1550,6 +1595,27 @@ export class BackupImportStream extends Writable {
     };
   }
 
+  private async fromViewOnceMessage({
+    attachment,
+    reactions,
+  }: Backups.IViewOnceMessage): Promise<Partial<MessageAttributesType>> {
+    return {
+      ...(attachment
+        ? {
+            attachments: [
+              convertBackupMessageAttachmentToAttachment(attachment),
+            ].filter(isNotNil),
+          }
+        : {
+            attachments: undefined,
+            readStatus: ReadStatus.Viewed,
+            isErased: true,
+          }),
+      reactions: this.fromReactions(reactions),
+      isViewOnce: true,
+    };
+  }
+
   private async fromRevisions(
     mainMessage: MessageAttributesType,
     revisions: ReadonlyArray<Backups.IChatItem>
@@ -1621,8 +1687,11 @@ export class BackupImportStream extends Writable {
     type: Backups.Quote.Type | null | undefined
   ): SignalService.DataMessage.Quote.Type {
     switch (type) {
-      case Backups.Quote.Type.GIFTBADGE:
+      case Backups.Quote.Type.GIFT_BADGE:
         return SignalService.DataMessage.Quote.Type.GIFT_BADGE;
+      case Backups.Quote.Type.VIEW_ONCE:
+        // No special treatment, we'll compute it once we find the message
+        return SignalService.DataMessage.Quote.Type.NORMAL;
       case Backups.Quote.Type.NORMAL:
       case Backups.Quote.Type.UNKNOWN:
       case null:
@@ -1764,6 +1833,7 @@ export class BackupImportStream extends Writable {
                     prefix: dropNull(name.prefix),
                     suffix: dropNull(name.suffix),
                     middleName: dropNull(name.middleName),
+                    nickname: dropNull(name.nickname),
                   }
                 : undefined,
               number: number?.length

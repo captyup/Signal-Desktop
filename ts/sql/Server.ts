@@ -172,6 +172,7 @@ import {
 } from '../types/CallDisposition';
 import {
   callLinkExists,
+  defunctCallLinkExists,
   getAllCallLinks,
   getCallLinkByRoomId,
   getCallLinkRecordByRoomId,
@@ -184,11 +185,14 @@ import {
   deleteCallLinkAndHistory,
   getAllAdminCallLinks,
   getAllCallLinkRecordsWithAdminKey,
+  getAllDefunctCallLinksWithAdminKey,
   getAllMarkedDeletedCallLinkRoomIds,
   finalizeDeleteCallLink,
   beginDeleteCallLink,
   deleteCallLinkFromSync,
   _removeAllCallLinks,
+  insertDefunctCallLink,
+  updateDefunctCallLink,
 } from './server/callLinks';
 import {
   replaceAllEndorsementsForGroup,
@@ -313,11 +317,13 @@ export const DataReader: ServerReadableInterface = {
   hasGroupCallHistoryMessage,
 
   callLinkExists,
+  defunctCallLinkExists,
   getAllCallLinks,
   getCallLinkByRoomId,
   getCallLinkRecordByRoomId,
   getAllAdminCallLinks,
   getAllCallLinkRecordsWithAdminKey,
+  getAllDefunctCallLinksWithAdminKey,
   getAllMarkedDeletedCallLinkRoomIds,
   getMessagesBetween,
   getNearbyMessageFromDeletedSet,
@@ -432,6 +438,7 @@ export const DataWriter: ServerWritableInterface = {
 
   saveMessage,
   saveMessages,
+  saveMessagesIndividually,
   removeMessage,
   removeMessages,
   markReactionAsRead,
@@ -460,6 +467,8 @@ export const DataWriter: ServerWritableInterface = {
   finalizeDeleteCallLink,
   _removeAllCallLinks,
   deleteCallLinkFromSync,
+  insertDefunctCallLink,
+  updateDefunctCallLink,
   migrateConversationMessages,
   saveEditedMessage,
   saveEditedMessages,
@@ -478,6 +487,7 @@ export const DataWriter: ServerWritableInterface = {
 
   getNextAttachmentDownloadJobs,
   saveAttachmentDownloadJob,
+  saveAttachmentDownloadJobs,
   resetAttachmentDownloadActive,
   removeAttachmentDownloadJob,
   removeAllBackupAttachmentDownloadJobs,
@@ -2199,6 +2209,7 @@ export function saveMessage(
     ourAci: AciString;
   }
 ): string {
+  // NB: `saveMessagesIndividually` relies on `saveMessage` being atomic
   const { alreadyInTransaction, forceSave, jobToInsert, ourAci } = options;
 
   if (!alreadyInTransaction) {
@@ -2423,6 +2434,31 @@ function saveMessages(
       );
     }
     return result;
+  })();
+}
+
+function saveMessagesIndividually(
+  db: WritableDB,
+  arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
+  options: { forceSave?: boolean; ourAci: AciString }
+): { failedIndices: Array<number> } {
+  return db.transaction(() => {
+    const failedIndices: Array<number> = [];
+    arrayOfMessages.forEach((message, index) => {
+      try {
+        saveMessage(db, message, {
+          ...options,
+          alreadyInTransaction: true,
+        });
+      } catch (e) {
+        logger.error(
+          'saveMessagesIndividually: failed to save message',
+          Errors.toLogFormat(e)
+        );
+        failedIndices.push(index);
+      }
+    });
+    return { failedIndices };
   })();
 }
 
@@ -3564,7 +3600,7 @@ function clearCallHistory(
   return db.transaction(() => {
     const callHistory = getCallHistoryForCallLogEventTarget(db, target);
     if (callHistory == null) {
-      logger.error('clearCallHistory: Target call not found');
+      logger.warn('clearCallHistory: Target call not found');
       return [];
     }
     const { timestamp } = callHistory;
@@ -3704,6 +3740,7 @@ function getCallHistory(
   return parseUnknown(callHistoryDetailsSchema, row as unknown);
 }
 
+const READ_STATUS_READ = sqlConstant(ReadStatus.Read);
 const SEEN_STATUS_UNSEEN = sqlConstant(SeenStatus.Unseen);
 const SEEN_STATUS_SEEN = sqlConstant(SeenStatus.Seen);
 const CALL_STATUS_MISSED = sqlConstant(CallStatusValue.Missed);
@@ -3746,44 +3783,76 @@ function getCallHistoryForCallLogEventTarget(
   db: ReadableDB,
   target: CallLogEventTarget
 ): CallHistoryDetails | null {
-  const { callId, peerId, timestamp } = target;
+  const { callId, timestamp } = target;
 
-  let row: unknown;
+  if ('peerId' in target) {
+    const { peerId } = target;
 
-  if (callId == null || peerId == null) {
-    const predicate =
-      peerId != null
-        ? sqlFragment`callsHistory.peerId IS ${target.peerId}`
-        : sqlFragment`TRUE`;
+    let row: unknown;
 
-    // Get the most recent call history timestamp for the target.timestamp
-    const [selectQuery, selectParams] = sql`
-      SELECT *
-      FROM callsHistory
-      WHERE ${predicate}
-        AND callsHistory.timestamp <= ${timestamp}
-      ORDER BY callsHistory.timestamp DESC
-      LIMIT 1
-    `;
+    if (callId == null || peerId == null) {
+      const predicate =
+        peerId != null
+          ? sqlFragment`callsHistory.peerId IS ${target.peerId}`
+          : sqlFragment`TRUE`;
 
-    row = db.prepare(selectQuery).get(selectParams);
-  } else {
-    const [selectQuery, selectParams] = sql`
-      SELECT *
-      FROM callsHistory
-      WHERE callsHistory.peerId IS ${target.peerId}
-        AND callsHistory.callId IS ${target.callId}
-      LIMIT 1
-    `;
+      // Get the most recent call history timestamp for the target.timestamp
+      const [selectQuery, selectParams] = sql`
+        SELECT *
+        FROM callsHistory
+        WHERE ${predicate}
+          AND callsHistory.timestamp <= ${timestamp}
+        ORDER BY callsHistory.timestamp DESC
+        LIMIT 1
+      `;
 
-    row = db.prepare(selectQuery).get(selectParams);
+      row = db.prepare(selectQuery).get(selectParams);
+    } else {
+      const [selectQuery, selectParams] = sql`
+        SELECT *
+        FROM callsHistory
+        WHERE callsHistory.peerId IS ${target.peerId}
+          AND callsHistory.callId IS ${target.callId}
+        LIMIT 1
+      `;
+
+      row = db.prepare(selectQuery).get(selectParams);
+    }
+
+    if (row == null) {
+      return null;
+    }
+
+    return parseUnknown(callHistoryDetailsSchema, row as unknown);
   }
 
-  if (row == null) {
+  // For incoming CallLogEvent sync messages, peerId is ambiguous whether it
+  // refers to conversation or call link.
+  if ('peerIdAsConversationId' in target && 'peerIdAsRoomId' in target) {
+    const resultForConversation = getCallHistoryForCallLogEventTarget(db, {
+      callId,
+      timestamp,
+      peerId: target.peerIdAsConversationId,
+    });
+    if (resultForConversation) {
+      return resultForConversation;
+    }
+
+    const resultForCallLink = getCallHistoryForCallLogEventTarget(db, {
+      callId,
+      timestamp,
+      peerId: target.peerIdAsRoomId,
+    });
+    if (resultForCallLink) {
+      return resultForCallLink;
+    }
+
     return null;
   }
 
-  return parseUnknown(callHistoryDetailsSchema, row as unknown);
+  throw new Error(
+    'Either peerId, or peerIdAsConversationId and peerIdAsRoomId must be present'
+  );
 }
 
 function getConversationIdForCallHistory(
@@ -3848,10 +3917,6 @@ export function markAllCallHistoryRead(
   target: CallLogEventTarget,
   inConversation = false
 ): number {
-  if (inConversation) {
-    strictAssert(target.peerId, 'peerId is required');
-  }
-
   return db.transaction(() => {
     const callHistory = getCallHistoryForCallLogEventTarget(db, target);
     if (callHistory == null) {
@@ -3866,34 +3931,53 @@ export function markAllCallHistoryRead(
       'Call ID must be the same as target if supplied'
     );
 
-    const conversationId = getConversationIdForCallHistory(db, callHistory);
-    if (conversationId == null) {
-      logger.warn('markAllCallHistoryRead: Conversation not found for call');
-      return 0;
+    let predicate: QueryFragment;
+    let receivedAt: number | null;
+    if (callHistory.mode === CallMode.Adhoc) {
+      // If the target is a call link, there's no associated conversation and messages,
+      // and we can only mark call history read based on timestamp.
+      strictAssert(
+        !inConversation,
+        'markAllCallHistoryRead: Not possible to mark read in conversation for Adhoc calls'
+      );
+
+      receivedAt = callHistory.timestamp;
+      predicate = sqlFragment`TRUE`;
+    } else {
+      const conversationId = getConversationIdForCallHistory(db, callHistory);
+      if (conversationId == null) {
+        logger.warn('markAllCallHistoryRead: Conversation not found for call');
+        return 0;
+      }
+
+      logger.info(
+        `markAllCallHistoryRead: Found conversation ${conversationId}`
+      );
+      receivedAt = getMessageReceivedAtForCall(db, callId, conversationId);
+
+      predicate = inConversation
+        ? sqlFragment`messages.conversationId IS ${conversationId}`
+        : sqlFragment`TRUE`;
     }
-    logger.info(`markAllCallHistoryRead: Found conversation ${conversationId}`);
-    const receivedAt = getMessageReceivedAtForCall(db, callId, conversationId);
 
     if (receivedAt == null) {
       logger.warn('markAllCallHistoryRead: Message not found for call');
       return 0;
     }
 
-    const predicate = inConversation
-      ? sqlFragment`messages.conversationId IS ${conversationId}`
-      : sqlFragment`TRUE`;
-
     const jsonPatch = JSON.stringify({
+      readStatus: ReadStatus.Read,
       seenStatus: SeenStatus.Seen,
     });
 
-    logger.warn(
+    logger.info(
       `markAllCallHistoryRead: Marking calls before ${receivedAt} read`
     );
 
     const [updateQuery, updateParams] = sql`
       UPDATE messages
       SET
+        readStatus = ${READ_STATUS_READ},
         seenStatus = ${SEEN_STATUS_SEEN},
         json = json_patch(json, ${jsonPatch})
       WHERE messages.type IS 'call-history'
@@ -3911,7 +3995,6 @@ function markAllCallHistoryReadInConversation(
   db: WritableDB,
   target: CallLogEventTarget
 ): number {
-  strictAssert(target.peerId, 'peerId is required');
   return markAllCallHistoryRead(db, target, true);
 }
 
@@ -4520,9 +4603,10 @@ function getNextTapToViewMessageTimestampToAgeOut(
   return isNormalNumber(result) ? result : undefined;
 }
 
-function getTapToViewMessagesNeedingErase(db: ReadableDB): Array<MessageType> {
-  const THIRTY_DAYS_AGO = Date.now() - 30 * 24 * 60 * 60 * 1000;
-
+function getTapToViewMessagesNeedingErase(
+  db: ReadableDB,
+  maxTimestamp: number
+): Array<MessageType> {
   const rows: JSONRows = db
     .prepare<Query>(
       `
@@ -4531,12 +4615,12 @@ function getTapToViewMessagesNeedingErase(db: ReadableDB): Array<MessageType> {
       WHERE
         isViewOnce = 1
         AND (isErased IS NULL OR isErased != 1)
-        AND received_at <= $THIRTY_DAYS_AGO
+        AND received_at <= $maxTimestamp
       ORDER BY received_at ASC, sent_at ASC;
       `
     )
     .all({
-      THIRTY_DAYS_AGO,
+      maxTimestamp,
     });
 
   return rows.map(row => jsonToObject(row.json));
@@ -4942,6 +5026,17 @@ function getNextAttachmentDownloadJobs(
     }
     throw error;
   }
+}
+
+function saveAttachmentDownloadJobs(
+  db: WritableDB,
+  jobs: Array<AttachmentDownloadJobType>
+): void {
+  db.transaction(() => {
+    for (const job of jobs) {
+      saveAttachmentDownloadJob(db, job);
+    }
+  })();
 }
 
 function saveAttachmentDownloadJob(
@@ -6436,6 +6531,7 @@ function removeAll(db: WritableDB): void {
       DELETE FROM callLinks;
       DELETE FROM callsHistory;
       DELETE FROM conversations;
+      DELETE FROM defunctCallLinks;
       DELETE FROM emojis;
       DELETE FROM groupCallRingCancellations;
       DELETE FROM groupSendCombinedEndorsement;

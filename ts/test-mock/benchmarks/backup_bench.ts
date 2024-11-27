@@ -2,46 +2,34 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 /* eslint-disable no-console */
 
-import { pipeline } from 'node:stream/promises';
-import { createWriteStream } from 'node:fs';
-import { mkdir } from 'node:fs/promises';
-import { join } from 'node:path';
-
 import { Bootstrap } from './fixtures';
 import { generateBackup } from '../../test-both/helpers/generateBackup';
 
 Bootstrap.benchmark(async (bootstrap: Bootstrap): Promise<void> => {
-  const { phone, cdn3Path } = bootstrap;
+  const { phone, server } = bootstrap;
 
   const { backupId, stream: backupStream } = generateBackup({
     aci: phone.device.aci,
     profileKey: phone.profileKey.serialize(),
-    masterKey: phone.masterKey,
+    accountEntropyPool: phone.accountEntropyPool,
+    mediaRootBackupKey: phone.mediaRootBackupKey,
     conversations: 1000,
     messages: 60 * 1000,
   });
-  const backupFolder = join(
-    cdn3Path,
-    'backups',
-    backupId.toString('base64url')
-  );
-  await mkdir(backupFolder, { recursive: true });
-  const fileStream = createWriteStream(join(backupFolder, 'backup'));
-  await pipeline(backupStream, fileStream);
 
-  const importStart = Date.now();
+  await server.storeBackupOnCdn(backupId, backupStream);
 
   const app = await bootstrap.link();
-  await app.waitForBackupImportComplete();
+  const { duration: importDuration } = await app.waitForBackupImportComplete();
 
-  const importEnd = Date.now();
+  await app.migrateAllMessages();
 
   const exportStart = Date.now();
   await app.uploadBackup();
   const exportEnd = Date.now();
 
   console.log('run=%d info=%j', 0, {
-    importDuration: importEnd - importStart,
+    importDuration,
     exportDuration: exportEnd - exportStart,
   });
 });

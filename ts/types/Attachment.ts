@@ -30,8 +30,10 @@ import { strictAssert } from '../util/assert';
 import type { SignalService as Proto } from '../protobuf';
 import { isMoreRecentThan } from '../util/timestamp';
 import { DAY } from '../util/durations';
+import { getMessageQueueTime } from '../util/getMessageQueueTime';
 import { getLocalAttachmentUrl } from '../util/getLocalAttachmentUrl';
 import type { ReencryptionInfo } from '../AttachmentCrypto';
+import { redactGenericText } from '../util/privacy';
 
 const MAX_WIDTH = 300;
 const MAX_HEIGHT = MAX_WIDTH * 1.5;
@@ -982,6 +984,7 @@ export const save = async ({
   readAttachmentData,
   saveAttachmentToDisk,
   timestamp,
+  baseDir,
 }: {
   attachment: AttachmentType;
   index?: number;
@@ -991,8 +994,14 @@ export const save = async ({
   saveAttachmentToDisk: (options: {
     data: Uint8Array;
     name: string;
+    baseDir?: string;
   }) => Promise<{ name: string; fullPath: string } | null>;
   timestamp?: number;
+  /**
+   * Base directory for saving the attachment.
+   * If omitted, a dialog will be opened to let the user choose a directory
+   */
+  baseDir?: string;
 }): Promise<string | null> => {
   let data: Uint8Array;
   if (attachment.path) {
@@ -1008,6 +1017,7 @@ export const save = async ({
   const result = await saveAttachmentToDisk({
     data,
     name,
+    baseDir,
   });
 
   if (!result) {
@@ -1156,10 +1166,9 @@ export function isReencryptableWithNewEncryptionInfo(
   );
 }
 
-const TIME_ON_TRANSIT_TIER = 30 * DAY;
 // Extend range in case the attachment is actually still there (this function is meant to
 // be optimistic)
-const BUFFERED_TIME_ON_TRANSIT_TIER = TIME_ON_TRANSIT_TIER + 5 * DAY;
+const BUFFER_TIME_ON_TRANSIT_TIER = 5 * DAY;
 
 export function mightStillBeOnTransitTier(
   attachment: Pick<AttachmentType, 'cdnKey' | 'cdnNumber' | 'uploadTimestamp'>
@@ -1177,7 +1186,10 @@ export function mightStillBeOnTransitTier(
   }
 
   if (
-    isMoreRecentThan(attachment.uploadTimestamp, BUFFERED_TIME_ON_TRANSIT_TIER)
+    isMoreRecentThan(
+      attachment.uploadTimestamp,
+      getMessageQueueTime() + BUFFER_TIME_ON_TRANSIT_TIER
+    )
   ) {
     return true;
   }
@@ -1226,4 +1238,12 @@ export function isAttachmentLocallySaved(
   attachment: AttachmentType
 ): attachment is LocallySavedAttachment {
   return Boolean(attachment.path);
+}
+
+export function getAttachmentIdForLogging(attachment: AttachmentType): string {
+  const { digest } = attachment;
+  if (typeof digest === 'string') {
+    return redactGenericText(digest);
+  }
+  return '[MissingDigest]';
 }

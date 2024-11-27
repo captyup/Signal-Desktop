@@ -6,15 +6,19 @@ import type {
   CallLinkRecord,
   CallLinkStateType,
   CallLinkType,
+  DefunctCallLinkType,
 } from '../../types/CallLink';
 import {
   callLinkRestrictionsSchema,
   callLinkRecordSchema,
+  defunctCallLinkRecordSchema,
 } from '../../types/CallLink';
 import { toAdminKeyBytes } from '../../util/callLinks';
 import {
   callLinkToRecord,
   callLinkFromRecord,
+  defunctCallLinkToRecord,
+  defunctCallLinkFromRecord,
 } from '../../util/callLinksRingrtc';
 import type { ReadableDB, WritableDB } from '../Interface';
 import { prepare } from '../Server';
@@ -375,4 +379,84 @@ export function _removeAllCallLinks(db: WritableDB): void {
     DELETE FROM callLinks;
   `;
   db.prepare(query).run(params);
+}
+
+export function defunctCallLinkExists(db: ReadableDB, roomId: string): boolean {
+  const [query, params] = sql`
+    SELECT 1
+    FROM defunctCallLinks
+    WHERE roomId = ${roomId};
+  `;
+  return db.prepare(query).pluck(true).get(params) === 1;
+}
+
+export function getAllDefunctCallLinksWithAdminKey(
+  db: ReadableDB
+): ReadonlyArray<DefunctCallLinkType> {
+  const [query] = sql`
+    SELECT *
+    FROM defunctCallLinks
+    WHERE adminKey IS NOT NULL;
+  `;
+  return db
+    .prepare(query)
+    .all()
+    .map((item: unknown) =>
+      defunctCallLinkFromRecord(parseUnknown(defunctCallLinkRecordSchema, item))
+    );
+}
+
+export function insertDefunctCallLink(
+  db: WritableDB,
+  defunctCallLink: DefunctCallLinkType
+): void {
+  const { roomId, rootKey } = defunctCallLink;
+  assertRoomIdMatchesRootKey(roomId, rootKey);
+
+  const data = defunctCallLinkToRecord(defunctCallLink);
+  prepare(
+    db,
+    `
+    INSERT INTO defunctCallLinks (
+      roomId,
+      rootKey,
+      adminKey,
+      storageID,
+      storageVersion,
+      storageUnknownFields,
+      storageNeedsSync
+    ) VALUES (
+      $roomId,
+      $rootKey,
+      $adminKey,
+      $storageID,
+      $storageVersion,
+      $storageUnknownFields,
+      $storageNeedsSync
+    )
+    ON CONFLICT (roomId) DO NOTHING;
+    `
+  ).run(data);
+}
+
+export function updateDefunctCallLink(
+  db: WritableDB,
+  defunctCallLink: DefunctCallLinkType
+): void {
+  const { roomId, rootKey } = defunctCallLink;
+  assertRoomIdMatchesRootKey(roomId, rootKey);
+
+  const data = defunctCallLinkToRecord(defunctCallLink);
+  // Do not write roomId or rootKey since they should never change
+  db.prepare(
+    `
+    UPDATE callLinks
+    SET
+      storageID = $storageID,
+      storageVersion = $storageVersion,
+      storageUnknownFields = $storageUnknownFields,
+      storageNeedsSync = $storageNeedsSync
+    WHERE roomId = $roomId
+    `
+  ).run(data);
 }

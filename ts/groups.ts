@@ -98,8 +98,9 @@ import { sleep } from './util/sleep';
 import { groupInvitesRoute } from './util/signalRoutes';
 import {
   decodeGroupSendEndorsementResponse,
-  isValidGroupSendEndorsementsExpiration,
+  validateGroupSendEndorsementsExpiration,
 } from './util/groupSendEndorsements';
+import { getProfile } from './util/getProfile';
 import { generateMessageId } from './util/generateMessageId';
 
 type AccessRequiredEnum = Proto.AccessControl.AccessRequired;
@@ -2782,6 +2783,7 @@ export async function respondToGroupV2Migration({
   let groupSendEndorsementResponse: Uint8Array | null | undefined;
 
   try {
+    const fetchedAt = Date.now();
     const response: GroupLogResponseType = await makeRequestWithCredentials({
       logId: `getGroupLog/${logId}`,
       publicParams,
@@ -2798,6 +2800,7 @@ export async function respondToGroupV2Migration({
           options
         ),
     });
+    setLastSuccessfulGroupFetch(conversation.id, fetchedAt);
 
     // Attempt to start with the first group state, only later processing future updates
     firstGroupState = response?.changes?.groupChanges?.[0]?.groupState;
@@ -2808,12 +2811,14 @@ export async function respondToGroupV2Migration({
         `respondToGroupV2Migration/${logId}: Failed to access log endpoint; fetching full group state`
       );
       try {
+        const fetchedAt = Date.now();
         const groupResponse = await makeRequestWithCredentials({
           logId: `getGroup/${logId}`,
           publicParams,
           secretParams,
           request: (sender, options) => sender.getGroup(options),
         });
+        setLastSuccessfulGroupFetch(conversation.id, fetchedAt);
 
         firstGroupState = groupResponse.group;
         groupSendEndorsementResponse =
@@ -3020,11 +3025,10 @@ export async function waitThenMaybeUpdateGroup(
   { viaFirstStorageSync = false } = {}
 ): Promise<void> {
   const { conversation } = options;
+  const logId = `waitThenMaybeUpdateGroup(${conversation.idForLogging()})`;
 
   if (conversation.isBlocked()) {
-    log.info(
-      `waitThenMaybeUpdateGroup: Group ${conversation.idForLogging()} is blocked, returning early`
-    );
+    log.info(`${logId}: Conversation is blocked, returning early`);
     return;
   }
 
@@ -3039,22 +3043,22 @@ export async function waitThenMaybeUpdateGroup(
   ) {
     const waitTime = lastSuccessfulGroupFetch + FIVE_MINUTES - Date.now();
     log.info(
-      `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: group update ` +
-        `was fetched recently, skipping for ${waitTime}ms`
+      `${logId}: group update was fetched recently, skipping for ${waitTime}ms`
     );
     return;
   }
+
+  log.info(`${logId}: group update was not fetched recently, queuing update`);
 
   // Then wait to process all outstanding messages for this conversation
   await conversation.queueJob('waitThenMaybeUpdateGroup', async () => {
     try {
       // And finally try to update the group
       await maybeUpdateGroup(options, { viaFirstStorageSync });
-
-      conversation.lastSuccessfulGroupFetch = Date.now();
     } catch (error) {
+      setLastSuccessfulGroupFetch(conversation.id, undefined);
       log.error(
-        `waitThenMaybeUpdateGroup/${conversation.idForLogging()}: maybeUpdateGroup failure:`,
+        `${logId}: maybeUpdateGroup failure:`,
         Errors.toLogFormat(error)
       );
     }
@@ -3072,7 +3076,7 @@ export async function maybeUpdateGroup(
   }: MaybeUpdatePropsType,
   { viaFirstStorageSync = false } = {}
 ): Promise<void> {
-  const logId = conversation.idForLogging();
+  const logId = `maybeUpdateGroup/${conversation.idForLogging()}`;
 
   try {
     // Ensure we have the credentials we need before attempting GroupsV2 operations
@@ -3091,10 +3095,7 @@ export async function maybeUpdateGroup(
       { viaFirstStorageSync }
     );
   } catch (error) {
-    log.error(
-      `maybeUpdateGroup/${logId}: Failed to update group:`,
-      Errors.toLogFormat(error)
-    );
+    log.error(`${logId}: Failed to update group:`, Errors.toLogFormat(error));
     throw error;
   }
 }
@@ -3205,7 +3206,13 @@ async function updateGroup(
     );
 
     profileFetches = Promise.all(
-      contactsWithoutProfileKey.map(contact => contact.getProfiles())
+      contactsWithoutProfileKey.map(contact => {
+        return getProfile({
+          serviceId: contact.getServiceId() ?? null,
+          e164: contact.get('e164') ?? null,
+          groupId: newAttributes.groupId ?? null,
+        });
+      })
     );
   }
 
@@ -3763,24 +3770,20 @@ async function updateGroupViaState({
   dropInitialJoinMessage?: boolean;
   group: ConversationAttributesType;
 }): Promise<UpdatesResultType> {
-  const logId = idForLogging(group.groupId);
-  const { publicParams, secretParams } = group;
+  const { id, publicParams, secretParams } = group;
+  const logId = `updateGroupViaState/${idForLogging(group.groupId)}`;
 
-  strictAssert(
-    secretParams,
-    'updateGroupViaState: group was missing secretParams!'
-  );
-  strictAssert(
-    publicParams,
-    'updateGroupViaState: group was missing publicParams!'
-  );
+  strictAssert(secretParams, `${logId}: Missing secretParams`);
+  strictAssert(publicParams, `${logId}: Missing publicParams`);
 
+  const fetchedAt = Date.now();
   const groupResponse = await makeRequestWithCredentials({
     logId: `getGroup/${logId}`,
     publicParams,
     secretParams,
     request: (sender, requestOptions) => sender.getGroup(requestOptions),
   });
+  setLastSuccessfulGroupFetch(id, fetchedAt);
 
   const { group: groupState, groupSendEndorsementResponse } = groupResponse;
   strictAssert(groupState, 'updateGroupViaState: Group state must be present');
@@ -3849,6 +3852,9 @@ async function updateGroupViaSingleChange({
   const previouslyKnewAboutThisGroup =
     isNumber(group.revision) && group.membersV2?.length;
   const wasInGroup = !group.left;
+
+  setLastSuccessfulGroupFetch(group.id, undefined);
+
   const singleChangeResult: UpdatesResultType = await integrateGroupChange({
     group,
     groupChange,
@@ -3985,13 +3991,15 @@ async function updateGroupViaLogs({
   let cachedEndorsementsExpiration =
     await DataReader.getGroupSendCombinedEndorsementExpiration(groupId);
 
-  if (
-    cachedEndorsementsExpiration != null &&
-    !isValidGroupSendEndorsementsExpiration(cachedEndorsementsExpiration * 1000)
-  ) {
-    log.info(
-      `updateGroupViaLogs/${logId}: Group had invalid endorsements expiration (${cachedEndorsementsExpiration}), fetching new endorsements`
+  if (cachedEndorsementsExpiration != null) {
+    const result = validateGroupSendEndorsementsExpiration(
+      cachedEndorsementsExpiration * 1000
     );
+    if (!result.valid) {
+      log.info(
+        `updateGroupViaLogs/${logId}: Endorsements are expired (${result.reason}), fetching new endorsements`
+      );
+    }
     cachedEndorsementsExpiration = null;
   }
 
@@ -3999,6 +4007,7 @@ async function updateGroupViaLogs({
   let groupSendEndorsementResponse: Uint8Array | null = null;
   const changes: Array<Proto.IGroupChanges> = [];
   do {
+    const fetchedAt = Date.now();
     // eslint-disable-next-line no-await-in-loop
     response = await makeRequestWithCredentials({
       logId: `getGroupLog/${logId}`,
@@ -4018,6 +4027,7 @@ async function updateGroupViaLogs({
           requestOptions
         ),
     });
+    setLastSuccessfulGroupFetch(group.id, fetchedAt);
 
     // When the log is long enough that it needs to be paginated, the server is
     // not stateful enough to only give us endorsements when we need them.
@@ -7231,4 +7241,16 @@ export function getMembershipList(
     const uuidCiphertext = encryptServiceId(clientZkGroupCipher, aci);
     return { aci, uuidCiphertext };
   });
+}
+
+function setLastSuccessfulGroupFetch(
+  conversationId: string,
+  timestamp: number | undefined
+): void {
+  const conversation = window.ConversationController.get(conversationId);
+  strictAssert(
+    conversation,
+    `setLastSuccessfulGroupFetch/${idForLogging(conversationId)}: Conversation must exist`
+  );
+  conversation.lastSuccessfulGroupFetch = timestamp;
 }

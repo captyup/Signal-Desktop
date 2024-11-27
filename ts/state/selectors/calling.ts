@@ -13,7 +13,7 @@ import type {
   GroupCallStateType,
   ActiveCallStateType,
 } from '../ducks/calling';
-import { getIncomingCall as getIncomingCallHelper } from '../ducks/callingHelpers';
+import { getRingingCall as getRingingCallHelper } from '../ducks/callingHelpers';
 import type { PresentedSource } from '../../types/Calling';
 import { CallMode } from '../../types/CallDisposition';
 import { isCallLinkAdmin, type CallLinkType } from '../../types/CallLink';
@@ -149,28 +149,30 @@ export const isInCall = createSelector(
 export const isInFullScreenCall = createSelector(
   getActiveCallState,
   (activeCallState: undefined | ActiveCallStateType): boolean =>
-    Boolean(activeCallState?.pip)
+    Boolean(activeCallState && !activeCallState.pip)
 );
 
-export const getIncomingCall = createSelector(
+export const getRingingCall = createSelector(
   getCallsByConversation,
+  getActiveCallState,
   getUserACI,
   (
     callsByConversation: CallsByConversationType,
+    activeCallState: ActiveCallStateType | undefined,
     ourAci: AciString | undefined
   ): undefined | DirectCallStateType | GroupCallStateType => {
     if (!ourAci) {
       return undefined;
     }
 
-    return getIncomingCallHelper(callsByConversation, ourAci);
+    return getRingingCallHelper(callsByConversation, activeCallState, ourAci);
   }
 );
 
 export const areAnyCallsActiveOrRinging = createSelector(
   getActiveCall,
-  getIncomingCall,
-  (activeCall, incomingCall): boolean => Boolean(activeCall || incomingCall)
+  getRingingCall,
+  (activeCall, ringingCall): boolean => Boolean(activeCall || ringingCall)
 );
 
 export const getPresentingSource = createSelector(

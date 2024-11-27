@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple silicon"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "Copiar erro e sair"
   },
@@ -575,9 +584,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "O Signal encontrou um erro ao desencriptar uma mensagem de {name}, dispositivo {deviceId}."
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Submeter relatório"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Submeter relatório"
   },
@@ -680,6 +686,9 @@
   "icu:search": {
     "messageformat": "Procurar"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Pesquisar chats não lidos"
+  },
   "icu:clearSearch": {
     "messageformat": "Limpar pesquisa"
   },
@@ -689,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "Sem resultados para \"{searchTerm}\""
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "Nenhum resultado para \"{searchTerm}\" nos chats não lidos"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "Não há chats não lidos"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Contactos SMS/MMS não se encontram disponíveis para Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Sem resultados para \"{searchTerm}\" em {conversationName}"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtrado por não lido"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filtrar por não lido"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Limpar filtro"
   },
   "icu:conversationsHeader": {
     "messageformat": "Chats"
@@ -791,8 +815,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Anexo guardado."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Anexo guardado} other {{count,number} anexos guardados}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Mostrar na pasta"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Não é possível guardar o anexo, uma vez que a transferência ainda não terminou} other {Não é possível guardar os anexos, uma vez que {count,number} transferências ainda não terminaram}}"
   },
   "icu:you": {
     "messageformat": "Você"
@@ -1003,6 +1033,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Todas as mensagens neste chat serão eliminadas de todos os seus dispositivos. Ainda pode procurar este chat após eliminar as mensagens."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Eliminar"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Eliminar chat?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "As mensagens neste chat serão eliminadas deste dispositivo."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Todas as mensagens neste chat serão eliminadas de todos os seus dispositivos."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Abandonar grupo"
@@ -1372,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} e {others,number} outro estão nesta chamada} other {{first}, {second}, e outros {others,number} estão nesta chamada}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {{count,number} pessoa está nesta chamada} other {{count,number} pessoas estão nesta chamada}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "O Signal irá tocar {person}"
@@ -3539,6 +3584,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "A descarregar {currentSize} de {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "A finalizar transferência de mensagens…"
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "A preparar para descarregar…"
   },
@@ -3547,6 +3595,9 @@
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Cancelar transferência"
+  },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "As informações das mensagens e chats são protegidas por encriptação de ponta a ponta, incluindo o processo de sincronização. <learnMoreLink>Saiba mais</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Cancelar transferência?"
@@ -3586,6 +3637,12 @@
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Restauro pausado"
+  },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{currentSize} de {totalSize} restaurados"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Os ficheiros multimédia continuarão a ser descarregados em segundo plano"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Pausar transferência"
@@ -4469,12 +4526,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Não foi possível atualizar o seu perfil. Por favor, tente novamente."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Caracteres inválidos"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Um ou mais caracteres que introduziu não podem ser utilizados. Tente novamente."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Envie uma mensagem para um administrador"
   },
@@ -4675,6 +4726,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "O Signal está a ter alguns problemas técnicos. Estamos a trabalhar para restituir o serviço o mais rapidamente possível."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Atualização necessária"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "Para concluir a sincronização das suas mensagens, atualize agora o Signal Desktop."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Atualizar"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Atualização necessária"
@@ -5514,8 +5574,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Clique em <newCallButtonIcon></newCallButtonIcon> para iniciar uma nova chamada de voz ou videochamada."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Procurar chamadas perdidas"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Procurar"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtrar por perdidas"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrar por perdidas"
@@ -5529,14 +5595,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Chamadas recentes aparecerão aqui."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Sem chamadas perdidas"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Chamadas perdidas aparecerão aqui."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Nenhum resultado para “{query}”"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "Nenhum resultado para \"{query}\" nas chamadas perdidas"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "Sem chamadas perdidas"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Criar um link de chamada"
@@ -5707,13 +5773,16 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Corrigimos um erro que impedia os autocolantes de funcionarem corretamente no editor de multimédia."
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "Esta versão também corrige um erro com o menu de emojis ao selecionar texto. Obrigado, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Esta atualização também inclui suporte para a nova interface de partilha de ecrã no macOS Sequoia."
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "O novo ícone de filtro na caixa de pesquisa torna fácil encontrar chats não lidos."
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Esta atualização melhora a velocidade de arranque em cerca de 5%."
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "Esta atualização introduz apoio para novos processadores no Windows, como o Snapdragon X Elite."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "Também corrigimos um erro que fazia o tema escuro do Signal deixar de funcionar quando as definições do seu sistema operativo estivessem configuradas para usar o tema claro."
   }
 }

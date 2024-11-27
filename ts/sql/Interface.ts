@@ -35,6 +35,7 @@ import type {
   CallLinkRecord,
   CallLinkStateType,
   CallLinkType,
+  DefunctCallLinkType,
 } from '../types/CallLink';
 import type { AttachmentDownloadJobType } from '../types/AttachmentDownload';
 import type {
@@ -540,7 +541,9 @@ type ReadableInterface = {
   getMessagesUnexpectedlyMissingExpirationStartTimestamp: () => Array<MessageType>;
   getSoonestMessageExpiry: () => undefined | number;
   getNextTapToViewMessageTimestampToAgeOut: () => undefined | number;
-  getTapToViewMessagesNeedingErase: () => Array<MessageType>;
+  getTapToViewMessagesNeedingErase: (
+    maxTimestamp: number
+  ) => Array<MessageType>;
   // getOlderMessagesByConversation is JSON on server, full message on Client
   getAllStories: (options: {
     conversationId?: string;
@@ -580,11 +583,13 @@ type ReadableInterface = {
     eraId: string
   ) => boolean;
   callLinkExists(roomId: string): boolean;
+  defunctCallLinkExists(roomId: string): boolean;
   getAllCallLinks: () => ReadonlyArray<CallLinkType>;
   getCallLinkByRoomId: (roomId: string) => CallLinkType | undefined;
   getCallLinkRecordByRoomId: (roomId: string) => CallLinkRecord | undefined;
   getAllAdminCallLinks(): ReadonlyArray<CallLinkType>;
   getAllCallLinkRecordsWithAdminKey(): ReadonlyArray<CallLinkRecord>;
+  getAllDefunctCallLinksWithAdminKey(): ReadonlyArray<DefunctCallLinkType>;
   getAllMarkedDeletedCallLinkRoomIds(): ReadonlyArray<string>;
   getMessagesBetween: (
     conversationId: string,
@@ -756,6 +761,10 @@ type WritableInterface = {
     arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
     options: { forceSave?: boolean; ourAci: AciString }
   ) => Array<string>;
+  saveMessagesIndividually: (
+    arrayOfMessages: ReadonlyArray<ReadonlyDeep<MessageType>>,
+    options: { forceSave?: boolean; ourAci: AciString }
+  ) => { failedIndices: Array<number> };
 
   getUnreadByConversationAndMarkRead: (options: {
     conversationId: string;
@@ -819,6 +828,8 @@ type WritableInterface = {
   deleteCallLinkAndHistory(roomId: string): void;
   finalizeDeleteCallLink(roomId: string): void;
   _removeAllCallLinks(): void;
+  insertDefunctCallLink(defunctCallLink: DefunctCallLinkType): void;
+  updateDefunctCallLink(defunctCallLink: DefunctCallLinkType): void;
   deleteCallLinkFromSync(roomId: string): void;
   migrateConversationMessages: (obsoleteId: string, currentId: string) => void;
   saveEditedMessage: (
@@ -856,6 +867,7 @@ type WritableInterface = {
     timestamp?: number;
   }) => Array<AttachmentDownloadJobType>;
   saveAttachmentDownloadJob: (job: AttachmentDownloadJobType) => void;
+  saveAttachmentDownloadJobs: (jobs: Array<AttachmentDownloadJobType>) => void;
   resetAttachmentDownloadActive: () => void;
   removeAttachmentDownloadJob: (job: AttachmentDownloadJobType) => void;
   removeAllBackupAttachmentDownloadJobs: () => void;

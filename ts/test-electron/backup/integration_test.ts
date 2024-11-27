@@ -72,13 +72,12 @@ describe('backup/integration', () => {
     it(basename(fullPath), async () => {
       const expectedBuffer = await readFile(fullPath);
 
-      await backupsService.importBackup(
-        () => Readable.from([expectedBuffer]),
-        BackupType.TestOnlyPlaintext
-      );
+      await backupsService.importBackup(() => Readable.from([expectedBuffer]), {
+        backupType: BackupType.TestOnlyPlaintext,
+      });
 
       const exported = await backupsService.exportBackupData(
-        BackupLevel.Media,
+        BackupLevel.Paid,
         BackupType.TestOnlyPlaintext
       );
 

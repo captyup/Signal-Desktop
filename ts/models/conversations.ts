@@ -1018,7 +1018,7 @@ export class ConversationModel extends window.Backbone
       this.captureChange('removeContact');
     }
 
-    this.disableProfileSharing({ viaStorageServiceSync });
+    this.disableProfileSharing({ reason: 'remove', viaStorageServiceSync });
 
     // Drop existing message request state to avoid sending receipts and
     // display MR actions.
@@ -1077,24 +1077,39 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  enableProfileSharing({ viaStorageServiceSync = false } = {}): void {
+  enableProfileSharing({
+    reason,
+    viaStorageServiceSync = false,
+  }: {
+    reason: string;
+    viaStorageServiceSync?: boolean;
+  }): void {
     log.info(
-      `enableProfileSharing: ${this.idForLogging()} storage? ${viaStorageServiceSync}`
+      `enableProfileSharing: ${this.idForLogging()} reason=${reason} ` +
+        `storage? ${viaStorageServiceSync}`
     );
     const before = this.get('profileSharing');
+    if (before === true) {
+      return;
+    }
 
     this.set({ profileSharing: true });
 
-    const after = this.get('profileSharing');
-
-    if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
-      this.captureChange('enableProfileSharing');
+    if (!viaStorageServiceSync) {
+      this.captureChange(`enableProfileSharing/${reason}`);
     }
   }
 
-  disableProfileSharing({ viaStorageServiceSync = false } = {}): void {
+  disableProfileSharing({
+    reason,
+    viaStorageServiceSync = false,
+  }: {
+    reason: string;
+    viaStorageServiceSync?: boolean;
+  }): void {
     log.info(
-      `disableProfileSharing: ${this.idForLogging()} storage? ${viaStorageServiceSync}`
+      `disableProfileSharing: ${this.idForLogging()} reason=${reason} ` +
+        `storage? ${viaStorageServiceSync}`
     );
     const before = this.get('profileSharing');
 
@@ -1103,7 +1118,7 @@ export class ConversationModel extends window.Backbone
     const after = this.get('profileSharing');
 
     if (!viaStorageServiceSync && Boolean(before) !== Boolean(after)) {
-      this.captureChange('disableProfileSharing');
+      this.captureChange(`disableProfileSharing/${reason}`);
     }
   }
 
@@ -1172,6 +1187,7 @@ export class ConversationModel extends window.Backbone
     options: { force?: boolean } = {}
   ): Promise<void> {
     if (!isGroupV2(this.attributes)) {
+      log.info('fetchLatestGroupV2Data: Not groupV2');
       return;
     }
 
@@ -2425,7 +2441,10 @@ export class ConversationModel extends window.Backbone
         }
 
         if (isBlock || isDelete) {
-          this.disableProfileSharing({ viaStorageServiceSync });
+          this.disableProfileSharing({
+            reason: isBlock ? 'block' : 'delete',
+            viaStorageServiceSync,
+          });
         }
 
         if (isDelete) {
@@ -2458,7 +2477,10 @@ export class ConversationModel extends window.Backbone
         if (!viaStorageServiceSync) {
           await this.restoreContact({ shouldSave: false });
         }
-        this.enableProfileSharing({ viaStorageServiceSync });
+        this.enableProfileSharing({
+          reason: 'ACCEPT Message Request',
+          viaStorageServiceSync,
+        });
 
         // We really don't want to call this if we don't have to. It can take a lot of
         //   time to go through old messages to download attachments.
@@ -4140,6 +4162,11 @@ export class ConversationModel extends window.Backbone
       'Expected a timestamp'
     );
 
+    // Make sure profile sharing is enabled before job is queued and run
+    this.enableProfileSharing({
+      reason: 'mandatoryProfileSharing',
+    });
+
     await conversationJobQueue.add(
       {
         type: conversationQueueJobEnum.enum.NormalMessage,
@@ -4873,9 +4900,17 @@ export class ConversationModel extends window.Backbone
     const conversations =
       this.getMembers() as unknown as Array<ConversationModel>;
 
+    const groupId = isGroupV2(this.attributes)
+      ? (this.get('groupId') ?? null)
+      : null;
+
     await Promise.all(
       conversations.map(conversation =>
-        getProfile(conversation.getServiceId(), conversation.get('e164'))
+        getProfile({
+          serviceId: conversation.getServiceId() ?? null,
+          e164: conversation.get('e164') ?? null,
+          groupId,
+        })
       )
     );
   }
@@ -4917,7 +4952,7 @@ export class ConversationModel extends window.Backbone
     }
   }
 
-  async setProfileAvatar(
+  async setAndMaybeFetchProfileAvatar(
     avatarUrl: undefined | null | string,
     decryptionKey: Uint8Array
   ): Promise<void> {
@@ -4965,6 +5000,11 @@ export class ConversationModel extends window.Backbone
       reason,
     }: { viaStorageServiceSync?: boolean; reason: string }
   ): Promise<boolean> {
+    strictAssert(
+      profileKey == null || profileKey.length > 0,
+      'setProfileKey: Profile key cannot be an empty string'
+    );
+
     const oldProfileKey = this.get('profileKey');
 
     // profileKey is a string so we can compare it directly

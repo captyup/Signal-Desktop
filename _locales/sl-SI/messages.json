@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple silicon"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "Kopiraj napako in zapusti aplikacijo"
   },
@@ -575,9 +584,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Prišlo je do napake pri dekripciji z uporabnikom_co {name}, naprava {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Oddaj sistemsko zabeležbo"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Oddaj sistemsko zabeležbo"
   },
@@ -680,6 +686,9 @@
   "icu:search": {
     "messageformat": "Iskanje"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Iskanje neprebranih klepetov"
+  },
   "icu:clearSearch": {
     "messageformat": "Počisti iskalno polje"
   },
@@ -689,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "Ni rezultata za \"{searchTerm}\""
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "V neprebranih klepetih ni rezultatov za \"{searchTerm}\""
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "Ni neprebranih klepetov"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Stiki SMS/MMS niso na voljo na Signalu Desktop."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Ni rezultatov za \"{searchTerm}\" v {conversationName}"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filter: neprebrano"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filtriranje po neprebranih"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Počisti filter"
   },
   "icu:conversationsHeader": {
     "messageformat": "Klepeti"
@@ -791,8 +815,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Priponka je bila shranjena."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Priponka je shranjena} two {{count,number} priponki sta shranjeni} few {{count,number} priponke so shranjene} other {{count,number} priponk je shranjenih}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Prikaži v mapi"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Ni mogoče shraniti priponke, saj se prenos še ni zaključil} two {Ni mogoče shraniti priponk, saj se prenos {count,number} še ni zaključil} few {Ni mogoče shraniti priponk, saj se prenos {count,number} še ni zaključil} other {Ni mogoče shraniti priponk, saj se prenos {count,number} še ni zaključil}}"
   },
   "icu:you": {
     "messageformat": "Vi"
@@ -1003,6 +1033,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz vseh vaših naprav. Ko izbrišete sporočila, lahko še vedno poiščete ta klepet."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Izbriši"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Želite izbrisati klepet?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz te naprave."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Vsa sporočila v tem klepetu bodo izbrisana iz vseh vaših naprav."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Zapusti skupino"
@@ -1372,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second}, in še {others,number} drug_ga so v tem klicu} two {{first}, {second}, in še {others,number} druga_gi so v tem klicu} few {{first}, {second}, in še {others,number} drugi_ge so v tem klicu} other {{first}, {second} in še {others,number} drugih so v tem klicu}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {V tem klicu je {count,number} oseba} two {V tem klicu sta {count,number} osebi} few {V tem klicu so {count,number} osebe} other {V tem klicu je {count,number} oseb}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal bo poklical uporabnika_co {person}"
@@ -3539,6 +3584,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Prenos {currentSize} od {totalSize} ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Zaključevanje prenosa sporočila ..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Priprava na prenos ..."
   },
@@ -3547,6 +3595,9 @@
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Prekliči prenos"
+  },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Sporočila in informacije o klepetu so zaščitene s šifriranjem od konca do konca, vključno s postopkom sinhronizacije. <learnMoreLink>Več o tem</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Želite preklicati prenos?"
@@ -3586,6 +3637,12 @@
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Obnovitev je prekinjena"
+  },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "Obnovljeno {currentSize} od {totalSize}"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Mediji se bodo še naprej prenašali v ozadju"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Prekini prenos"
@@ -4469,12 +4526,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Vaše ime ni moglo biti posodobljeno. Poskusite znova."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Neveljavni znaki"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Enega ali več vnesenih znakov ni mogoče uporabiti. Poskusite znova."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Sporočilo skrbniku_ci skupine"
   },
@@ -4675,6 +4726,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Prihaja do tehničnih težav v omrežju Signal. Ekipa vzdrževalcev se trudi, da bodo čimprej odpravljene."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Potrebna je posodobitev"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "Če želite dokončati sinhronizacijo sporočil, posodobite Signal Desktop."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Posodobitev"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Potrebna je posodobitev"
@@ -5514,8 +5574,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Kliknite <newCallButtonIcon></newCallButtonIcon>, če želite začeti nov zvočni ali video klic."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Iskanje zgrešenih klicev"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Iskanje"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtrirano po zgrešenih"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtriraj po zgrešenih"
@@ -5529,14 +5595,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Tu bodo prikazani nedavni klici."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Ni neodgovorjenih klicev"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Tu bodo prikazani neodgovorjeni klici."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Ni rezultatov za “{query}”"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "V zgrešenih klicih ni rezultatov za \"{query}\""
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "Ni neodgovorjenih klicev"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Ustvari povezavo do klica"
@@ -5707,13 +5773,16 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Odpravili smo napako, ki je preprečevala pravilno delovanje nalepk v urejevalniku medijev."
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "Ta posodobitev odpravlja tudi napako pri izbiri emojija med pisanjem. Hvala, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Ta posodobitev vključuje tudi podporo za novi vmesnik za deljenje zaslona v sistemu macOS Sequoia."
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "Z novo ikono filtra poleg polja za iskanje lahko hitro poiščete neprebrane klepete."
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Ta posodobitev izboljša hitrost zagona za približno 5 %, zato se lahko na drugih področjih svojega življenja nekoliko upočasnite."
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "Ta posodobitev uvaja podporo za nove procesorje v sistemu Windows, kot je Snapdragon X Elite."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "Odpravili smo tudi napako, ki je onemogočala temno temo v Signalu, če so bile nastavitve operacijskega sistema konfigurirane za uporabo svetle teme. Signal Desktop lahko zdaj ustrezno obravnava vašo tematsko razdeljeno osebnost."
   }
 }

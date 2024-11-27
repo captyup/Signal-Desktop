@@ -12,8 +12,10 @@ import { isNumber } from 'lodash';
 import { ensureFile } from 'fs-extra';
 import {
   chunkSizeInBytes,
+  DigestingPassThrough,
   everyNthByte,
   inferChunkSize,
+  ValidatingPassThrough,
 } from '@signalapp/libsignal-client/dist/incremental_mac';
 import type { ChunkSizeChoice } from '@signalapp/libsignal-client/dist/incremental_mac';
 
@@ -40,8 +42,6 @@ import { isNotNil } from './util/isNotNil';
 import { missingCaseError } from './util/missingCaseError';
 import { getEnvironment, Environment } from './environment';
 import { toBase64 } from './Bytes';
-import { DigestingPassThrough } from './util/DigestingPassThrough';
-import { ValidatingPassThrough } from './util/ValidatingPassThrough';
 
 // This file was split from ts/Crypto.ts because it pulls things in from node, and
 //   too many things pull in Crypto.ts, so it broke storybook.
@@ -110,17 +110,22 @@ export type HardcodedIVForEncryptionType =
       digestToMatch: Uint8Array;
     };
 
-type EncryptAttachmentV2PropsType = {
+type EncryptAttachmentV2OptionsType = Readonly<{
   dangerousIv?: HardcodedIVForEncryptionType;
   dangerousTestOnlySkipPadding?: boolean;
-  getAbsoluteAttachmentPath: (relativePath: string) => string;
   keys: Readonly<Uint8Array>;
   needIncrementalMac: boolean;
   plaintext: PlaintextSourceType;
-};
+}>;
+
+export type EncryptAttachmentV2ToDiskOptionsType =
+  EncryptAttachmentV2OptionsType &
+    Readonly<{
+      getAbsoluteAttachmentPath: (relativePath: string) => string;
+    }>;
 
 export async function encryptAttachmentV2ToDisk(
-  args: EncryptAttachmentV2PropsType
+  args: EncryptAttachmentV2ToDiskOptionsType
 ): Promise<EncryptedAttachmentV2 & { path: string }> {
   // Create random output file
   const relativeTargetPath = getRelativePath(createName());
@@ -152,7 +157,7 @@ export async function encryptAttachmentV2({
   needIncrementalMac,
   plaintext,
   sink,
-}: EncryptAttachmentV2PropsType & {
+}: EncryptAttachmentV2OptionsType & {
   sink?: Writable;
 }): Promise<EncryptedAttachmentV2> {
   const logId = 'encryptAttachmentV2';
@@ -580,7 +585,6 @@ export async function decryptAndReencryptLocally(
     const [result] = await Promise.all([
       decryptAttachmentV2ToSink(options, passthrough),
       await encryptAttachmentV2({
-        getAbsoluteAttachmentPath: options.getAbsoluteAttachmentPath,
         keys,
         needIncrementalMac: false,
         plaintext: {

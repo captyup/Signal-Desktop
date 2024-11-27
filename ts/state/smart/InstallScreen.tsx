@@ -32,7 +32,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
   const { openInbox } = useAppActions();
   const { startInstaller, finishInstall, retryBackupImport } =
     useInstallerActions();
-  const { startUpdate } = useUpdatesActions();
+  const { startUpdate, forceUpdate } = useUpdatesActions();
   const hasExpired = useSelector(hasExpiredSelector);
 
   const [deviceName, setDeviceName] = useState<string>('');
@@ -80,6 +80,7 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
           updates,
           currentVersion: window.getVersion(),
           startUpdate,
+          forceUpdate,
           retryGetQrCode: startInstaller,
           OS: OS.getName(),
           isStaging: isStagingServer(),
@@ -109,11 +110,18 @@ export const SmartInstallScreen = memo(function SmartInstallScreen() {
         step: InstallScreenStep.BackupImport,
         screenSpecificProps: {
           i18n,
+          backupStep: installerState.backupStep,
           currentBytes: installerState.currentBytes,
           totalBytes: installerState.totalBytes,
-          hasError: installerState.hasError,
+          error: installerState.error,
           onCancel: onCancelBackupImport,
           onRetry: retryBackupImport,
+
+          updates,
+          currentVersion: window.getVersion(),
+          forceUpdate,
+          startUpdate,
+          OS: OS.getName(),
         },
       };
       break;

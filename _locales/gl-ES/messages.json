@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple Silicon"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "Copiar o erro e saír"
   },
@@ -575,9 +584,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "O ordenador atopou un erro de descifrado de {name}, dispositivo {deviceId}"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Enviar rexistro"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Enviar rexistro"
   },
@@ -680,6 +686,9 @@
   "icu:search": {
     "messageformat": "Buscar"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Buscar en conversas sen ler"
+  },
   "icu:clearSearch": {
     "messageformat": "Limpar a busca"
   },
@@ -689,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "Sen resultados para «{searchTerm}»"
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "Non se atoparon resultados para «{searchTerm}» nas conversas sen ler"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "Non hai conversas sen ler"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "Os contactos de SMS/MMS non están dispoñibles no ordenador."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "Sen resultados para «{searchTerm}» en {conversationName}"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Filtrar por sen ler"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Filtrar por sen ler"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Borrar filtro"
   },
   "icu:conversationsHeader": {
     "messageformat": "Conversas"
@@ -791,8 +815,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Anexo gardado."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, one {Anexo gardado} other {{count,number} anexos gardados}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Mostrar no cartafol"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, one {Non se puido gardar o anexo porque a descarga non rematou} other {Non se puido gardar os anexos, xa que non rematou a descarga de {count,number}}}"
   },
   "icu:you": {
     "messageformat": "Ti"
@@ -1003,6 +1033,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Todas as mensaxes desta conversa eliminaranse de todos os dispositivos. Podes buscar esta conversa despois de eliminar as mensaxes."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Eliminar"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Borrar conversa?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Todas as mensaxes desta conversa eliminaranse deste dispositivo."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Todas as mensaxes desta conversa eliminaranse de todos os dispositivos."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Abandonar grupo"
@@ -1372,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, one {{first}, {second} e {others,number} máis están nesta chamada} other {{first}, {second} e {others,number} máis están nesta chamada}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, one {Hai {count,number} persoa nesta chamada} other {Hai {count,number} persoas nesta chamada}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal chamará a {person}"
@@ -3539,6 +3584,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "Descargando {currentSize} de {totalSize} ({fractionComplete,number,percent})…"
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Rematando transferencia de mensaxes…"
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Preparando a descarga…"
   },
@@ -3547,6 +3595,9 @@
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Cancelar transferencia"
+  },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "As mensaxes e a información das conversas están protexidas por unha encriptación de extremo a extremo, incluído o proceso de sincronización. <learnMoreLink>Saber máis</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Cancelar transferencia?"
@@ -3586,6 +3637,12 @@
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Recuperación parada"
+  },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "Restauráronse {currentSize} de {totalSize}"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Os arquivos multimedia descargaranse en segundo plano"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Parar transferencia"
@@ -4469,12 +4526,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Non se actualizou o teu perfil. Inténtao de novo."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Caracteres non válidos"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Un ou máis caracteres que empregaches non poden usarse. Téntao de novo."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Enviar mensaxe a un administrador"
   },
@@ -4675,6 +4726,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal está experimentando problemas técnicos. Estamos a traballar arreo para restaurar o servizo o máis axiña posible."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Actualización necesaria"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "Para completar a sincronización das túas mensaxes, actualiza xa Signal Desktop."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Actualizar"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Actualización necesaria"
@@ -5514,8 +5574,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Preme <newCallButtonIcon></newCallButtonIcon> para iniciar unha nova chamada de voz ou videochamada."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Buscar chamadas perdidas"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Buscar"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Filtrar por perdidas"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Filtrar por perdidas"
@@ -5529,14 +5595,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "As chamadas recentes aparecerán aquí."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Sen chamadas perdidas"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "As chamadas perdidas aparecerán aquí."
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "Ningún resultado para «{query}»"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "Non se atoparon resultados para «{query}» nas chamadas perdidas"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "Sen chamadas perdidas"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Crear unha ligazón de chamada"
@@ -5707,13 +5773,16 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Corriximos un erro que impedía que os stickers funcionasen correctamente no editor de multimedia."
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "Esta actualización soluciona un erro relacionado coa selección de texto con emojis. Grazas, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Esta actualización tamén inclúe soporte para a nova interface para compartir pantalla en macOS Sequoia."
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "A nova icona de filtro ao lado da caixa de busca permite atopar facilmente as conversas sen ler."
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Esta actualización mellora arredor dun 5 % a velocidade de arranque."
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "Con esta actualización Windows admite novos procesadores, entre eles o Snapdragon X Elite."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "Arranxamos un erro que impedía o funcionamento do tema escuro de Signal cando o sistema estaba configurado cun tema claro."
   }
 }

@@ -10,6 +10,8 @@ import * as log from './logging/log';
 import { explodePromise } from './util/explodePromise';
 import { AccessType, ipcInvoke } from './sql/channels';
 import { backupsService } from './services/backups';
+import { AttachmentBackupManager } from './jobs/AttachmentBackupManager';
+import { migrateAllMessages } from './messages/migrateMessageData';
 import { SECOND } from './util/durations';
 import { isSignalRoute } from './util/signalRoutes';
 import { strictAssert } from './util/assert';
@@ -34,6 +36,7 @@ export type CIType = {
     }
   ) => unknown;
   openSignalRoute(url: string): Promise<void>;
+  migrateAllMessages(): Promise<void>;
   uploadBackup(): Promise<void>;
   unlink: () => void;
   print: (...args: ReadonlyArray<unknown>) => void;
@@ -168,6 +171,10 @@ export function getCI({ deviceName }: GetCIOptionsType): CIType {
 
   async function uploadBackup() {
     await backupsService.upload();
+    await AttachmentBackupManager.waitForIdle();
+
+    // Remove the disclaimer from conversation hero for screenshot backup test
+    await window.storage.put('isRestoredFromBackup', true);
   }
 
   function unlink() {
@@ -187,6 +194,7 @@ export function getCI({ deviceName }: GetCIOptionsType): CIType {
     solveChallenge,
     waitForEvent,
     openSignalRoute,
+    migrateAllMessages,
     uploadBackup,
     unlink,
     getPendingEventCount,

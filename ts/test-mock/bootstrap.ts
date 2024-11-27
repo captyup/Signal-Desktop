@@ -6,14 +6,16 @@ import fs from 'fs/promises';
 import crypto from 'crypto';
 import path, { join } from 'path';
 import os from 'os';
+import { PassThrough } from 'node:stream';
 import createDebug from 'debug';
 import pTimeout from 'p-timeout';
 import normalizePath from 'normalize-path';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
 import type { Page } from 'playwright';
+import { v4 as uuid } from 'uuid';
 
-import type { Device, PrimaryDevice } from '@signalapp/mock-server';
+import type { Device, PrimaryDevice, Proto } from '@signalapp/mock-server';
 import {
   Server,
   ServiceIdKind,
@@ -23,9 +25,14 @@ import { MAX_READ_KEYS as MAX_STORAGE_READ_KEYS } from '../services/storageConst
 import * as durations from '../util/durations';
 import { drop } from '../util/drop';
 import type { RendererConfigType } from '../types/RendererConfig';
+import type { MIMEType } from '../types/MIME';
 import { App } from './playwright';
 import { CONTACT_COUNT } from './benchmarks/fixtures';
 import { strictAssert } from '../util/assert';
+import {
+  encryptAttachmentV2,
+  generateAttachmentKeys,
+} from '../AttachmentCrypto';
 
 export { App };
 
@@ -107,6 +114,18 @@ export type BootstrapOptions = Readonly<{
   unknownContactCount?: number;
   contactNames?: ReadonlyArray<string>;
   contactPreKeyCount?: number;
+
+  useLegacyStorageEncryption?: boolean;
+}>;
+
+export type EphemeralBackupType = Readonly<{
+  cdn: 3;
+  key: string;
+}>;
+
+export type LinkOptionsType = Readonly<{
+  extraConfig?: Partial<RendererConfigType>;
+  ephemeralBackup?: EphemeralBackupType;
 }>;
 
 type BootstrapInternalOptions = BootstrapOptions &
@@ -235,6 +254,9 @@ export class Bootstrap {
       contacts: this.contacts,
       contactsWithoutProfileKey: this.contactsWithoutProfileKey,
     });
+    if (this.options.useLegacyStorageEncryption) {
+      this.privPhone.storageRecordIkm = undefined;
+    }
 
     this.storagePath = await fs.mkdtemp(path.join(os.tmpdir(), 'mock-signal-'));
 
@@ -295,7 +317,10 @@ export class Bootstrap {
     ]);
   }
 
-  public async link(extraConfig?: Partial<RendererConfigType>): Promise<App> {
+  public async link({
+    extraConfig,
+    ephemeralBackup,
+  }: LinkOptionsType = {}): Promise<App> {
     debug('linking');
 
     const app = await this.startApp(extraConfig);
@@ -325,6 +350,10 @@ export class Bootstrap {
       provisionURL,
       primaryDevice: this.phone,
     });
+
+    if (ephemeralBackup != null) {
+      await this.server.provideTransferArchive(this.desktop, ephemeralBackup);
+    }
 
     debug('new desktop device %j', this.desktop.debugId);
 
@@ -538,6 +567,38 @@ export class Bootstrap {
   public getAbsoluteAttachmentPath(relativePath: string): string {
     strictAssert(this.storagePath, 'storagePath must exist');
     return join(this.storagePath, 'attachments.noindex', relativePath);
+  }
+
+  public async storeAttachmentOnCDN(
+    data: Buffer,
+    contentType: MIMEType
+  ): Promise<Proto.IAttachmentPointer> {
+    const cdnKey = uuid();
+    const keys = generateAttachmentKeys();
+    const cdnNumber = 3;
+
+    const passthrough = new PassThrough();
+
+    const [{ digest }] = await Promise.all([
+      encryptAttachmentV2({
+        keys,
+        plaintext: {
+          data,
+        },
+        needIncrementalMac: false,
+        sink: passthrough,
+      }),
+      this.server.storeAttachmentOnCdn(cdnNumber, cdnKey, passthrough),
+    ]);
+
+    return {
+      size: data.byteLength,
+      contentType,
+      cdnKey,
+      cdnNumber,
+      key: keys,
+      digest,
+    };
   }
 
   //

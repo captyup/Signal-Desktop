@@ -53,6 +53,15 @@
   "icu:appleSilicon": {
     "messageformat": "Apple silicon"
   },
+  "icu:About__AppEnvironment": {
+    "messageformat": "{appEnv}"
+  },
+  "icu:About__AppEnvironment--AppleSilicon": {
+    "messageformat": "{appEnv} (Apple silicon)"
+  },
+  "icu:About__AppEnvironment--AppleIntel": {
+    "messageformat": "{appEnv} (Intel)"
+  },
   "icu:copyErrorAndQuit": {
     "messageformat": "Катаны көчүрүп, чыгуу"
   },
@@ -575,9 +584,6 @@
   "icu:decryptionErrorToast": {
     "messageformat": "Desktop {name}, {deviceId} түзмөгүнөн билдирүүнү шифрлөөдө ката кетти"
   },
-  "icu:decryptionErrorToastAction": {
-    "messageformat": "Журналды тапшыруу"
-  },
   "icu:Toast__ActionLabel--SubmitLog": {
     "messageformat": "Журналды тапшыруу"
   },
@@ -680,6 +686,9 @@
   "icu:search": {
     "messageformat": "Издөө"
   },
+  "icu:searchUnreadChats": {
+    "messageformat": "Окула элек маектерди издөө"
+  },
   "icu:clearSearch": {
     "messageformat": "Издөөнү тазалоо"
   },
@@ -689,11 +698,26 @@
   "icu:noSearchResults": {
     "messageformat": "\"{searchTerm}\" боюнча жыйынтык жок"
   },
+  "icu:noSearchResultsWithUnreadFilter": {
+    "messageformat": "Окула элек маектердеги \"{searchTerm}\" боюнча эч нерсе табылган жок"
+  },
+  "icu:noSearchResultsOnlyUnreadFilter": {
+    "messageformat": "Окула элек маектер жок"
+  },
   "icu:noSearchResults--sms-only": {
     "messageformat": "SMS/MMS байланыштары Desktop'то жеткиликсиз."
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "{conversationName} ичинде \"{searchTerm}\" боюнча жыйынтык жок"
+  },
+  "icu:conversationsUnreadHeader": {
+    "messageformat": "Алгач окула элек маектер"
+  },
+  "icu:filterByUnreadButtonLabel": {
+    "messageformat": "Окула электер боюнча иргөө"
+  },
+  "icu:clearFilterButton": {
+    "messageformat": "Иргемени өчүрүү"
   },
   "icu:conversationsHeader": {
     "messageformat": "Маектер"
@@ -791,8 +815,14 @@
   "icu:attachmentSaved": {
     "messageformat": "Тиркеме сакталды."
   },
+  "icu:attachmentSavedPlural": {
+    "messageformat": "{count, plural, other {{count,number} тиркеме сакталды}}"
+  },
   "icu:attachmentSavedShow": {
     "messageformat": "Папкада көрсөтүү"
+  },
+  "icu:attachmentStillDownloading": {
+    "messageformat": "{count, plural, other {{count,number} толук жүктөлүп бүтө элек болгондуктан, тиркемелер сакталган жок}}"
   },
   "icu:you": {
     "messageformat": "Сиз"
@@ -1003,6 +1033,18 @@
   },
   "icu:ConversationHeader__DeleteMessagesInConversationConfirmation__description-with-sync": {
     "messageformat": "Бул маектеги билдирүүлөрдүн баары бардык түзмөктөрүңүздөн өчүрүлөт. Билдирүүлөр өчкөндөн кийин деле ушул маек сакталып кала берет."
+  },
+  "icu:deleteConversation": {
+    "messageformat": "Өчүрүү"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__title": {
+    "messageformat": "Маекти өчүрөсүзбү?"
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description": {
+    "messageformat": "Ушул маектеги бардык билдирүүлөр бул түзмөктөн өчүрүлөт."
+  },
+  "icu:ConversationHeader__DeleteConversationConfirmation__description-with-sync": {
+    "messageformat": "Бул маектеги билдирүүлөрдүн баары бардык түзмөктөрүңүздөн өчүрүлөт."
   },
   "icu:ConversationHeader__ContextMenu__LeaveGroupAction__title": {
     "messageformat": "Топтон чыгуу"
@@ -1372,6 +1414,9 @@
   },
   "icu:calling__pre-call-info--many-people-in-call": {
     "messageformat": "{others, plural, other {{first}, {second}жана дагы {others,number} адам ушул чалууда катышууда}}"
+  },
+  "icu:calling__pre-call-info--only-unknown-contacts-in-call": {
+    "messageformat": "{count, plural, other {Бул чалууда {count,number} адам}}"
   },
   "icu:calling__pre-call-info--will-ring-1": {
     "messageformat": "Signal {person} байланышка чалат"
@@ -3539,6 +3584,9 @@
   "icu:BackupImportScreen__progressbar-hint": {
     "messageformat": "{totalSize} ичинен {currentSize} жүктөлүп алынууда ({fractionComplete,number,percent})..."
   },
+  "icu:BackupImportScreen__progressbar-hint--processing": {
+    "messageformat": "Билдирүүлөрдүн өткөрүлүшү аяктап калды..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Жүктөлүп алынганы жатат..."
   },
@@ -3547,6 +3595,9 @@
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Өткөрүүнү токтотуу"
+  },
+  "icu:BackupImportScreen__security-description": {
+    "messageformat": "Билдирүүлөр жана маектеги нерселер, ошондой эле шайкештирүү процесси баштан аяк шифрленип корголот. <learnMoreLink>Кененирээк маалымат</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
     "messageformat": "Өткөрүүнү токтотосузбу?"
@@ -3586,6 +3637,12 @@
   },
   "icu:BackupMediaDownloadProgress__title-paused": {
     "messageformat": "Калыбына келтирүү тындырылды"
+  },
+  "icu:BackupMediaDownloadProgress__title-idle": {
+    "messageformat": "{totalSize} ичинен {currentSize} калыбына келди"
+  },
+  "icu:BackupMediaDownloadProgress__description-idle": {
+    "messageformat": "Медиа файлдар фондо жүктөлө берет"
   },
   "icu:BackupMediaDownloadProgress__button-pause": {
     "messageformat": "Өткөрүүнү тындыруу"
@@ -4469,12 +4526,6 @@
   "icu:ProfileEditorModal--error": {
     "messageformat": "Профилиңиз жаңыртылган жок. Кайра аракет кылыңыз."
   },
-  "icu:ProfileEditor__invalid-about__title": {
-    "messageformat": "Жараксыз символдор"
-  },
-  "icu:ProfileEditor__invalid-about__body": {
-    "messageformat": "Бир же бир нече символ жарабайт. Кайталап көрүңүз."
-  },
   "icu:AnnouncementsOnlyGroupBanner--modal": {
     "messageformat": "Администраторго билдирүү жөнөтүү"
   },
@@ -4675,6 +4726,15 @@
   },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal техникалык кыйынчылыктарга дуушар болууда. Биз кызматты мүмкүн болушунча тез арада калыбына келтирүү үчүн көп аракет кылып жатабыз."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__title": {
+    "messageformat": "Колдонмону жаңыртуу керек"
+  },
+  "icu:InstallScreenUpdateDialog--update-required__body": {
+    "messageformat": "Билдирүүлөрүңүздү шайкештирүүнү аягына чейин чыгаруу үчүн компьютердеги Signal'ды жаңыртыңыз."
+  },
+  "icu:InstallScreenUpdateDialog--update-required__action-update": {
+    "messageformat": "Жаңыртуу"
   },
   "icu:InstallScreenUpdateDialog--unsupported-os__title": {
     "messageformat": "Колдонмону жаңыртуу керек"
@@ -5514,8 +5574,14 @@
   "icu:CallsTab__EmptyStateText--with-icon-2": {
     "messageformat": "Жаңы аудио же видео чалуу баштоо үчүн <newCallButtonIcon></newCallButtonIcon> дегенди басыңыз."
   },
+  "icu:CallsList__SearchInputPlaceholder--missed-calls": {
+    "messageformat": "Жооп берилбей калган чалууларды издөө"
+  },
   "icu:CallsList__SearchInputPlaceholder": {
     "messageformat": "Издөө"
+  },
+  "icu:CallsList__FilteredByMissedHeader": {
+    "messageformat": "Жооп берилбегендер боюнча иргелди"
   },
   "icu:CallsList__ToggleFilterByMissedLabel": {
     "messageformat": "Жооп берилбегендер боюнча иргөө"
@@ -5529,14 +5595,14 @@
   "icu:CallsList__EmptyState--noQuery__subtitle": {
     "messageformat": "Соңку чалуулар ушул жерде көрүнөт."
   },
-  "icu:CallsList__EmptyState--noQuery--missed__title": {
-    "messageformat": "Эч нерсе жок"
-  },
-  "icu:CallsList__EmptyState--noQuery--missed__subtitle": {
-    "messageformat": "Жооп бербей калган чалуулар ушул жерде көрүнөт"
-  },
   "icu:CallsList__EmptyState--hasQuery": {
     "messageformat": "“{query}” боюнча эч нерсе табылган жок"
+  },
+  "icu:CallsList__EmptyState--hasQueryAndMissedCalls": {
+    "messageformat": "Жооп берилбеген чалуулардагы “{query}” боюнча эч нерсе табылган жок"
+  },
+  "icu:CallsList__EmptyState--missedCalls": {
+    "messageformat": "Эч нерсе жок"
   },
   "icu:CallsList__CreateCallLink": {
     "messageformat": "Чалуу шилтемесин түзүү"
@@ -5707,13 +5773,16 @@
     "messageformat": "Майда-барат өзгөрүүлөрдү киргизип, мүчүлүштүктөрдү оңдоп, колдонмонун иштешин жакшыртып жатабыз. Signal'ды колдонгонуңуз үчүн чоң рахмат!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.28--0": {
-    "messageformat": "Медиа редактордо стикерлердин туура иштебей калышына алып келген мүчүлүштүктү оңдодук жана сүрөткө стикерди койгонуңузда меню такалып калбайт."
+  "icu:WhatsNew__v7.33--0": {
+    "messageformat": "Бул жаңыртуу текстти тандап жатканда эмодзиди оң баскыч менен чыкылдаткандан кийин туура контексттик меню көрүнбөй калган мүчүлүштүктөрдү оңдойт. Рахмат, <linkKhuddite>@khuddite</linkKhuddite>!"
   },
-  "icu:WhatsNew__v7.28--1": {
-    "messageformat": "Бул жаңыртуу ошондой эле macOS Sequoia'да жаңы экранды бөлүшүү тажрыйбасын колдоону камтыйт."
+  "icu:WhatsNew__v7.34--0": {
+    "messageformat": "Эми издөө тилкеси аркылуу окула элек маектерди оңой таба аласыз."
   },
-  "icu:WhatsNew__v7.29--0": {
-    "messageformat": "Бул жаңы версияда иштөө ылдамдыгы 5% жогорулагандыктан, эми ашыкпай, бир аз жайлансаңыз болот."
+  "icu:WhatsNew__v7.34--1": {
+    "messageformat": "Жаңы версияда Windows'тогу Snapdragon X Elite сыяктуу жаңы процессорлор иштейт."
+  },
+  "icu:WhatsNew__v7.34--2": {
+    "messageformat": "Операциялар системасынын параметрлери жарык темага коюлган учурда караңгы теманы бузган мүчүлүштүктү оңдоп койдук. Эми Signal Desktop'то темаларга байланыштуу маселе болбойт."
   }
 }

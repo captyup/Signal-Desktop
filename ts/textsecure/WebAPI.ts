@@ -74,6 +74,13 @@ import { isStagingServer } from '../util/isStagingServer';
 import type { IWebSocketResource } from './WebsocketResources';
 import type { GroupSendToken } from '../types/GroupSendEndorsements';
 import { parseUnknown, safeParseUnknown } from '../util/schemas';
+import type {
+  ProfileFetchAuthRequestOptions,
+  ProfileFetchUnauthRequestOptions,
+} from '../services/profiles';
+import { isMockServer } from '../util/isMockServer';
+import { getMockServerPort } from '../util/getMockServerPort';
+import { pemToDer } from '../util/pemToDer';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -83,15 +90,46 @@ const DEFAULT_TIMEOUT = 30 * SECOND;
 
 // Libsignal has internally configured values for domain names
 // (and other connectivity params) of the services.
-function resolveLibsignalNetEnvironment(url: string): Net.Environment {
+function resolveLibsignalNet(
+  url: string,
+  version: string,
+  certificateAuthority?: string
+): Net.Net {
+  const userAgent = getUserAgent(version);
+  log.info(`libsignal net url: ${url}`);
   if (isStagingServer(url)) {
-    return Net.Environment.Staging;
+    log.info('libsignal net environment resolved to staging');
+    return new Net.Net({
+      env: Net.Environment.Staging,
+      userAgent,
+    });
   }
-  return Net.Environment.Production;
+
+  if (isMockServer(url) && certificateAuthority !== undefined) {
+    const DISCARD_PORT = 9; // Reserved by RFC 863.
+    log.info('libsignal net environment resolved to mock');
+    return new Net.Net({
+      localTestServer: true,
+      userAgent,
+      TESTING_localServer_chatPort: parseInt(getMockServerPort(url), 10),
+      TESTING_localServer_cdsiPort: DISCARD_PORT,
+      TESTING_localServer_svr2Port: DISCARD_PORT,
+      TESTING_localServer_svr3SgxPort: DISCARD_PORT,
+      TESTING_localServer_svr3NitroPort: DISCARD_PORT,
+      TESTING_localServer_svr3Tpm2SnpPort: DISCARD_PORT,
+      TESTING_localServer_rootCertificateDer: pemToDer(certificateAuthority),
+    });
+  }
+
+  log.info('libsignal net environment resolved to prod');
+  return new Net.Net({
+    env: Net.Environment.Production,
+    userAgent,
+  });
 }
 
 function _createRedactor(
-  ...toReplace: ReadonlyArray<string | undefined>
+  ...toReplace: ReadonlyArray<string | undefined | null>
 ): RedactUrl {
   // NOTE: It would be nice to remove this cast, but TypeScript doesn't support
   //   it. However, there is [an issue][0] that discusses this in more detail.
@@ -588,7 +626,7 @@ const URL_CALLS = {
   discovery: 'v1/discovery',
   getGroupAvatarUpload: 'v1/groups/avatar/form',
   getGroupCredentials: 'v1/certificate/auth/group',
-  getIceServers: 'v1/calling/relays',
+  getIceServers: 'v2/calling/relays',
   getOnboardingStoryManifest:
     'dynamic/desktop/stories/onboarding/manifest.json',
   getStickerPackUpload: 'v1/sticker/pack/form',
@@ -624,6 +662,7 @@ const URL_CALLS = {
   storageToken: 'v1/storage/auth',
   subscriptions: 'v1/subscription',
   subscriptionConfiguration: 'v1/subscription/configuration',
+  transferArchive: 'v1/devices/transfer_archive',
   updateDeviceName: 'v1/accounts/name',
   username: 'v1/accounts/username_hash',
   reserveUsername: 'v1/accounts/username_hash/reserve',
@@ -656,6 +695,7 @@ const WEBSOCKET_CALLS = new Set<keyof typeof URL_CALLS>([
   'devices',
   'linkDevice',
   'registerCapabilities',
+  'transferArchive',
 
   // Directory
   'directoryAuthV2',
@@ -715,7 +755,12 @@ type AjaxOptionsType = {
   jsonData?: unknown;
   password?: string;
   redactUrl?: RedactUrl;
-  responseType?: 'json' | 'bytes' | 'byteswithdetails' | 'stream';
+  responseType?:
+    | 'json'
+    | 'jsonwithdetails'
+    | 'bytes'
+    | 'byteswithdetails'
+    | 'stream';
   schema?: unknown;
   timeout?: number;
   urlParameters?: string;
@@ -750,10 +795,12 @@ export type WebAPIConnectType = {
 export type CapabilitiesType = {
   deleteSync: boolean;
   versionedExpirationTimer: boolean;
+  ssre2: boolean;
 };
 export type CapabilitiesUploadType = {
   deleteSync: true;
   versionedExpirationTimer: true;
+  ssre2: true;
 };
 
 type StickerPackManifestType = Uint8Array;
@@ -857,6 +904,10 @@ export type GetAccountForUsernameResultType = z.infer<
 >;
 
 export type GetIceServersResultType = Readonly<{
+  relays?: ReadonlyArray<IceServerGroupType>;
+}>;
+
+export type IceServerGroupType = Readonly<{
   username: string;
   password: string;
   urls?: ReadonlyArray<string>;
@@ -897,31 +948,6 @@ export type CdsLookupOptionsType = Readonly<{
   returnAcisWithoutUaks?: boolean;
   useLibsignal?: boolean;
 }>;
-
-type GetProfileCommonOptionsType = Readonly<
-  {
-    userLanguages: ReadonlyArray<string>;
-  } & (
-    | {
-        profileKeyVersion?: undefined;
-        profileKeyCredentialRequest?: undefined;
-      }
-    | {
-        profileKeyVersion: string;
-        profileKeyCredentialRequest?: string;
-      }
-  )
->;
-
-export type GetProfileOptionsType = GetProfileCommonOptionsType &
-  Readonly<{
-    accessKey?: undefined;
-  }>;
-
-export type GetProfileUnauthOptionsType = GetProfileCommonOptionsType &
-  Readonly<{
-    accessKey: string;
-  }>;
 
 export type GetGroupCredentialsOptionsType = Readonly<{
   startDayInMs: number;
@@ -1075,7 +1101,8 @@ export type RequestVerificationResultType = Readonly<{
 }>;
 
 export type SetBackupIdOptionsType = Readonly<{
-  backupAuthCredentialRequest: Uint8Array;
+  messagesBackupAuthCredentialRequest: Uint8Array;
+  mediaBackupAuthCredentialRequest: Uint8Array;
 }>;
 
 export type SetBackupSignatureKeyOptionsType = Readonly<{
@@ -1097,7 +1124,6 @@ export type BackupMediaItemType = Readonly<{
   mediaId: string;
   hmacKey: Uint8Array;
   encryptionKey: Uint8Array;
-  iv: Uint8Array;
 }>;
 
 export type BackupMediaBatchOptionsType = Readonly<{
@@ -1162,15 +1188,20 @@ export type GetBackupCredentialsOptionsType = Readonly<{
   endDayInMs: number;
 }>;
 
+export const backupCredentialListSchema = z
+  .object({
+    credential: z.string().transform(x => Bytes.fromBase64(x)),
+    redemptionTime: z
+      .number()
+      .transform(x => durations.DurationInSeconds.fromSeconds(x)),
+  })
+  .array();
+
 export const getBackupCredentialsResponseSchema = z.object({
-  credentials: z
-    .object({
-      credential: z.string().transform(x => Bytes.fromBase64(x)),
-      redemptionTime: z
-        .number()
-        .transform(x => durations.DurationInSeconds.fromSeconds(x)),
-    })
-    .array(),
+  credentials: z.object({
+    messages: backupCredentialListSchema,
+    media: backupCredentialListSchema,
+  }),
 });
 
 export type GetBackupCredentialsResponseType = z.infer<
@@ -1195,6 +1226,14 @@ export type GetBackupStreamOptionsType = Readonly<{
   backupDir: string;
   backupName: string;
   headers: Record<string, string>;
+  downloadOffset: number;
+  onProgress: (currentBytes: number, totalBytes: number) => void;
+  abortSignal?: AbortSignal;
+}>;
+
+export type GetEphemeralBackupStreamOptionsType = Readonly<{
+  cdn: number;
+  key: string;
   downloadOffset: number;
   onProgress: (currentBytes: number, totalBytes: number) => void;
   abortSignal?: AbortSignal;
@@ -1236,6 +1275,18 @@ const StickerPackUploadFormSchema = z.object({
   manifest: StickerPackUploadAttributesSchema,
   stickers: z.array(StickerPackUploadAttributesSchema),
 });
+
+const TransferArchiveSchema = z.object({
+  cdn: z.number(),
+  key: z.string(),
+});
+
+export type TransferArchiveType = z.infer<typeof TransferArchiveSchema>;
+
+export type GetTransferArchiveOptionsType = Readonly<{
+  timeout?: number;
+  abortSignal?: AbortSignal;
+}>;
 
 export type WebAPIType = {
   startRegistration(): unknown;
@@ -1311,14 +1362,14 @@ export type WebAPIType = {
   }>;
   getProfile: (
     serviceId: ServiceIdString,
-    options: GetProfileOptionsType
+    options: ProfileFetchAuthRequestOptions
   ) => Promise<ProfileType>;
   getAccountForUsername: (
     options: GetAccountForUsernameOptionsType
   ) => Promise<GetAccountForUsernameResultType>;
   getProfileUnauth: (
     serviceId: ServiceIdString,
-    options: GetProfileUnauthOptionsType
+    options: ProfileFetchUnauthRequestOptions
   ) => Promise<ProfileType>;
   getBadgeImageFile: (imageUrl: string) => Promise<Uint8Array>;
   getSubscriptionConfiguration: (
@@ -1413,7 +1464,8 @@ export type WebAPIType = {
     messageArray: ReadonlyArray<MessageType>,
     timestamp: number,
     options: {
-      accessKey?: string;
+      accessKey: string | null;
+      groupSendToken: GroupSendToken | null;
       online?: boolean;
       story?: boolean;
       urgent?: boolean;
@@ -1421,8 +1473,8 @@ export type WebAPIType = {
   ) => Promise<void>;
   sendWithSenderKey: (
     payload: Uint8Array,
-    accessKeys: Uint8Array | undefined,
-    groupSendToken: GroupSendToken | undefined,
+    accessKeys: Uint8Array | null,
+    groupSendToken: GroupSendToken | null,
     timestamp: number,
     options: {
       online?: boolean;
@@ -1437,6 +1489,9 @@ export type WebAPIType = {
     headers: BackupPresentationHeadersType
   ) => Promise<GetBackupInfoResponseType>;
   getBackupStream: (options: GetBackupStreamOptionsType) => Promise<Readable>;
+  getEphemeralBackupStream: (
+    options: GetEphemeralBackupStreamOptionsType
+  ) => Promise<Readable>;
   getBackupUploadForm: (
     headers: BackupPresentationHeadersType
   ) => Promise<AttachmentUploadFormResponseType>;
@@ -1450,6 +1505,9 @@ export type WebAPIType = {
   getBackupCDNCredentials: (
     options: GetBackupCDNCredentialsOptionsType
   ) => Promise<GetBackupCDNCredentialsResponseType>;
+  getTransferArchive: (
+    options: GetTransferArchiveOptionsType
+  ) => Promise<TransferArchiveType>;
   setBackupId: (options: SetBackupIdOptionsType) => Promise<void>;
   setBackupSignatureKey: (
     options: SetBackupSignatureKeyOptionsType
@@ -1618,9 +1676,7 @@ export function initialize({
   // for providing network layer API and related functionality.
   // It's important to have a single instance of this class as it holds
   // resources that are shared across all other use cases.
-  const env = resolveLibsignalNetEnvironment(url);
-  log.info(`libsignal net environment resolved to [${Net.Environment[env]}]`);
-  const libsignalNet = new Net.Net(env, getUserAgent(version));
+  const libsignalNet = resolveLibsignalNet(url, version, certificateAuthority);
   libsignalNet.setIpv6Enabled(!disableIPv6);
 
   // Thanks to function-hoisting, we can put this return statement before all of the
@@ -1776,6 +1832,7 @@ export function initialize({
       getGroup,
       getGroupAvatar,
       getGroupCredentials,
+      getEphemeralBackupStream,
       getExternalGroupCredential,
       getGroupFromLink,
       getGroupLog,
@@ -1788,6 +1845,7 @@ export function initialize({
       getProfile,
       getProfileUnauth,
       getProvisioningResource,
+      getTransferArchive,
       getSenderCertificate,
       getSocketStatus,
       getSticker,
@@ -1852,6 +1910,9 @@ export function initialize({
     function _ajax(
       param: AjaxOptionsType & { responseType: 'json' }
     ): Promise<unknown>;
+    function _ajax(
+      param: AjaxOptionsType & { responseType: 'jsonwithdetails' }
+    ): Promise<JSONWithDetailsType>;
 
     async function _ajax(param: AjaxOptionsType): Promise<unknown> {
       if (
@@ -2177,19 +2238,19 @@ export function initialize({
       {
         profileKeyVersion,
         profileKeyCredentialRequest,
-      }: GetProfileCommonOptionsType
+      }: ProfileFetchAuthRequestOptions | ProfileFetchUnauthRequestOptions
     ) {
       let profileUrl = `/${serviceId}`;
-      if (profileKeyVersion !== undefined) {
+      if (profileKeyVersion != null) {
         profileUrl += `/${profileKeyVersion}`;
-        if (profileKeyCredentialRequest !== undefined) {
+        if (profileKeyCredentialRequest != null) {
           profileUrl +=
             `/${profileKeyCredentialRequest}` +
             '?credentialType=expiringProfileKey';
         }
       } else {
         strictAssert(
-          profileKeyCredentialRequest === undefined,
+          profileKeyCredentialRequest == null,
           'getProfileUrl called without version, but with request'
         );
       }
@@ -2199,7 +2260,7 @@ export function initialize({
 
     async function getProfile(
       serviceId: ServiceIdString,
-      options: GetProfileOptionsType
+      options: ProfileFetchAuthRequestOptions
     ) {
       const { profileKeyVersion, profileKeyCredentialRequest, userLanguages } =
         options;
@@ -2218,6 +2279,45 @@ export function initialize({
           profileKeyCredentialRequest
         ),
       })) as ProfileType;
+    }
+
+    async function getTransferArchive({
+      timeout = durations.HOUR,
+      abortSignal,
+    }: GetTransferArchiveOptionsType): Promise<TransferArchiveType> {
+      const timeoutTime = Date.now() + timeout;
+
+      const urlParameters = timeout
+        ? `?timeout=${encodeURIComponent(Math.round(timeout / SECOND))}`
+        : undefined;
+
+      let remainingTime: number;
+      do {
+        remainingTime = Math.max(timeoutTime - Date.now(), 0);
+
+        // eslint-disable-next-line no-await-in-loop
+        const { data, response }: JSONWithDetailsType = await _ajax({
+          call: 'transferArchive',
+          httpType: 'GET',
+          responseType: 'jsonwithdetails',
+          urlParameters,
+          timeout: remainingTime,
+          abortSignal,
+        });
+
+        if (response.status === 200) {
+          return TransferArchiveSchema.parse(data);
+        }
+
+        strictAssert(
+          response.status === 204,
+          'Invalid transfer archive status code'
+        );
+
+        // Timed out, see if we can retry
+      } while (!timeout || remainingTime != null);
+
+      throw new Error('Timed out');
     }
 
     async function getAccountForUsername({
@@ -2258,14 +2358,24 @@ export function initialize({
 
     async function getProfileUnauth(
       serviceId: ServiceIdString,
-      options: GetProfileUnauthOptionsType
+      options: ProfileFetchUnauthRequestOptions
     ) {
       const {
         accessKey,
+        groupSendToken,
         profileKeyVersion,
         profileKeyCredentialRequest,
         userLanguages,
       } = options;
+
+      if (profileKeyVersion != null || profileKeyCredentialRequest != null) {
+        // Without an up-to-date profile key, we won't be able to read the
+        // profile anyways so there's no point in falling back to endorsements.
+        strictAssert(
+          groupSendToken == null,
+          'Should not use endorsements for fetching a versioned profile'
+        );
+      }
 
       return (await _ajax({
         call: 'profile',
@@ -2276,8 +2386,8 @@ export function initialize({
         },
         responseType: 'json',
         unauthenticated: true,
-        accessKey,
-        groupSendToken: undefined,
+        accessKey: accessKey ?? undefined,
+        groupSendToken: groupSendToken ?? undefined,
         redactUrl: _createRedactor(
           serviceId,
           profileKeyVersion,
@@ -2649,6 +2759,7 @@ export function initialize({
       const capabilities: CapabilitiesUploadType = {
         deleteSync: true,
         versionedExpirationTimer: true,
+        ssre2: true,
       };
 
       const jsonData = {
@@ -2704,6 +2815,7 @@ export function initialize({
       const capabilities: CapabilitiesUploadType = {
         deleteSync: true,
         versionedExpirationTimer: true,
+        ssre2: true,
       };
 
       const jsonData = {
@@ -2875,6 +2987,25 @@ export function initialize({
       });
     }
 
+    async function getEphemeralBackupStream({
+      cdn,
+      key,
+      downloadOffset,
+      onProgress,
+      abortSignal,
+    }: GetEphemeralBackupStreamOptionsType): Promise<Readable> {
+      return _getAttachment({
+        cdnNumber: cdn,
+        cdnPath: `/attachments/${encodeURIComponent(key)}`,
+        redactor: _createRedactor(key),
+        options: {
+          downloadOffset,
+          onProgress,
+          abortSignal,
+        },
+      });
+    }
+
     async function getBackupMediaUploadForm(
       headers: BackupPresentationHeadersType
     ) {
@@ -2991,14 +3122,18 @@ export function initialize({
     }
 
     async function setBackupId({
-      backupAuthCredentialRequest,
+      messagesBackupAuthCredentialRequest,
+      mediaBackupAuthCredentialRequest,
     }: SetBackupIdOptionsType) {
       await _ajax({
         call: 'setBackupId',
         httpType: 'PUT',
         jsonData: {
-          backupAuthCredentialRequest: Bytes.toBase64(
-            backupAuthCredentialRequest
+          messagesBackupAuthCredentialRequest: Bytes.toBase64(
+            messagesBackupAuthCredentialRequest
+          ),
+          mediaBackupAuthCredentialRequest: Bytes.toBase64(
+            mediaBackupAuthCredentialRequest
           ),
         },
       });
@@ -3041,7 +3176,6 @@ export function initialize({
               mediaId,
               hmacKey,
               encryptionKey,
-              iv,
             } = item;
 
             return {
@@ -3053,7 +3187,6 @@ export function initialize({
               mediaId,
               hmacKey: Bytes.toBase64(hmacKey),
               encryptionKey: Bytes.toBase64(encryptionKey),
-              iv: Bytes.toBase64(iv),
             };
           }),
         },
@@ -3273,11 +3406,13 @@ export function initialize({
       timestamp: number,
       {
         accessKey,
+        groupSendToken,
         online,
         urgent = true,
         story = false,
       }: {
-        accessKey?: string;
+        accessKey: string | null;
+        groupSendToken: GroupSendToken | null;
         online?: boolean;
         story?: boolean;
         urgent?: boolean;
@@ -3297,8 +3432,8 @@ export function initialize({
         jsonData,
         responseType: 'json',
         unauthenticated: true,
-        accessKey,
-        groupSendToken: undefined,
+        accessKey: accessKey ?? undefined,
+        groupSendToken: groupSendToken ?? undefined,
       });
     }
 
@@ -3334,8 +3469,8 @@ export function initialize({
 
     async function sendWithSenderKey(
       data: Uint8Array,
-      accessKeys: Uint8Array | undefined,
-      groupSendToken: GroupSendToken | undefined,
+      accessKeys: Uint8Array | null,
+      groupSendToken: GroupSendToken | null,
       timestamp: number,
       {
         online,
@@ -3360,7 +3495,7 @@ export function initialize({
         responseType: 'json',
         unauthenticated: true,
         accessKey: accessKeys != null ? Bytes.toBase64(accessKeys) : undefined,
-        groupSendToken,
+        groupSendToken: groupSendToken ?? undefined,
       });
       const parseResult = safeParseUnknown(
         multiRecipient200ResponseSchema,

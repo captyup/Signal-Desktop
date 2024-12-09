@@ -50,6 +50,8 @@ import { BackupAPI } from './api';
 import { validateBackup } from './validator';
 import { BackupType } from './types';
 import { UnsupportedBackupVersion } from './errors';
+import { ToastType } from '../../types/Toast';
+import { isAlpha } from '../../util/version';
 
 export { BackupType };
 
@@ -385,6 +387,13 @@ export class BackupsService {
       log.info('importBackup: finished...');
     } catch (error) {
       log.info(`importBackup: failed, error: ${Errors.toLogFormat(error)}`);
+
+      if (isAlpha(window.getVersion())) {
+        window.reduxActions.toast.showToast({
+          toastType: ToastType.FailedToImportBackup,
+        });
+      }
+
       throw error;
     } finally {
       this.isRunning = false;
@@ -477,18 +486,25 @@ export class BackupsService {
       }
 
       let stream: Readable;
-      if (ephemeralKey == null) {
-        stream = await this.api.download({
-          downloadOffset,
-          onProgress: onDownloadProgress,
-          abortSignal: controller.signal,
-        });
-      } else {
-        stream = await this.api.downloadEphemeral({
-          downloadOffset,
-          onProgress: onDownloadProgress,
-          abortSignal: controller.signal,
-        });
+      try {
+        if (ephemeralKey == null) {
+          stream = await this.api.download({
+            downloadOffset,
+            onProgress: onDownloadProgress,
+            abortSignal: controller.signal,
+          });
+        } else {
+          stream = await this.api.downloadEphemeral({
+            downloadOffset,
+            onProgress: onDownloadProgress,
+            abortSignal: controller.signal,
+          });
+        }
+      } catch (error) {
+        if (controller.signal.aborted) {
+          return false;
+        }
+        throw error;
       }
 
       if (controller.signal.aborted) {

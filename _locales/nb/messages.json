@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Vilkår og personvernerklæring"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1126,6 +1123,24 @@
   },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon som viser at bildet har bildetekst"
+  },
+  "icu:imageOpenAlt": {
+    "messageformat": "Åpne dette vedlegget i en større visning"
+  },
+  "icu:startDownload": {
+    "messageformat": "Start nedlastingen"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Avbryt nedlastingen"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Prøv å laste ned på nytt"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Prøv på nytt"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} element} other {{count,number} elementer}}"
   },
   "icu:save": {
     "messageformat": "Lagre"
@@ -2727,7 +2742,7 @@
     "messageformat": "{remaining, plural, one {{ringer} ringer deg, {first}, {second} og {remaining,number} annen} other {{ringer} ringer deg, {first}, {second} og {remaining,number} andre}}"
   },
   "icu:outgoingCallConnecting": {
-    "messageformat": "Kobler til…"
+    "messageformat": "Kobler til …"
   },
   "icu:outgoingCallRinging": {
     "messageformat": "Det ringer …"
@@ -3607,6 +3622,9 @@
   },
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Meldingene dine kunne ikke overføres. Sjekk internettilkoblingen og prøv igjen."
+  },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Meldingene dine kunne ikke overføres på grunn av en feil. Prøv igjen ved å koble dekstopen til på nytt."
   },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Prøv på nytt"
@@ -5764,13 +5782,13 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Det nye filtreringsikonet ved siden av søkefeltet gjør det enkelt å finne uleste samtaler."
-  },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "I denne oppdateringen har vi rettet opp i en feil med skjermdeling i macOS Sonoma."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Når du velger «Filtrer etter ulest», fremheves den valgte samtalen, og samtalene oppdateres ettersom du mottar og åpner meldinger."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Nå kan du se hvor langt nedlastingen har kommet når du laster ned et vedlegg. Du kan også sette nedlastinger på pause."
   }
 }

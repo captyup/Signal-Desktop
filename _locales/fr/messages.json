@@ -50,9 +50,6 @@
   "icu:privacyPolicy": {
     "messageformat": "Conditions générales d’utilisation et règles de confidentialité"
   },
-  "icu:appleSilicon": {
-    "messageformat": "Apple silicon"
-  },
   "icu:About__AppEnvironment": {
     "messageformat": "{appEnv}"
   },
@@ -1127,6 +1124,24 @@
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icône qui indique que cette image a une légende"
   },
+  "icu:imageOpenAlt": {
+    "messageformat": "Agrandir l'aperçu de cette pièce jointe"
+  },
+  "icu:startDownload": {
+    "messageformat": "Lancer le téléchargement"
+  },
+  "icu:cancelDownload": {
+    "messageformat": "Annuler le téléchargement"
+  },
+  "icu:retryDownload": {
+    "messageformat": "Reprendre le téléchargement"
+  },
+  "icu:retryDownloadShort": {
+    "messageformat": "Réessayer"
+  },
+  "icu:downloadNItems": {
+    "messageformat": "{count, plural, one {{count,number} élément} other {{count,number} éléments}}"
+  },
   "icu:save": {
     "messageformat": "Enregistrer"
   },
@@ -2163,7 +2178,7 @@
     "messageformat": "Animal"
   },
   "icu:EmojiPicker__button--food": {
-    "messageformat": "Nourriture"
+    "messageformat": "Nourriture et boissons"
   },
   "icu:EmojiPicker__button--activity": {
     "messageformat": "Activité"
@@ -2475,7 +2490,7 @@
     "messageformat": "Supprimer la réaction"
   },
   "icu:Reactions--error": {
-    "messageformat": "Échec d’envoi de la réaction. Veuillez réessayer."
+    "messageformat": "Impossible d'envoyer la réaction. Veuillez réessayer."
   },
   "icu:Reactions--more": {
     "messageformat": "Plus"
@@ -2628,7 +2643,7 @@
     "messageformat": "Poursuivre votre conversation avec ce groupe et partager vos nom et photo avec ses membres ? <learnMoreLink>En savoir plus.</learnMoreLink>"
   },
   "icu:MessageRequests--profile-sharing--direct--link": {
-    "messageformat": "Poursuivre cette conversation avec {firstName} et partager vos nom et photo avec cette personne ? <learnMoreLink>En savoir plus</learnMoreLink>"
+    "messageformat": "Poursuivre cette conversation et partager votre nom et votre photo avec {firstName} ? <learnMoreLink>En savoir plus</learnMoreLink>"
   },
   "icu:ConversationHero--members": {
     "messageformat": "{count, plural, one {1 membre} other {{count,number} membres}}"
@@ -3608,6 +3623,9 @@
   "icu:BackupImportScreen__error__body": {
     "messageformat": "Impossible de transférer vos messages pour le moment. Vérifiez votre connexion Internet et réessayez."
   },
+  "icu:BackupImportScreen__error-fatal__body": {
+    "messageformat": "Une erreur nous empêche de transférer vos messages. Veuillez associer cet ordinateur de nouveau et réessayer."
+  },
   "icu:BackupImportScreen__error__confirm": {
     "messageformat": "Réessayer"
   },
@@ -3699,10 +3717,10 @@
     "messageformat": "Supprimer en tant qu’administrateur"
   },
   "icu:ContactModal--make-admin": {
-    "messageformat": "Nommer administrateur"
+    "messageformat": "Accorder des droits d'admin"
   },
   "icu:ContactModal--make-admin-info": {
-    "messageformat": "{contact} pourra modifier ce groupe et ses membres."
+    "messageformat": "{contact} pourra apporter des modifications à ce groupe, y ajouter et en supprimer des membres."
   },
   "icu:ContactModal--rm-admin-info": {
     "messageformat": "Supprimer {contact} en tant qu’administrateur du groupe ?"
@@ -4212,7 +4230,7 @@
     "messageformat": "Réinitialiser toutes les couleurs de la conversation"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Réinitialiser à la valeur par défaut"
+    "messageformat": "Revenir aux couleurs par défaut"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Réinitialiser"
@@ -4485,19 +4503,19 @@
     "messageformat": "Vos amis peuvent désormais vous contacter grâce à votre nom d’utilisateur facultatif, ce qui vous évite de partager votre numéro de téléphone."
   },
   "icu:Bio--speak-freely": {
-    "messageformat": "Exprimez-vous librement"
+    "messageformat": "Oui à la liberté d'expression !"
   },
   "icu:Bio--encrypted": {
-    "messageformat": "Chiffré"
+    "messageformat": "Pour vivre heureux, vivons chiffrés !"
   },
   "icu:Bio--free-to-chat": {
-    "messageformat": "Prêt à discuter"
+    "messageformat": "Mode papotage activé !"
   },
   "icu:Bio--coffee-lover": {
-    "messageformat": "Amateur de café"
+    "messageformat": "Jamais sans mon café !"
   },
   "icu:Bio--taking-break": {
-    "messageformat": "Je prend une pause"
+    "messageformat": "Une pause s'impose !"
   },
   "icu:ProfileEditorModal--profile": {
     "messageformat": "Profil"
@@ -4569,7 +4587,7 @@
     "messageformat": "Niveau de zoom"
   },
   "icu:Preferences__link-previews--title": {
-    "messageformat": "Générer des aperçus de lien"
+    "messageformat": "Générer des aperçus de liens"
   },
   "icu:Preferences__link-previews--description": {
     "messageformat": "Pour modifier ce paramètre, ouvrez l’appli Signal sur votre appareil mobile et rendez-vous dans Paramètres > Conversations"
@@ -5358,7 +5376,7 @@
     "messageformat": "Ajouter un lien pour les spectateurs de votre Story"
   },
   "icu:Stories__failed-send--full": {
-    "messageformat": "Impossible d’envoyer la story"
+    "messageformat": "Impossible d'envoyer la story"
   },
   "icu:Stories__failed-send--partial": {
     "messageformat": "Impossible d’envoyer cette story à certains destinataires."
@@ -5406,7 +5424,7 @@
     "messageformat": "En savoir plus"
   },
   "icu:EditUsernameModalBody__learn-more__title": {
-    "messageformat": "Qu’est-ce que ce numéro ?"
+    "messageformat": "Que signifient ces chiffres ?"
   },
   "icu:EditUsernameModalBody__learn-more__body": {
     "messageformat": "Ces chiffres servent à protéger la confidentialité de votre nom d'utilisateur, vous évitant ainsi de recevoir des messages indésirables. Ne partagez votre nom d’utilisateur qu’avec les personnes et les groupes avec lesquels vous voulez discuter. Si vous changez de nom d’utilisateur, une nouvelle série de chiffres vous sera attribuée."
@@ -5764,13 +5782,13 @@
     "messageformat": "Petits ajustements, corrections de bugs et améliorations des performances. Nous vous remercions d’utiliser Signal !",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.35--0": {
-    "messageformat": "Vous aviez du mal à retrouver vos messages non lus ? La nouvelle icône de filtre placée près du champ de recherche vous facilite la tâche ! Ensuite, libre à vous d'y répondre, de les ignorer ou de les marquer comme non lus pour y revenir plus tard."
-  },
   "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message."
+    "messageformat": "Sur macOS Sonoma, si on commençait par refuser le partage d'écran avant de se raviser, le partage ne fonctionnait pas correctement. Ce bug est maintenant corrigé. Partager son écran sans message d'erreur, c'est quand même bien mieux."
   },
   "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another."
+    "messageformat": "Le filtre \"Conversations non lues\" affiche les messages non ouverts ou marqués comme non lus. La liste des conversations non lues se met à jour automatiquement dès que vous recevez ou lisez de nouveaux messages."
+  },
+  "icu:WhatsNew__v7.37--0": {
+    "messageformat": "Avec cette nouvelle version, vous pouvez suivre la progression de vos téléchargements lorsque vous recevez des pièces jointes. Mieux encore : vous pouvez suspendre les téléchargements en cours et les reprendre plus tard. Dans le TGV ou à l'hôtel ? La connexion Internet ou le Wi-Fi n'arrivent pas à suivre le rythme ? Il vous suffit de reprendre le téléchargement là où vous l'aviez mis en pause."
   }
 }

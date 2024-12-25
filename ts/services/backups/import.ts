@@ -118,6 +118,7 @@ import { getEnvironment, isTestEnvironment } from '../../environment';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
 import { isAlpha } from '../../util/version';
 import { ToastType } from '../../types/Toast';
+import { isConversationAccepted } from '../../util/isConversationAccepted';
 
 const MAX_CONCURRENCY = 10;
 
@@ -299,8 +300,9 @@ export class BackupImportStream extends Writable {
   override async _final(done: (error?: Error) => void): Promise<void> {
     try {
       // Finish saving remaining conversations/messages
-      await this.flushConversations();
+      // Save messages first since they depend on conversations in memory
       await this.flushMessages();
+      await this.flushConversations();
       log.info(`${this.logId}: flushed messages and conversations`);
 
       // Store sticker packs and schedule downloads
@@ -317,6 +319,10 @@ export class BackupImportStream extends Writable {
 
       // Load identity keys we just saved.
       await window.storage.protocol.hydrateCaches();
+
+      // Load all data into redux (need to do this before updating a
+      // conversation's last message, which uses redux selectors)
+      await loadAllAndReinitializeRedux();
 
       const allConversations = window.ConversationController.getAll();
 
@@ -351,8 +357,6 @@ export class BackupImportStream extends Writable {
           .map(([, id]) => id)
       );
 
-      await loadAllAndReinitializeRedux();
-
       await window.storage.put(
         'backupMediaDownloadTotalBytes',
         await DataReader.getSizeOfPendingBackupAttachmentDownloadJobs()
@@ -374,7 +378,6 @@ export class BackupImportStream extends Writable {
             toastType: ToastType.FailedToImportBackup,
           });
         }
-        // TODO (DESKTOP-7934): throw in tests if we cannot process a frame
       } else {
         log.info(`${this.logId}: successfully processed all frames.`);
       }
@@ -567,11 +570,14 @@ export class BackupImportStream extends Writable {
       }
 
       if (hasAttachmentDownloads(attributes)) {
-        attachmentDownloadJobPromises.push(
-          queueAttachmentDownloads(attributes, {
-            source: AttachmentDownloadSource.BACKUP_IMPORT,
-          })
-        );
+        const conversation = this.conversations.get(attributes.conversationId);
+        if (conversation && isConversationAccepted(conversation)) {
+          attachmentDownloadJobPromises.push(
+            queueAttachmentDownloads(attributes, {
+              source: AttachmentDownloadSource.BACKUP_IMPORT,
+            })
+          );
+        }
       }
     }
     await Promise.allSettled(attachmentDownloadJobPromises);
@@ -939,6 +945,10 @@ export class BackupImportStream extends Writable {
       secretParams: Bytes.toBase64(secretParams),
       publicParams: Bytes.toBase64(publicParams),
       profileSharing: group.whitelisted === true,
+      messageRequestResponseType:
+        group.whitelisted === true
+          ? SignalService.SyncMessage.MessageRequestResponse.Type.ACCEPT
+          : undefined,
       hideStory: group.hideStory === true,
       storySendMode,
       avatar: avatarUrl
@@ -948,8 +958,8 @@ export class BackupImportStream extends Writable {
         : undefined,
 
       // Snapshot
-      name: dropNull(title?.title),
-      description: dropNull(description?.descriptionText),
+      name: dropNull(title?.title)?.trim(),
+      description: dropNull(description?.descriptionText)?.trim(),
       expireTimer: expirationTimerS
         ? DurationInSeconds.fromSeconds(expirationTimerS)
         : undefined,
@@ -1376,7 +1386,7 @@ export class BackupImportStream extends Writable {
     if (item.revisions?.length) {
       strictAssert(
         item.standardMessage,
-        'Only standard message can have revisions'
+        `${logId}: Only standard message can have revisions`
       );
 
       const history = await this.fromRevisions(attributes, item.revisions);
@@ -1385,7 +1395,7 @@ export class BackupImportStream extends Writable {
       // Update timestamps on the parent message
       const oldest = history.at(-1);
 
-      assertDev(oldest != null, 'History is non-empty');
+      assertDev(oldest != null, `${logId}: History is non-empty`);
 
       attributes.editMessageReceivedAt = attributes.received_at;
       attributes.editMessageReceivedAtMs = attributes.received_at_ms;
@@ -1695,15 +1705,14 @@ export class BackupImportStream extends Writable {
 
     const authorConvo = this.recipientIdToConvo.get(quote.authorId.toNumber());
     strictAssert(authorConvo !== undefined, 'author conversation not found');
-    strictAssert(
-      isAciString(authorConvo.serviceId),
-      'must have ACI for authorId in quote'
-    );
 
     return {
       id: getTimestampFromLong(quote.targetSentTimestamp) || null,
       referencedMessageNotFound: quote.targetSentTimestamp == null,
-      authorAci: authorConvo.serviceId,
+      authorAci: isAciString(authorConvo.serviceId)
+        ? authorConvo.serviceId
+        : undefined,
+      author: isAciString(authorConvo.serviceId) ? undefined : authorConvo.e164,
       text: dropNull(quote.text?.body),
       bodyRanges: this.fromBodyRanges(quote.text),
       isGiftBadge: quote.type === Backups.Quote.Type.GIFT_BADGE,
@@ -1892,6 +1901,7 @@ export class BackupImportStream extends Writable {
       return {
         message: {
           isErased: true,
+          deletedForEveryone: true,
         },
         additionalMessages: [],
       };
@@ -1906,7 +1916,6 @@ export class BackupImportStream extends Writable {
           sticker: { emoji, packId, packKey, stickerId, data },
         },
       } = chatItem;
-      strictAssert(emoji != null, 'stickerMessage must have an emoji');
       strictAssert(
         packId?.length === STICKERPACK_ID_BYTE_LEN,
         'stickerMessage must have a valid pack id'
@@ -1920,7 +1929,7 @@ export class BackupImportStream extends Writable {
       return {
         message: {
           sticker: {
-            emoji,
+            emoji: dropNull(emoji),
             packId: Bytes.toHex(packId),
             packKey: Bytes.toBase64(packKey),
             stickerId,
@@ -2165,7 +2174,7 @@ export class BackupImportStream extends Writable {
         : undefined;
 
       let callId: string;
-      if (callIdLong) {
+      if (callIdLong?.toNumber()) {
         callId = callIdLong.toString();
       } else {
         // Legacy calls may not have a callId, so we generate one locally
@@ -2217,7 +2226,7 @@ export class BackupImportStream extends Writable {
       } = updateMessage.individualCall;
 
       let callId: string;
-      if (callIdLong) {
+      if (callIdLong?.toNumber()) {
         callId = callIdLong.toString();
       } else {
         // Legacy calls may not have a callId, so we generate one locally
@@ -2453,7 +2462,9 @@ export class BackupImportStream extends Writable {
         }
         details.push({
           type: 'pending-add-one',
-          serviceId: fromAciObject(Aci.fromUuidBytes(inviteeServiceId)),
+          serviceId: fromServiceIdObject(
+            ServiceId.parseFromServiceIdBinary(Buffer.from(inviteeServiceId))
+          ),
         });
       }
       if (update.groupUnknownInviteeUpdate) {
@@ -2983,9 +2994,14 @@ export class BackupImportStream extends Writable {
     state,
     callTimestamp,
   }: Backups.IAdHocCall): Promise<void> {
-    strictAssert(callIdLong, 'AdHocCall must have a callId');
+    let callId: string;
+    if (callIdLong?.toNumber()) {
+      callId = callIdLong.toString();
+    } else {
+      // Legacy calls may not have a callId, so we generate one locally
+      callId = generateUuid();
+    }
 
-    const callId = callIdLong.toString();
     const logId = `fromAdhocCall(${callId.slice(-2)})`;
 
     strictAssert(callTimestamp, `${logId}: must have a valid timestamp`);

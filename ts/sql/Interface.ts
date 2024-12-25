@@ -845,7 +845,10 @@ type WritableInterface = {
 
   removeSyncTaskById: (id: string) => void;
   saveSyncTasks: (tasks: Array<SyncTaskType>) => void;
-  getAllSyncTasks: () => Array<SyncTaskType>;
+  dequeueOldestSyncTasks: (previousRowId: number | null) => {
+    tasks: Array<SyncTaskType>;
+    lastRowId: number | null;
+  };
 
   getAllUnprocessedIds: () => Array<string>;
   getUnprocessedByIdsAndIncrementAttempts: (
@@ -951,6 +954,10 @@ type WritableInterface = {
 
   insertJob(job: Readonly<StoredJob>): void;
   deleteJob(id: string): void;
+
+  disableMessageInsertTriggers(): void;
+  enableMessageInsertTriggersAndBackfill(): void;
+  ensureMessageInsertTriggersAreEnabled(): void;
 
   processGroupCallRingCancellation(ringId: bigint): void;
   cleanExpiredGroupCallRingCancellations(): void;

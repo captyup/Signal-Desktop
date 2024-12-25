@@ -152,6 +152,7 @@ export type StorageAccessType = {
   backupMediaDownloadPaused: boolean;
   backupMediaDownloadBannerDismissed: boolean;
   backupMediaDownloadIdle: boolean;
+  messageInsertTriggersDisabled: boolean;
   setBackupMessagesSignatureKey: boolean;
   setBackupMediaSignatureKey: boolean;
   lastReceivedAtCounter: number;
@@ -189,12 +190,14 @@ export type StorageAccessType = {
   needOrphanedAttachmentCheck: boolean;
   observedCapabilities: {
     deleteSync?: true;
-    versionedExpirationTimer?: true;
     ssre2?: true;
 
     // Note: Upon capability deprecation - change the value type to `never` and
     // remove it in `ts/background.ts`
   };
+  releaseNotesNextFetchTime: number;
+  releaseNotesVersionWatermark: string;
+  releaseNotesPreviousManifestHash: string;
 
   // If present - we are downloading backup
   backupDownloadPath: string;
@@ -219,6 +222,7 @@ export type StorageAccessType = {
   formattingWarningShown: never;
   hasRegisterSupportForUnauthenticatedDelivery: never;
   masterKeyLastRequestTime: never;
+  versionedExpirationTimer: never;
 };
 
 export type StorageInterface = {

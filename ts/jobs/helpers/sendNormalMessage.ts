@@ -54,6 +54,7 @@ import {
   getChangesForPropAtTimestamp,
 } from '../../util/editHelpers';
 import { getMessageSentTimestamp } from '../../util/getMessageSentTimestamp';
+import { isSignalConversation } from '../../util/isSignalConversation';
 import { isBodyTooLong, trimBody } from '../../util/longAttachment';
 
 const MAX_CONCURRENT_ATTACHMENT_UPLOADS = 5;
@@ -84,6 +85,13 @@ export async function sendNormalMessage(
   if (messageConversation !== conversation) {
     log.error(
       `Message conversation '${messageConversation?.idForLogging()}' does not match job conversation ${conversation.idForLogging()}`
+    );
+    return;
+  }
+
+  if (isSignalConversation(messageConversation)) {
+    log.error(
+      `Message conversation '${messageConversation?.idForLogging()}' is the Signal serviceId, not sending`
     );
     return;
   }

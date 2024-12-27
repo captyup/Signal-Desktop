@@ -7,7 +7,7 @@ import type { ListRowRenderer } from 'react-virtualized';
 import classNames from 'classnames';
 import { get, pick } from 'lodash';
 
-import { Avatar, Button, Card, Flex, Typography } from 'antd';
+import { Avatar, Button, Card, Col, Flex, Typography } from 'antd';
 import { missingCaseError } from '../util/missingCaseError';
 import { assertDev } from '../util/assert';
 import type { ParsedE164Type } from '../util/libphonenumberInstance';
@@ -217,12 +217,25 @@ const NORMAL_ROW_HEIGHT = 76;
 const SELECT_ROW_HEIGHT = 52;
 const HEADER_ROW_HEIGHT = 40;
 const cardStyle: React.CSSProperties = {
-  height: '30vh',
+  border: 'unset',
+  backgroundColor: '#fdf7e8',
+};
+const colStyle: React.CSSProperties = {
+  padding: 0,
 };
 const imgStyle: React.CSSProperties = {
   display: 'block',
-  width: '30vh',
+  width: '100%',
   height: '30vh',
+  borderRadius: '5px 5px 0 0',
+  objectFit: 'cover',
+};
+const nameStyle: React.CSSProperties = {
+  fontSize: '3rem',
+  fontWeight: '500',
+  margin: '.5rem 0',
+  textAlign: 'center',
+  letterSpacing: '.5rem',
 };
 function PersonCard({ name, imgUrl, onClick }) {
   return (
@@ -232,12 +245,16 @@ function PersonCard({ name, imgUrl, onClick }) {
       styles={{ body: { padding: 0, overflow: 'hidden' } }}
       onClick={onClick}
     >
-      <Flex justify="flex-start">
-        <img alt="avatar" src={imgUrl} style={imgStyle} />
-        <Flex vertical align="center" justify="center" style={{ padding: 32 }}>
-          <Typography.Title level={1}>{name}</Typography.Title>
-        </Flex>
-      </Flex>
+      <Col style={colStyle}>
+        {imgUrl ? (
+          <img alt="avatar" src={imgUrl} style={imgStyle} />
+        ) : (
+          <div style={imgStyle} />
+        )}
+      </Col>
+      <Col style={colStyle}>
+        <h1 style={nameStyle}>{name}</h1>
+      </Col>
     </Card>
   );
 }

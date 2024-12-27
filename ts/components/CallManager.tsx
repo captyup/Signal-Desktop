@@ -6,7 +6,7 @@ import { noop } from 'lodash';
 import type { VideoFrameSource } from '@signalapp/ringrtc';
 import { CallNeedPermissionScreen } from './CallNeedPermissionScreen';
 import { CallScreen } from './CallScreen';
-import { CallingLobby } from './CallingLobby';
+import { LuciditvCallingLobby } from './LuciditvCallingLobby';
 import { CallingParticipantsList } from './CallingParticipantsList';
 import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal';
 import { CallingPip } from './CallingPip';
@@ -358,7 +358,7 @@ function ActiveCallManager({
   if (showCallLobby) {
     return (
       <>
-        <CallingLobby
+        <LuciditvCallingLobby
           availableCameras={availableCameras}
           callMode={activeCall.callMode}
           conversation={conversation}

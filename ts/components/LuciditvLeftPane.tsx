@@ -31,12 +31,12 @@ import type { PreferredBadgeSelectorType } from '../state/selectors/badges';
 import { usePrevious } from '../hooks/usePrevious';
 import { missingCaseError } from '../util/missingCaseError';
 import type { DurationInSeconds } from '../util/durations';
-import { WidthBreakpoint, getNavSidebarWidthBreakpoint } from './_util';
+import type { WidthBreakpoint } from './_util';
+import { getNavSidebarWidthBreakpoint } from './_util';
 import * as KeyboardLayout from '../services/keyboardLayout';
 import type { LookupConversationWithoutServiceIdActionsType } from '../util/lookupConversationWithoutServiceId';
 import type { ShowConversationType } from '../state/ducks/conversations';
 import type { PropsType as UnsupportedOSDialogPropsType } from '../state/smart/UnsupportedOSDialog';
-
 
 import { ContactCheckboxDisabledReason } from './conversationList/ContactCheckbox';
 import type { PropsType as DialogExpiredBuildPropsType } from './DialogExpiredBuild';
@@ -685,6 +685,19 @@ export function LuciditvLeftPane({
     modeSpecificProps.mode === LeftPaneMode.ChooseGroupMembers ||
     modeSpecificProps.mode === LeftPaneMode.SetGroupMetadata;
 
+  const leftPaneStyle: React.CSSProperties = {
+    backgroundColor: '#809d77',
+  };
+
+  const listWrapperStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '3rem',
+  };
+  const listStyle: React.CSSProperties = {
+    maxWidth: '1280px',
+    width: '100%',
+  };
   return (
     <LuciditvNavSidebar
       title={i18n('icu:LeftPane--chats')}
@@ -706,7 +719,7 @@ export function LuciditvLeftPane({
             icon={<span className="module-left-pane__startComposingIcon" />}
             onClick={startComposing}
           />
-{/*           <ContextMenu
+          {/*           <ContextMenu
             i18n={i18n}
             menuOptions={[
               {
@@ -744,8 +757,9 @@ export function LuciditvLeftPane({
           modeSpecificProps.mode === LeftPaneMode.Compose &&
             'module-left-pane--mode-compose'
         )}
+        style={leftPaneStyle}
       >
-{/*         <div className="module-left-pane__header">
+        {/*         <div className="module-left-pane__header">
           {helper.getHeaderContents({
             i18n,
             showInbox,
@@ -753,7 +767,7 @@ export function LuciditvLeftPane({
             showChooseGroupMembers,
           })}
         </div> */}
-{/*         {(widthBreakpoint === WidthBreakpoint.Wide ||
+        {/*         {(widthBreakpoint === WidthBreakpoint.Wide ||
           modeSpecificProps.mode !== LeftPaneMode.Inbox) && (
           <NavSidebarSearchHeader>
             {helper.getSearchInput({
@@ -783,7 +797,10 @@ export function LuciditvLeftPane({
         </div>
         {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
         <div className="module-left-pane__list--measure" ref={measureRef}>
-          <div className="module-left-pane__list--wrapper">
+          <div
+            className="module-left-pane__list--wrapper"
+            style={listWrapperStyle}
+          >
             <div
               aria-live="polite"
               className="module-left-pane__list"
@@ -791,6 +808,7 @@ export function LuciditvLeftPane({
               key={listKey}
               role="presentation"
               tabIndex={-1}
+              style={listStyle}
             >
               <LuciditvConversationList
                 dimensions={measureSize ?? undefined}

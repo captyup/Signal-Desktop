@@ -82,8 +82,8 @@ export function LuciditvListView({
       style={style}
       tabIndex={-1}
     /> */
-    <Flex wrap gap="small" style={{ overflow: 'scroll', height: '100vh' }}>
-      <AntRow gutter={[16, 16]} justify="center">
+    <Flex wrap gap="small">
+      <AntRow gutter={[16, 16]} style={{ width: '100%' }}>
         {[...Array(rowCount)]
           .map((x, i) => {
             return rowRenderer({
@@ -102,7 +102,7 @@ export function LuciditvListView({
           .filter(x => x !== undefined)
           .map((x, i) => {
             return (
-              <Col key={`c-${i}`} xs={24} sm={12}>
+              <Col key={`c-${i}`} xs={24} sm={6}>
                 {x}
               </Col>
             );

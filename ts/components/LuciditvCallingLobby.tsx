@@ -160,20 +160,26 @@ export function LuciditvCallingLobby({
   );
 
   // Auto Enable Video
-  const IsEnableVideo: boolean = availableCameras.length > 0;
+  const isEnableVideo: boolean = availableCameras.length > 0;
   const enableVideo = React.useCallback((): void => {
     setLocalVideo({ enabled: true });
   }, [setLocalVideo]);
 
   React.useEffect(() => {
-    if (IsEnableVideo) {
-      setIsCallConnecting(true);
-      onJoinCall();
-      setTimeout(() => {
-        enableVideo();
-      }, 500);
+    if (!isEnableVideo) {
+      return;
     }
-  }, [IsEnableVideo, enableVideo, setIsCallConnecting, onJoinCall]);
+    setIsCallConnecting(true);
+    onJoinCall();
+    const timer = setTimeout(() => {
+      enableVideo();
+    }, 500);
+    return () => {
+      if (timer && !isEnableVideo) {
+        clearTimeout(timer);
+      }
+    };
+  }, [isEnableVideo, enableVideo, setIsCallConnecting, onJoinCall]);
 
   // eslint-disable-next-line no-nested-ternary
   const videoButtonType = hasLocalVideo

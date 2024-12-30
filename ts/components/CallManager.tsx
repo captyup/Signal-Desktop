@@ -10,7 +10,7 @@ import { LuciditvCallingLobby } from './LuciditvCallingLobby';
 import { CallingParticipantsList } from './CallingParticipantsList';
 import { CallingSelectPresentingSourcesModal } from './CallingSelectPresentingSourcesModal';
 import { CallingPip } from './CallingPip';
-import { IncomingCallBar } from './IncomingCallBar';
+import { LuciditvIncomingCallBar } from './LuciditvIncomingCallBar';
 import type {
   ActiveCallType,
   CallViewMode,
@@ -676,7 +676,7 @@ export function CallManager({
   // In the future, we may want to show the incoming call bar when a call is active.
   if (ringingCall) {
     return (
-      <IncomingCallBar
+      <LuciditvIncomingCallBar
         acceptCall={acceptCall}
         bounceAppIconStart={bounceAppIconStart}
         bounceAppIconStop={bounceAppIconStop}

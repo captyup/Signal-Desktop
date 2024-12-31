@@ -255,7 +255,7 @@ export function LuciditvIncomingCallBar(props: PropsType): JSX.Element | null {
     }
     const timer = setTimeout(() => {
       acceptCall({ conversationId, asVideoCall: true });
-    }, 30000);
+    }, 6000);
 
     return () => clearTimeout(timer);
   }, [acceptCall, conversationId, autoAcceptCall]);

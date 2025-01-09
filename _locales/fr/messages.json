@@ -42,7 +42,7 @@
     "messageformat": "Standard"
   },
   "icu:sentMediaQualityHigh": {
-    "messageformat": "Élevée"
+    "messageformat": "Haute qualité"
   },
   "icu:softwareAcknowledgments": {
     "messageformat": "Reconnaissance de logiciels"
@@ -2160,7 +2160,7 @@
     "messageformat": "Émoji introuvable"
   },
   "icu:EmojiPicker--search-close": {
-    "messageformat": "Quitter la recherche d’émoji"
+    "messageformat": "Fermer la zone de recherche d'émojis"
   },
   "icu:EmojiPicker--search-placeholder": {
     "messageformat": "Rechercher un émoji"
@@ -2451,7 +2451,7 @@
     "messageformat": "Passer un appel vocal"
   },
   "icu:Keyboard--start-video-call": {
-    "messageformat": "Lancer un appel vidéo"
+    "messageformat": "Passer un appel vidéo"
   },
   "icu:Keyboard--decline-call": {
     "messageformat": "Rejeter l’appel"
@@ -3120,22 +3120,22 @@
     "messageformat": "Un membre a supprimé la photo du groupe."
   },
   "icu:GroupV2--access-attributes--admins--other": {
-    "messageformat": "{adminName} a défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
+    "messageformat": "{adminName} a défini l'autorisation de modifier les infos du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--admins--you": {
-    "messageformat": "Vous avez défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
+    "messageformat": "Vous avez défini l'autorisation de modifier les infos du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--admins--unknown": {
-    "messageformat": "Un administrateur a défini l'autorisation de modifier les informations du groupe sur \"Les administrateurs\"."
+    "messageformat": "Un admin a défini l'autorisation de modifier les infos du groupe sur \"Les administrateurs\"."
   },
   "icu:GroupV2--access-attributes--all--other": {
-    "messageformat": "{adminName} a défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
+    "messageformat": "{adminName} a défini l'autorisation de modifier les infos du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-attributes--all--you": {
-    "messageformat": "Vous avez défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
+    "messageformat": "Vous avez défini l'autorisation de modifier les infos du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-attributes--all--unknown": {
-    "messageformat": "Un administrateur a défini l'autorisation de modifier les informations du groupe sur \"Tous les membres\"."
+    "messageformat": "Un admin a défini l'autorisation de modifier les infos du groupe sur \"Tous les membres\"."
   },
   "icu:GroupV2--access-members--admins--other": {
     "messageformat": "{adminName} a défini l'autorisation d'ajouter des membres sur \"Les administrateurs\"."
@@ -3735,7 +3735,7 @@
     "messageformat": "Audio"
   },
   "icu:showChatColorEditor": {
-    "messageformat": "Couleur de la conversation"
+    "messageformat": "Couleur des bulles"
   },
   "icu:showConversationDetails": {
     "messageformat": "Paramètres du groupe"
@@ -3777,7 +3777,7 @@
     "messageformat": "Notifications"
   },
   "icu:ConversationDetails--group-info-label": {
-    "messageformat": "Qui peut modifier les informations du groupe"
+    "messageformat": "Qui peut modifier les infos du groupe"
   },
   "icu:ConversationDetails--group-info-info": {
     "messageformat": "Choisissez qui peut modifier le nom, la photo et la présentation du groupe, ou encore le délai avant disparition des messages éphémères."
@@ -3795,7 +3795,7 @@
     "messageformat": "Choisissez qui peut envoyer des messages au groupe."
   },
   "icu:ConversationDetails--requests-and-invites": {
-    "messageformat": "Demandes et invitations"
+    "messageformat": "Demandes d'adhésion et invitations"
   },
   "icu:ConversationDetailsActions--leave-group": {
     "messageformat": "Quitter le groupe"
@@ -4218,31 +4218,31 @@
     "messageformat": "{num, plural, one {Cette couleur personnalisée est utilisée dans {num,number} conversation. Souhaitez-vous la supprimer pour toutes les conversations ?} other {Cette couleur personnalisée est utilisée dans {num,number} conversations. Souhaitez-vous la supprimer pour toutes les conversations ?}}"
   },
   "icu:ChatColorPicker__menu-title": {
-    "messageformat": "Couleur de la conversation"
+    "messageformat": "Couleur des bulles"
   },
   "icu:ChatColorPicker__reset": {
-    "messageformat": "Réinitialiser la couleur de la conversation"
+    "messageformat": "Réinitialiser la couleur des bulles"
   },
   "icu:ChatColorPicker__resetDefault": {
-    "messageformat": "Réinitialiser les couleurs de la conversation"
+    "messageformat": "Réinitialiser la couleur des bulles"
   },
   "icu:ChatColorPicker__resetAll": {
-    "messageformat": "Réinitialiser toutes les couleurs de la conversation"
+    "messageformat": "Toutes les couleurs de toutes les conversations"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Revenir aux couleurs par défaut"
+    "messageformat": "Seulement la couleur que j'ai choisie par défaut"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Réinitialiser"
   },
   "icu:ChatColorPicker__confirm-reset-message": {
-    "messageformat": "Souhaitez-vous remplacer toutes les couleurs de la conversation ?"
+    "messageformat": "Réinitialiser la couleur des bulles dans toutes les conversations ?"
   },
   "icu:ChatColorPicker__custom-color--label": {
     "messageformat": "Afficher l’éditeur de couleurs personnalisées"
   },
   "icu:ChatColorPicker__sampleBubble1": {
-    "messageformat": "Voici un aperçu de la couleur de la conversation."
+    "messageformat": "Voici un aperçu de la couleur des bulles."
   },
   "icu:ChatColorPicker__sampleBubble2": {
     "messageformat": "Une autre bulle"
@@ -4350,13 +4350,13 @@
     "messageformat": "Standard"
   },
   "icu:MediaQualitySelector--standard-quality-description": {
-    "messageformat": "Plus rapide, moins de données"
+    "messageformat": "Plus rapide, consomme moins de données"
   },
   "icu:MediaQualitySelector--high-quality-title": {
-    "messageformat": "Élevée"
+    "messageformat": "Haute qualité"
   },
   "icu:MediaQualitySelector--high-quality-description": {
-    "messageformat": "Lent, plus lourd"
+    "messageformat": "Moins rapide, consomme plus de données"
   },
   "icu:MessageDetailsHeader--Failed": {
     "messageformat": "N’a pas été envoyé"

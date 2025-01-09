@@ -5220,7 +5220,7 @@
     "messageformat": "Reageren op {firstName}"
   },
   "icu:StoryViewer__reply-group": {
-    "messageformat": "Naar de groep reageren"
+    "messageformat": "Reageren op groepsverhaal"
   },
   "icu:StoryViewer__mute": {
     "messageformat": "Dempen"

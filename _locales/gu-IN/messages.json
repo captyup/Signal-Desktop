@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "માઇક ચાલુ"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "તમારો હાથ નીચો કરવો છે?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "નીચે કરો"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "રિંગ ચાલુ"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "ડાઉનલોડ કરવાની તૈયારી કરી ચાલુ છે..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "તમારા બેકઅપની સાઇઝના આધારે આમાં થોડો સમય લાગી શકે છે"
+    "messageformat": "તમારી મેસેજ હિસ્ટ્રીની સાઇઝના આધારે આમાં થોડો સમય લાગી શકે છે"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "ટ્રાન્સફર રદ કરો"
+    "messageformat": "રદ કરો"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "મેસેજ અને ચેટની માહિતી સિંક પ્રક્રિયા સહિત એન્ડ-ટૂ-એન્ડ એન્ક્રિપ્શન દ્વારા સુરક્ષિત છે. <learnMoreLink>વધુ જાણો</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "ટ્રાન્સફર રદ કરીએ?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "તમારા મેસેજ અને મીડિયા રિસ્ટોર કરવાનું પૂર્ણ થયું નથી. જો તમે રદ કરવાનું પસંદ કરો છો, તો તમે સેટિંગ્સમાંથી ફરીથી ટ્રાન્સફર કરી શકો છો."
+    "messageformat": "તમારા મેસેજ અને મીડિયા રિસ્ટોર કરવાનું પૂર્ણ થયું નથી. જો તમે રદ કરવાનું પસંદ કરો છો, તો તમારું ડિવાઇસ તમારી મેસેજ હિસ્ટ્રી વિના જ લિંક કરવામાં આવશે."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "ટ્રાન્સફર ચાલુ રાખો"
@@ -5782,13 +5788,10 @@
     "messageformat": "નાના ફેરફારો, ભૂલ સુધારા અને પ્રદર્શનમાં વધારો. Signalનો ઉપયોગ કરવા બદલ આભાર!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "આ અપડેટ macOS Sonoma પર સ્ક્રીન શેરિંગને લગતા બગને ઠીક કરે છે."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "ન વાંચેલા દ્વારા ફિલ્ટર કરવાનું હવે પસંદ કરેલ ચેટને હાઇલાઇટ કરે છે, અને જેમ-જેમ મેસેજ વાંચવામાં આવે અને પ્રાપ્ત થાય તે મુજબ અપડેટ થાય છે."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "હવે તમે અટેચમેન્ટ ડાઉનલોડની પ્રગતિ સરળતાથી જોઈ શકો છો. તમે પ્રગતિ ચાલુ હોય તેવા ડાઉનલોડને રોકી અને ફરીથી શરૂ પણ કરી શકો છો."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "અમે @ ઉલ્લેખ સાથેના એક બગને ઠીક કર્યો છે જે કેટલીકવાર આપમેળે પૂર્ણ કરતી સુઝાવ સૂચિમાં તમારા પોતાના એકાઉન્ટને ખોટી રીતે સામેલ કરી દેતો હતો."
   }
 }

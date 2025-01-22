@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mik nyala"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Turunkan tangan?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Turunkan"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Dering aktif"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Bersiap mengunduh …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Butuh waktu beberapa menit tergantung ukuran cadangan Anda"
+    "messageformat": "Perlu waktu beberapa menit, tergantung ukuran riwayat pesan Anda"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Batalkan transfer"
+    "messageformat": "Batal"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Pesan dan info obrolan dilindungi enkripsi menyeluruh, termasuk proses sinkronisasi. <learnMoreLink>Pelajari selengkapnya</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Batalkan transfer?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Pemulihan pesan dan media Anda belum selesai. Jika pilih untuk membatalkan, Anda dapat mentransfer lagi dari Pengaturan."
+    "messageformat": "Pemulihan pesan dan media Anda belum selesai. Jika membatalkan prosesnya, perangkat Anda akan dihubungkan tanpa riwayat pesan."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Lanjutkan transfer"
@@ -5782,13 +5788,10 @@
     "messageformat": "Tambahan penyesuaian kecil, perbaikan bug, dan peningkatan performa. Terima kasih telah menggunakan Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Pembaruan ini memperbaiki bug berbagi layar di macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter berdasarkan Belum Dibaca kini menyoroti obrolan yang dipilih serta memberikan pembaruan saat pesan dibaca dan diterima."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Kini Anda dapat dengan mudah melihat progres pengunduhan lampiran. Anda juga bisa menghentikan dan memulai ulang pengunduhan yang sedang berlangsung."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Kami memperbaiki bug dengan @ penyebutan/mention yang kadang menyertakan akun Anda sendiri pada daftar saran akun yang dapat ditambahkan secara otomatis."
   }
 }

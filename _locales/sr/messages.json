@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Микрофон је укључен"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Желите ли да спустите руку?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Спусти"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Звоно је укључено"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Припрема за преузимање…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "То може потрајати неколико минута у зависности од величине ваше резервне копије"
+    "messageformat": "То може потрајати неколико минута у зависности од величине ваше историје порука"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Откажи пренос"
+    "messageformat": "Откажи"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Поруке и информације о ћаскањима заштићене су потпуним шифровањем, укључујући процес синхронизације. <learnMoreLink>Сазнајте више</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Желите ли да откажете пренос?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Није завршено враћање ваших порука и медија. Ако откажете, можете поново покренути пренос у подешавањима."
+    "messageformat": "Није завршено враћање ваших порука и медија. Ако одлучите да откажете, уређај ће вам бити повезан без историје порука."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Настави пренос"
@@ -5782,13 +5788,10 @@
     "messageformat": "Обавили смо мања фина прилагођавања, исправке грешака и побољшања перформанси. Хвала што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "У овом ажурирању је исправљена грешка у вези са дељењем екрана на оперативном систему macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Филтрирањем по непрочитаним ћаскањима сада се означава изабрано ћаскање и оно се мења како како стижу нове поруке и како их прочитате."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Сада можете лако видети напредак преузимања прилога. Такође можете зауставити и поново покренути преузимања која су у току."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Исправили смо грешку са @ помињањима у којима је понекад у листу предлога за аутоматско попуњавање грешком био укључен и сопствени налог."
   }
 }

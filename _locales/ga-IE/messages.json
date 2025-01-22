@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Micreafón air"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Ísligh do lámh?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Ísligh"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Glaoch air"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Íoslódáil á hullmhú..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Seans go dtógfaidh sé seo cúpla nóiméad ag brath ar mhéid do chúltaca"
+    "messageformat": "Seans go dtógfaidh sé seo cúpla nóiméad ag brath ar mhéid do staire teachtaireachtaí"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cuir an t-aistriú ar ceal"
+    "messageformat": "Cuir ar ceal"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Déantar teachtaireachtaí agus faisnéis comhráite a chosaint le criptiú ó cheann ceann, an próiseas sioncronaithe san áireamh. <learnMoreLink>Tuilleadh faisnéise</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Cuir an t-aistriú ar ceal?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Níl aischur na dteachtaireachtaí agus na meán agat críochnaithe. Má roghnaíonn tú é a chur ar ceal, is féidir leat an t-aistriú a dhéanamh arís ó Shocruithe."
+    "messageformat": "Ní dhearnadh aischur do chuid teachtaireachtaí agus meán a chur i gcrích go hiomlán. Má roghnaíonn tú é a chur ar ceal, nascfar do ghléas gan stair do theachtaireachtaí."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Lean leis an aistriú"
@@ -5782,13 +5788,10 @@
     "messageformat": "Mionathruithe, paistí fabhtanna agus feabhsuithe ar fheidhmíocht. Go raibh maith agat as Signal a úsáid!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Réitíonn an nuashonrú seo fabht le comhroinnt scáileáin ar macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Déanann Scag de réir Neamhléite an comhrá roghnaithe a aibhsiú agus nuashonraíonn mar a léitear agus a fhaightear teachtaireachtaí."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Anois is féidir leat dul chun cinn íoslódáil na gceangaltán a fheiceáil go héasca. Is féidir leat íoslódálacha atá ar siúl a stopadh agus a atosú freisin."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Réitíomar fabht le tráchtanna @, rud a chuir do chuntas féin sa liosta moltaí uathlíonta."
   }
 }

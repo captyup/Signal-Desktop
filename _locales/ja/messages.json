@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "マイクオン"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "手をおろしますか？"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "手を降ろす"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "呼び出し音が鳴っています"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "ダウンロード中..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "バックアップのサイズによっては、数分かかる場合があります"
+    "messageformat": "メッセージ履歴のサイズによっては、数分かかる場合があります"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "転送をキャンセルする"
+    "messageformat": "キャンセル"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "同期のプロセスも含め、メッセージ情報とチャット情報はエンドツーエンドの暗号化で保護されています。<learnMoreLink>さらに詳しく</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "転送をキャンセルしますか？"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "メッセージとメディアの復元が完了していません。キャンセルした場合は、設定からもう一度転送できます。"
+    "messageformat": "メッセージとメディアの復元が完了していません。キャンセルを選択した場合、端末はメッセージ履歴なしの状態でリンクされます。"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "転送を続行する"
@@ -5782,13 +5788,10 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "今回のアップデートで、macOS Sonomaで画面共有する際のバグを修正しています。"
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "「未読でフィルタリング」内で、選択されたチャットをハイライトしたり、メッセージを読んだときまたは受信したりときには未読チャットが更新されるようになりました。"
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "添付ファイルのダウンロードの進捗状況を簡単に確認できるようになりました。また、進行中のダウンロードを停止したり再開したりすることもできます。"
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "ご自身のアカウントがオートコンプリートの候補リストに含まれるバグが時々発生していましたので、@メンションに関するこのバグを修正しました。"
   }
 }

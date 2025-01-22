@@ -1203,7 +1203,7 @@
     "messageformat": "Apparaatnaam"
   },
   "icu:chooseDeviceName": {
-    "messageformat": "Kies de naam van dit apparaat"
+    "messageformat": "Kies een naam voor dit apparaat"
   },
   "icu:finishLinkingPhone": {
     "messageformat": "Koppelen van telefoon voltooien"
@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Microfoon aan"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Hand omlaag doen?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Omlaag doen"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Bellen aan"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Download voorbereiden..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je back-up"
+    "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je chatgeschiedenis"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Overzetten annuleren"
+    "messageformat": "Annuleren"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Berichten en chatgegevens worden beschermd door end-to-end-versleuteling, ook tijdens het synchronisatieproces. <learnMoreLink>Meer informatie</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Overzetten annuleren?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Het herstellen van je berichten en media is nog niet voltooid. Als je besluit te annuleren, kun je opnieuw overzetten via Instellingen."
+    "messageformat": "Het herstellen van je berichten en media is nog niet voltooid. Als je ervoor kiest om te annuleren, wordt je apparaat gekoppeld zonder je chatgeschiedenis."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Doorgaan met overzetten"
@@ -5782,13 +5788,10 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Deze update lost een bug op voor gebruikers van macOS Sonoma waarbij schermdeling niet correct werkte als de toestemming om het scherm te delen eerder was geweigerd. Nu hoef je de foutmeldingen op je scherm niet langer te delen."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Met Filteren op ongelezen wordt de geselecteerde chat nu gemarkeerd, en de lijst met ongelezen chats wordt automatisch bijgewerkt als er nieuwe berichten binnenkomen."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Je kunt nu eenvoudig de voortgang van het downloaden van bijlagen zien. Je kunt lopende downloads nu ook stoppen en opnieuw starten. Dus als een transfer traag gaat omdat je onderweg bent (in vliegtuigmodus?) of door de matige wifi van het hotel… Wacht dan op een snellere verbinding en upload het bestand gewoon verder."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We hebben een bug met @-vermeldingen opgelost waardoor soms je eigen account verscheen in de lijst met suggesties voor automatisch invullen. Je kunt natuurlijk altijd nog in derde persoon over jezelf praten, mocht je deze bug heel erg missen."
   }
 }

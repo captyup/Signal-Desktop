@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Washa mic"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Je ushushe mkono wako?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Shusha"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Sauti ya kuitana imewashwa"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Inajiandaa kupakua..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Hii inaweza kuchukua sekunde kadhaa kulingana na ukubwa wa mchakato wako wa uhifadhi nakala"
+    "messageformat": "Mchakato huu huenda ukachukua dakika chache kulingana na ukubwa wa historia yako ya ujumbe"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Ghairi uhamishaji"
+    "messageformat": "Ghairi"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Maelezo ya ujumbe na gumzo yanalindwa na kusimbwa fiche, ikiwemo mchakato wa ku-sync. <learnMoreLink>Jifunze zaidi</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Je, ghairi uhamishaji?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Jumbe na picha na video zako hazijakamilika kurejeshwa. Ukichagua kughairi, unaweza kuhamisha tena kutoka kwenye Mipangilio."
+    "messageformat": "Jumbe na picha na video zako hazijakamilika kurejeshwa. Ikiwa utachagua kusitisha, kifaa chako kitaunganishwa bila historia ya ujumbe wako."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Endelea na uhamishaji"
@@ -5782,13 +5788,10 @@
     "messageformat": "Mabadiliko madogo, marekebisho ya bugs na uboreshaji wa utendaji. Asante kwa kutumia Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Sasisho hili hurekebisha hitilafu kwenye macOS Sonoma ambayo ilizuia kushiriki skrini kufanya kazi ipasavyo ikiwa ruhusa ya kushiriki skrini ilikuwa imekataliwa hapo awali — kwa hivyo huhitaji tena kushiriki skrini yako na ujumbe wa hitilafu."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Chuja kwa Haijasomwa sasa huangazia gumzo iliyochaguliwa na orodha ya gumzo ambazo hazijasomwa zitasasishwa kiotomatiki ujumbe mpya unapofika au unapoingia kwenye gumzo moja na kubofya gumzo jingine."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Sasa unaweza kuona kwa urahisi maendeleo ya upakuaji wa viambatisho. Unaweza pia kusimamisha na kuanzisha upya vipakuliwa vinavyoendelea. Endapo uhamishaji upo taratibu kwa sababu upo barabarani (au kwenye airplane mode?) au WiFi ya hoteli inakaribia kuzima, unaweza kusubiri ili upakie tena pale nguvu ya mtandao inapokuwa vizuri."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Tulirekebisha hitilafu katika @ mentions ambazo wakati mwingine hujumuishwa kwa akaunti yako kwa orodha ya mapendekezo ya kukamilishwa kiotomataki. Bado unaweza kutumia simulizi ya mtu wa tatu kukuhusu kwenye gumzo za kikundi ukikosa hitilafu hii."
   }
 }

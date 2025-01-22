@@ -1,10 +1,11 @@
 {
+  "$schema": "./package.schema.json",
   "name": "signal-desktop",
   "productName": "Signal",
   "description": "Private messaging from your desktop",
   "desktopName": "signal.desktop",
   "repository": "https://github.com/signalapp/Signal-Desktop.git",
-  "version": "7.37.0",
+  "version": "7.38.0",
   "license": "AGPL-3.0-only",
   "author": {
     "name": "Signal Messenger, LLC",
@@ -38,6 +39,8 @@
     "prepare-alpha-version": "node scripts/prepare_tagged_version.js alpha",
     "prepare-axolotl-build": "node scripts/prepare_axolotl_build.js",
     "prepare-axolotl-version": "node scripts/prepare_tagged_version.js axolotl",
+    "prepare-adhoc-build": "node scripts/prepare_adhoc_build.js",
+    "prepare-adhoc-version": "node scripts/prepare_tagged_version.js adhoc",
     "prepare-staging-build": "node scripts/prepare_staging_build.js",
     "prepare-windows-cert": "node scripts/prepare_windows_cert.js",
     "test": "run-s test-node test-electron test-lint-intl test-eslint",
@@ -109,7 +112,7 @@
     "@react-spring/web": "9.7.5",
     "@signalapp/better-sqlite3": "9.0.8",
     "@signalapp/libsignal-client": "0.64.1",
-    "@signalapp/ringrtc": "2.49.1",
+    "@signalapp/ringrtc": "2.49.2",
     "@types/fabric": "4.5.3",
     "antd": "^5.21.4",
     "backbone": "1.6.0",
@@ -211,7 +214,7 @@
     "@indutny/rezip-electron": "2.0.1",
     "@indutny/symbolicate-mac": "2.3.0",
     "@napi-rs/canvas": "0.1.61",
-    "@signalapp/mock-server": "10.0.1",
+    "@signalapp/mock-server": "10.2.0",
     "@storybook/addon-a11y": "8.4.4",
     "@storybook/addon-actions": "8.4.4",
     "@storybook/addon-controls": "8.4.4",
@@ -282,7 +285,7 @@
     "danger": "12.3.3",
     "debug": "4.3.7",
     "electron": "33.2.1",
-    "electron-builder": "24.13.3",
+    "electron-builder": "26.0.0-alpha.8",
     "electron-mocha": "13.0.1",
     "endanger": "7.0.4",
     "enquirer": "2.4.1",
@@ -302,8 +305,8 @@
     "log-symbols": "4.1.0",
     "mini-css-extract-plugin": "2.9.2",
     "mocha": "10.8.2",
-    "node-gyp": "10.2.0",
-    "node-gyp-build": "4.8.3",
+    "node-gyp": "11.0.0",
+    "node-gyp-build": "4.8.4",
     "npm-run-all": "4.1.5",
     "p-limit": "3.1.0",
     "patch-package": "8.0.0",
@@ -440,9 +443,6 @@
     },
     "linux": {
       "category": "Network;InstantMessaging;Chat",
-      "desktop": {
-        "StartupWMClass": "Signal"
-      },
       "target": [
         "deb"
       ],

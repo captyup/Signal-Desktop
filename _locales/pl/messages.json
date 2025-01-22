@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon wł."
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Opuścić rękę?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Opuść"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Dzwonek wł."
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Przygotowywanie do pobrania…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "W zależności od wielkości kopii zapasowej może to potrwać kilka minut"
+    "messageformat": "W zależności od rozmiaru historii wiadomości może to zająć kilka minut"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Anuluj przenoszenie"
+    "messageformat": "Anuluj"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Wiadomości i informacje o czacie są szyfrowane metodą end-to-end. Dotyczy to także synchronizacji. <learnMoreLink>Dowiedz się więcej</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Anulować przenoszenie?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Przywracanie wiadomości i multimediów nie zostało zakończone. Jeśli anulujesz ten proces, możesz uruchomić go ponownie w Ustawieniach."
+    "messageformat": "Przywracanie wiadomości i multimediów nie zostało zakończone. Jeśli anulujesz ten proces, na połączonym urządzeniu nie będzie Twojej historii wiadomości."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Kontynuuj przenoszenie"
@@ -5782,13 +5788,10 @@
     "messageformat": "Małe ulepszenia, poprawki błędów i zwiększona funkcjonalność. Dzięki za korzystanie z Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "W tej aktualizacji naprawiliśmy błąd, który występował w systemie macOS Sonoma i powodował nieprawidłowe działanie funkcji udostępnienia ekranu, jeśli wcześniej nie udzielono pozwolenia na udostępnianie. Teraz możesz śmiało pokazywać swój ekran światu – nie będzie na nim komunikatu o błędzie."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Od teraz funkcja filtrowania według nieodczytanych podświetli wybrany czat, a lista nieodczytanych czatów będzie automatycznie aktualizowana w miarę przychodzenia nowych wiadomości oraz wtedy, gdy skończysz przeglądać któryś z czatów i klikniesz inny."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Od teraz możesz z łatwością śledzić postęp pobierania załączników. Możesz też wstrzymywać i wznawiać już rozpoczęte pobieranie. Jesteś w trasie i zrywa Ci połączenie? Hotelowe Wi-Fi odmawia współpracy? Żaden problem – pobierz załączniki później, kiedy złapiesz lepsze łącze."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Naprawiliśmy błąd związany z funkcją @wzmianek, przez który na liście proponowanych użytkowników pojawiało się czasem Twoje własne konto. Jeśli jednak błąd wcale Ci nie przeszkadzał, bo lubisz opowiadać o sobie, nic straconego – zawsze możesz pisać na swój temat w formie trzecioosobowej. My nie oceniamy!"
   }
 }

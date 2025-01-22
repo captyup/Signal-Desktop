@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Microfone ligado"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Baixar a mão?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Baixar"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Toque ligado"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "A preparar para descarregar…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Isto pode demorar alguns minutos, dependendo do tamanho da sua cópia de segurança"
+    "messageformat": "Isto pode demorar alguns minutos, dependendo do tamanho do seu histórico de mensagens"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancelar transferência"
+    "messageformat": "Cancelar"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "As informações das mensagens e chats são protegidas por encriptação de ponta a ponta, incluindo o processo de sincronização. <learnMoreLink>Saiba mais</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Cancelar transferência?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "As suas mensagens e ficheiros multimédia ainda não foram restaurados. Se escolher cancelar, pode transferir de novo a partir das Definições."
+    "messageformat": "As suas mensagens e ficheiros multimédia ainda não foram restaurados. Se optar por cancelar, o seu dispositivo será vinculado sem o seu histórico de mensagens."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuar a transferir"
@@ -5782,13 +5788,10 @@
     "messageformat": "Pequenos ajustes adicionais, correções de bugs e melhorias de desempenho. Obrigado por usar o Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Esta atualização corrige um erro de partilha de ecrã no macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "O \"filtrar por não lido\" agora destaca o chat selecionado e atualiza-se enquanto as mensagens são lidas e recebidas."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Agora pode ver facilmente o progresso de descarregamento de anexos. Também pode parar e reiniciar descarregamentos em curso."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Corrigimos um erro em que as menções @ às vezes incluíam a sua própria conta na lista de sugestões do preenchimento automático."
   }
 }

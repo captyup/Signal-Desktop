@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Microfono attivato"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Vuoi abbassare la mano?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Abbassa la mano"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Squillo chiamata attivato"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Preparazione del download…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Questo processo potrebbe richiedere qualche minuto a seconda della dimensione del tuo backup"
+    "messageformat": "Questo processo potrebbe richiedere qualche minuto a seconda della dimensione della cronologia messaggi"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Annulla trasferimento"
+    "messageformat": "Annulla"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "I messaggi e le informazioni delle chat sono protetti da una crittografia end-to-end (incluso il processo di sincronizzazione). <learnMoreLink>Scopri di più</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Annullare il trasferimento?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Il ripristino dei tuoi messaggi e media non è stato ancora completato. Se scegli di annullarlo, puoi riprovare il trasferimento dalle Impostazioni."
+    "messageformat": "Il ripristino dei messaggi e dei media non è stato ancora completato. Se lo annulli, il dispositivo verrà collegato senza la tua cronologia messaggi."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continua con il trasferimento"
@@ -5782,13 +5788,10 @@
     "messageformat": "Altre piccole modifiche e correzioni di bug per far funzionare l'app senza problemi. Grazie per usare Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Questo aggiornamento risolve un bug su macOS Sonoma che impediva il funzionamento della condivisione dello schermo se l'autorizzazione alla condivisione era stata negata in una richiesta precedente. Così da ora puoi condividere il tuo schermo senza mostrare un messaggio di errore."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "La funzione per filtrare i messaggi non letti ora mette in evidenza la chat selezionata e l'elenco delle chat non lette si aggiorna in automatico man mano che ti arrivano messaggi nuovi da leggere o mentre controlli i messaggi arretrati da leggere."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Da ora puoi vedere facilmente il progresso dei download degli allegati. Puoi anche bloccare e riavviare i download in corso. Così se stai per salire su un aereo o se la connessione del tuo hotel è lenta puoi sempre riprovare in un secondo momento."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Abbiamo risolto un bug legato alle menzioni con la @ che a volte mostravano il nome del tuo account come suggerimento. Auto-menzionarsi è un po' strano, anche se sappiamo quanto faccia piacere ricevere attenzioni."
   }
 }

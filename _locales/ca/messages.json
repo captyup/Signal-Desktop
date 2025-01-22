@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Micròfon encès"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Baixar la mà?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Baixar"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "So activat"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Preparant per descarregar…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "En funció de la mida de la teva còpia de seguretat, això pot trigar uns quants minuts."
+    "messageformat": "En funció de la mida del teu historial dels missatges, això pot trigar uns quants minuts."
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel·lar la transferència"
+    "messageformat": "Cancel·la"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Els missatges i la informació del xat estan protegits mitjançant una codificació d'extrem a extrem, inclòs el procés de sincronització. <learnMoreLink>Més informació</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Cancel·lar la transferència?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "No s'ha completat la restauració dels teus missatges i arxius multimèdia. Si decideixes cancel·lar, podràs tornar-los a transferir des d'Ajustos."
+    "messageformat": "No s'ha completat la restauració dels teus missatges i arxius multimèdia. Si decideixes cancel·lar-la, s'enllaçarà el teu dispositiu sense el teu historial dels missatges."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuar la transferència"
@@ -5782,13 +5788,10 @@
     "messageformat": "Petits ajustos, correccions d'errors i tasques de millora de rendiment. Gràcies per utilitzar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Aquesta actualització corregeix un error amb la funció de compartir pantalla a macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Ara, la funció Filtrar per No llegit(s) destaca el xat seleccionat i s'actualitza automàticament a mesura que llegeixis o rebis nous missatges."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Ara, quan descarreguis fitxers adjunts, podràs veure'n fàcilment el progrés. També podràs aturar i reiniciar les descàrregues en curs."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Hem corregit un error amb les mencions amb @ que feia que de vegades aparegués el teu propi compte a la llista de suggeriments per autocompletar."
   }
 }

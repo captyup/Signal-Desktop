@@ -3699,6 +3699,14 @@
     "messageformat": "Mic on",
     "description": "Shown in a call when the user is muted and then unmutes their audio input using the Mute toggle button."
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lower your hand?",
+    "description": "Shown in a call when the user has their hand raised but has been talking, next to a button to lower their hand."
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Lower",
+    "description": "Text of button that, when clicked, will lower your raised hand after you've been speaking"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Ringing on",
     "description": "Shown in a group call lobby when call ringing is disabled, then the user enables ringing using the Ringing toggle button."
@@ -4776,11 +4784,11 @@
     "description": "Hint under the progressbar in the backup import screen when download size is not yet known"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "This may take a few minutes depending on the size of your backup",
+    "messageformat": "This may take a few minutes depending on the size of your message history",
     "description": "Description at the bottom of backup import screen"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancel transfer",
+    "messageformat": "Cancel",
     "description": "Text of the cancel button at the bottom of backup import screen"
   },
   "icu:BackupImportScreen__security-description": {
@@ -4792,7 +4800,7 @@
     "description": "Title of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, you can transfer again from Settings.",
+    "messageformat": "Your messages and media have not completed restoring. If you choose to cancel, your device will be linked without your message history.",
     "description": "Body of the cancel confirmation modal in the backup import screen"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
@@ -7684,16 +7692,12 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "This update fixes a bug on macOS Sonoma that prevented screen sharing from working correctly if permission to share the screen had previously been denied — so you no longer need to share your screen with an error message.",
-    "description": "(Deleted 2024/12/12) Release notes for version 7.36"
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filter by Unread now highlights the selected chat, and the list of unread chats will automatically update as new messages arrive or when you catch up in one chat and click on another.",
-    "description": "(Deleted 2024/12/12) Release notes for version 7.36"
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Now you can easily see the progress of attachment downloads. You can also stop and restart in-progress downloads too. So if a transfer is slowed because you're on the road (in airplane mode?) or the mediocre hotel WiFi is about to implode, you can wait to reload when more available bandwidth is bestowed.",
-    "description": "Release notes for version 7.37"
+    "description": "(Deleted 2025/01/09) Release notes for version 7.37"
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "We fixed a bug with @ mentions that sometimes incorrectly included your own account in the autocomplete suggestion list. As a narcissistic workaround, you can still use third-person narration to talk about yourself in your group chats if you ever miss this bug.",
+    "description": "Release notes for version 7.38"
   }
 }

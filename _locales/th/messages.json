@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "ไมค์เปิดอยู่"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "เอามือลงหรือไม่"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "เอามือลง"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "การส่งเสียงเรียกสายเปิดอยู่"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "กำลังเตรียมการดาวน์โหลด..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "ขั้นตอนนี้อาจใช้เวลาสักครู่ โดยขึ้นอยู่กับขนาดข้อมูลสำรองของคุณ"
+    "messageformat": "ขั้นตอนนี้อาจใช้เวลาสักครู่ โดยขึ้นอยู่กับขนาดประวัติการส่งข้อความของคุณ"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "ยกเลิกการถ่ายโอน"
+    "messageformat": "ยกเลิก"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "ปกป้องข้อความและข้อมูลการแชทด้วยการเข้ารหัสตั้งแต่ต้นทางถึงปลายทาง รวมถึงในขั้นตอนการซิงค์ <learnMoreLink>เรียนรู้เพิ่มเติม</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "ยกเลิกการถ่ายโอนใช่หรือไม่"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "ยังกู้คืนข้อความและไฟล์สื่อของคุณไม่เสร็จสมบูรณ์ โดยหากยกเลิก คุณยังสามารถเลือกถ่ายโอนข้อมูลได้อีกจากเมนูการตั้งค่า"
+    "messageformat": "ยังกู้คืนข้อความและไฟล์สื่อของคุณไม่เสร็จสมบูรณ์ หากยกเลิก อุปกรณ์ของคุณจะได้รับการเชื่อมโยงโดยไม่มีการถ่ายโอนประวัติการส่งข้อความ"
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "ถ่ายโอนต่อ"
@@ -5782,13 +5788,10 @@
     "messageformat": "มีการปรับเปลี่ยนเล็กน้อย พร้อมแก้ไขบั๊ก และการพัฒนาประสิทธิภาพให้ดียิ่งขึ้น ขอขอบคุณที่เลือกใช้ Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "การอัปเดตครั้งนี้แก้ไขบั๊กเมื่อแชร์หน้าจอบน macOS Sonoma"
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "พัฒนาฟีเจอร์กรองตามแชทที่ยังไม่ได้อ่านให้ไฮไลท์แชทที่ถูกเลือก พร้อมอัปเดตแบบเรียลไทม์เมื่อคุณได้รับและอ่านข้อความแล้ว"
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "พัฒนาให้คุณมองเห็นความคืบหน้าของไฟล์แนบที่กำลังดาวน์โหลดอยู่ได้ทันที ทั้งยังสามารถหยุดและรีสตาร์ทการดาวน์โหลดที่ยังไม่เสร็จสิ้นได้ทุกเมื่ออีกด้วย"
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "เราแก้ไขบั๊กในฟีเจอร์ @การกล่าวถึง ที่เคยรวมบัญชีของคุณไว้ในรายชื่อที่แนะนำด้วย"
   }
 }

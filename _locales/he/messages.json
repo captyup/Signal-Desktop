@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "מיקרופון מופעל"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "להוריד את היד?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "הורדה"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "צלצול מופעל"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "מתכוננים להורדה…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "זה עשוי לקחת מספר דקות בהתאם לגודל הגיבוי שלך"
+    "messageformat": "זה עשוי לקחת מספר דקות בהתאם לגודל היסטוריית ההודעות שלך"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "ביטול העברה"
+    "messageformat": "ביטול"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "הודעות ופרטי צ׳אט מוגנים באמצעות הצפנה מקצה לקצה, כולל תהליך הסנכרון. <learnMoreLink>למידע נוסף</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "לבטל העברה?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "שחזור ההודעות והמדיה שלך לא הושלם. אם תבחר/י לבטל, אפשר לבצע העברה שוב מתוך ההגדרות."
+    "messageformat": "שחזור ההודעות והמדיה שלך לא הושלם. אם תבחר/י לבטל, המכשיר שלך יקושר ללא היסטוריית ההודעות שלך."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "המשך העברה"
@@ -5782,13 +5788,10 @@
     "messageformat": "התאמות קטנות, תיקוני באגים ושיפורי ביצועים. תודה על השימוש ב-Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "העדכון הזה מתקן באג שיתוף מסך ב–macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "סינון לפי ׳לא נקרא׳ מדגיש כעת את הצ׳אט הנבחר ומתעדכן כשהודעות נקראות ומתקבלות."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "עכשיו אפשר לראות בקלות את התקדמות ההורדה של קבצים מצורפים. אפשר גם לעצור ולהתחיל מחדש הורדות שכבר החלו את התהליך."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "תיקנו באג עם אזכורי @ שלפעמים כללו את החשבון שלך ברשימת הצעות ההשלמה האוטומטית."
   }
 }

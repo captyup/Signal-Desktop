@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon zapnutý"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Dát ruku dolů?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Dát ruku dolů"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Vyzvánění zapnuto"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Příprava ke stažení…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Může trvat několik minut v závislosti na velikosti vaší zálohy"
+    "messageformat": "To může trvat několik minut v závislosti na velikosti historie zpráv"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Zrušit přenos"
+    "messageformat": "Zrušit"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Zprávy a informace o chatech jsou chráněny koncovým šifrováním, včetně procesu synchronizace. <learnMoreLink>Zjistit více</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Zrušit přenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Obnova vašich zpráv a médií nebyla dokončena. Pokud jste se rozhodli přenos zrušit, můžete jej znovu spustit v Nastavení."
+    "messageformat": "Obnovení vašich zpráv a médií nebylo dokončeno. Pokud jste se jej rozhodli zrušit, bude vaše zařízení propojeno bez historie zpráv."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Pokračovat v přenosu"
@@ -5782,13 +5788,10 @@
     "messageformat": "Drobná vylepšení, opravy chyb a zvýšení výkonu. Děkujeme, že používáte Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Tato aktualizace opravuje chybu sdílení obrazovky v systému macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrování podle Nepřečtených nyní zvýrazňuje vybraný chat a aktualizuje se podle toho, jak jsou zprávy čteny a přijímány."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Nyní můžete snadno sledovat průběh stahování příloh. Probíhající stahování můžete také zastavit a znovu spustit."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Opravili jsme chybu s @ zmínkami, která občas přidávala váš vlastní účet do seznamu automaticky dokončovaných návrhů."
   }
 }

@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon be"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Leteszed a kezed?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Letétel"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Csengés be"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Felkészülés a letöltésre..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Ez a biztonsági másolat méretétől függően eltarthat néhány percig"
+    "messageformat": "Ez az üzenet-előzmények méretétől függően eltarthat néhány percig"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Átvitel törlése"
+    "messageformat": "Mégse"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Az üzeneteket és a csevegési információkat végpontok közötti titkosítás védi, beleértve a szinkronizálási folyamatot is. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Átvitel törlése?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Az üzenetek és a médiafájl helyreállítása nem fejeződött be. Ha a törlés mellett döntesz, újra átviheted a fájljaid a Beállításokból."
+    "messageformat": "Az üzenetek és a médiafájl helyreállítása nem fejeződött be. Ha a törlés mellett döntesz, az eszköz az üzenet-előzmények nélkül lesz összekapcsolva."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Átvitel folytatása"
@@ -5782,13 +5788,10 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Ez a frissítés a macOS Sonoma képernyőmegosztási hibáját javítja."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Az Olvasatlan üzenetek szűrése mostantól kiemeli a kiválasztott csevegést, és az üzenetek olvasása és fogadása közben frissül."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Mostantól egyszerűbben láthatod a mellékletek letöltésének folyamatát. Leállíthatod és újraindíthatod a folyamatban lévő letöltéseket is."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Kijavítottunk egy hibát a @ jellel való említésekkel kapcsolatban, amelyek néha a saját fiókodat is tartalmazták az automatikus kiegészítési javaslatok listáján."
   }
 }

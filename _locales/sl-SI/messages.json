@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon je vključen"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Želite spustiti roko?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Nižje"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zvonjenje je vključeno"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Priprava na prenos ..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "To lahko traja nekaj minut, odvisno od velikosti varnostne kopije"
+    "messageformat": "To lahko traja nekaj minut, odvisno od velikosti vaše zgodovine sporočil"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Prekliči prenos"
+    "messageformat": "Prekliči"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Sporočila in informacije o klepetu so zaščitene s šifriranjem od konca do konca, vključno s postopkom sinhronizacije. <learnMoreLink>Več o tem</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Želite preklicati prenos?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Vaša sporočila in mediji se še niso obnovili. Če se odločite za preklic, lahko prenos ponovno izvedete v nastavitvah."
+    "messageformat": "Vaša sporočila in mediji se še niso obnovili. Če se odločite za preklic, bo vaša naprava povezana brez zgodovine sporočil."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Nadaljuj prenos"
@@ -5782,13 +5788,10 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Ta posodobitev odpravlja napako pri deljenju zaslona v sistemu macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtriranje po Neprebranih sporočilih zdaj poudari izbrani klepet in se posodobi, ko so sporočila prebrana ali prejeta."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Zdaj si lahko preprosto ogledate potek prenosa priponk. Prav tako lahko ustavite in ponovno zaženete prenose, ki potekajo. Če je prenos upočasnjen, ker ste na poti (v letalskem načinu?) ali če povprečen hotelski WiFi ne deluje, lahko nadaljujete s ponovnim nalaganjem, ko boste imeli boljšo internetno povezavo."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Odpravili smo napako pri @ omembah, ki je včasih napačno vključevala vaš račun na seznamu predlogov za samodejno dokončanje. Če kdaj spregledate to napako, lahko v skupinskih klepetalnicah še vedno uporabljate tretjeosebno pripovedovanje, da govorite o sebi."
   }
 }

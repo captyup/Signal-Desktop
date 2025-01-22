@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon på"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Ta ner handen?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Ta ner"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Ringsignal på"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Förbereder nedladdning …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Detta kan ta några minuter beroende på storleken på din säkerhetskopia"
+    "messageformat": "Detta kan ta några minuter beroende på storleken på din meddelandehistorik"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Avbryt överföringen"
+    "messageformat": "Avbryt"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Meddelanden och chattinformation skyddas av totalstreckskryptering, inklusive synkroniseringsprocessen. <learnMoreLink>Läs mer</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Vill du avbryta överföringen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Återställningen av dina meddelanden och media har inte slutförts. Om du väljer att avbryta kan du överföra igen från Inställningar."
+    "messageformat": "Återställningen av dina meddelanden och media har inte slutförts. Om du väljer att avbryta kommer din enhet att länkas utan din meddelandehistorik."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Fortsätt överföringen"
@@ -5782,13 +5788,10 @@
     "messageformat": "Små justeringer, buggfixar och prestandaförbättringar. Tack för att du använder Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Den här uppdateringen åtgärdar en skärmdelningsbugg i macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrera efter oläst markerar nu den valda chatten och uppdateras när meddelanden läses och tas emot."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Nu kan du enkelt se statusen för nedladdningen av bilagor. Du kan också stoppa och starta om pågående nedladdningar."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Vi har åtgärdat en bugg med @-omnämnanden som ibland inkluderade ditt eget konto i den förslagslista som fylldes i automatiskt."
   }
 }

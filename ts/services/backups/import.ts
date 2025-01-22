@@ -56,9 +56,10 @@ import type {
 } from '../../model-types.d';
 import { assertDev, strictAssert } from '../../util/assert';
 import {
-  getTimestampFromLong,
-  getTimestampOrUndefinedFromLong,
+  getCheckedTimestampFromLong,
+  getCheckedTimestampOrUndefinedFromLong,
 } from '../../util/timestampLongUtils';
+import { MAX_SAFE_DATE } from '../../util/timestamp';
 import { DurationInSeconds, SECOND } from '../../util/durations';
 import { calculateExpirationTimestamp } from '../../util/expirationTimer';
 import { dropNull } from '../../util/dropNull';
@@ -119,7 +120,7 @@ import {
 } from '../../util/backupMediaDownload';
 import { getEnvironment, isTestEnvironment } from '../../environment';
 import { hasAttachmentDownloads } from '../../util/hasAttachmentDownloads';
-import { isNightly } from '../../util/version';
+import { isAdhoc, isNightly } from '../../util/version';
 import { ToastType } from '../../types/Toast';
 import { isConversationAccepted } from '../../util/isConversationAccepted';
 import { saveBackupsSubscriberData } from '../../util/backupSubscriptionData';
@@ -217,7 +218,11 @@ export class BackupImportStream extends Writable {
     ConversationAttributesType
   >();
   private readonly identityKeys = new Map<ServiceIdString, IdentityKeyType>();
-  private readonly saveMessageBatch = new Set<MessageAttributesType>();
+  private readonly saveMessageBatch = new Map<
+    MessageAttributesType,
+    Promise<MessageAttributesType>
+  >();
+  private flushMessagesPromise: Promise<void> | undefined;
   private readonly stickerPacks = new Array<StickerPackPointerType>();
   private ourConversation?: ConversationAttributesType;
   private pinnedConversations = new Array<[number, string]>();
@@ -310,6 +315,10 @@ export class BackupImportStream extends Writable {
     try {
       // Finish saving remaining conversations/messages
       // Save messages first since they depend on conversations in memory
+      while (this.flushMessagesPromise) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.flushMessagesPromise;
+      }
       await this.flushMessages();
       await this.flushConversations();
       log.info(`${this.logId}: flushed messages and conversations`);
@@ -341,7 +350,16 @@ export class BackupImportStream extends Writable {
         allConversations.filter(convo => {
           return convo.get('active_at') || convo.get('isPinned');
         }),
-        convo => convo.updateLastMessage(),
+        async convo => {
+          try {
+            await convo.updateLastMessage();
+          } catch (error) {
+            log.error(
+              `${this.logId}: failed to update conversation's last message` +
+                `${Errors.toLogFormat(error)}`
+            );
+          }
+        },
         { concurrency: MAX_CONCURRENCY }
       );
 
@@ -382,7 +400,7 @@ export class BackupImportStream extends Writable {
         log.error(
           `${this.logId}: errored while processing ${this.frameErrorCount} frames.`
         );
-        if (isNightly(window.getVersion())) {
+        if (isNightly(window.getVersion()) || isAdhoc(window.getVersion())) {
           window.reduxActions.toast.showToast({
             toastType: ToastType.FailedToImportBackup,
           });
@@ -493,9 +511,30 @@ export class BackupImportStream extends Writable {
   }
 
   private async saveMessage(attributes: MessageAttributesType): Promise<void> {
-    this.saveMessageBatch.add(attributes);
+    this.saveMessageBatch.set(attributes, this.safeUpgradeMessage(attributes));
     if (this.saveMessageBatch.size >= SAVE_MESSAGE_BATCH_SIZE) {
-      return this.flushMessages();
+      // Wait for previous flush to finish before scheduling a new one.
+      // (Unlikely to happen, but needed to make sure we don't save too many
+      // messages at once)
+      while (this.flushMessagesPromise) {
+        // eslint-disable-next-line no-await-in-loop
+        await this.flushMessagesPromise;
+      }
+      this.flushMessagesPromise = this.flushMessages();
+    }
+  }
+
+  private async safeUpgradeMessage(
+    attributes: MessageAttributesType
+  ): Promise<MessageAttributesType> {
+    try {
+      return await window.Signal.Migrations.upgradeMessageSchema(attributes);
+    } catch (error) {
+      log.error(
+        `${this.logId}: failed to migrate a message ${attributes.sent_at}, ` +
+          `${Errors.toLogFormat(error)}`
+      );
+      return attributes;
     }
   }
 
@@ -528,8 +567,10 @@ export class BackupImportStream extends Writable {
     const ourAci = this.ourConversation?.serviceId;
     strictAssert(isAciString(ourAci), 'Must have our aci for messages');
 
-    const batch = Array.from(this.saveMessageBatch);
+    const batchPromises = Array.from(this.saveMessageBatch.values());
     this.saveMessageBatch.clear();
+
+    const batch = await Promise.all(batchPromises);
 
     // There are a few indexes that start with message id, and many more that
     // start with conversationId. Sort messages by both to make sure that we
@@ -591,6 +632,8 @@ export class BackupImportStream extends Writable {
     }
     await Promise.allSettled(attachmentDownloadJobPromises);
     await AttachmentDownloadManager.saveBatchedJobs();
+
+    this.flushMessagesPromise = undefined;
   }
 
   private async saveCallHistory(
@@ -856,18 +899,20 @@ export class BackupImportStream extends Writable {
     };
 
     if (serviceId != null && Bytes.isNotEmpty(contact.identityKey)) {
+      const verified = contact.identityState || 0;
       this.identityKeys.set(serviceId, {
         id: serviceId,
         publicKey: contact.identityKey,
-        verified: contact.identityState || 0,
+        verified,
         firstUse: true,
         timestamp: this.now,
         nonblockingApproval: true,
       });
+      attrs.verified = verified;
     }
 
     if (contact.notRegistered) {
-      const timestamp = getTimestampOrUndefinedFromLong(
+      const timestamp = getCheckedTimestampOrUndefinedFromLong(
         contact.notRegistered.unregisteredTimestamp
       );
       attrs.discoveredUnregisteredAt = timestamp || this.now;
@@ -1007,7 +1052,8 @@ export class BackupImportStream extends Writable {
             serviceId,
             role: dropNull(role) ?? SignalService.Member.Role.UNKNOWN,
             addedByUserId: fromAciObject(Aci.fromUuidBytes(addedByUserId)),
-            timestamp: timestamp != null ? getTimestampFromLong(timestamp) : 0,
+            timestamp:
+              timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0,
           };
         }
       ),
@@ -1020,7 +1066,8 @@ export class BackupImportStream extends Writable {
 
           return {
             aci: fromAciObject(Aci.fromUuidBytes(userId)),
-            timestamp: timestamp != null ? getTimestampFromLong(timestamp) : 0,
+            timestamp:
+              timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0,
           };
         }
       ),
@@ -1036,7 +1083,8 @@ export class BackupImportStream extends Writable {
 
         return {
           serviceId,
-          timestamp: timestamp != null ? getTimestampFromLong(timestamp) : 0,
+          timestamp:
+            timestamp != null ? getCheckedTimestampFromLong(timestamp) : 0,
         };
       }),
       revision: dropNull(version),
@@ -1140,7 +1188,9 @@ export class BackupImportStream extends Writable {
         isBlockList: false,
         members: [],
 
-        deletedAtTimestamp: getTimestampFromLong(listItem.deletionTimestamp),
+        deletedAtTimestamp: getCheckedTimestampFromLong(
+          listItem.deletionTimestamp
+        ),
       };
     }
 
@@ -1171,7 +1221,7 @@ export class BackupImportStream extends Writable {
       name,
       restrictions: fromCallLinkRestrictionsProto(restrictions),
       revoked: false,
-      expiration: getTimestampFromLong(expirationMs) || null,
+      expiration: getCheckedTimestampOrUndefinedFromLong(expirationMs) ?? null,
       storageNeedsSync: false,
     };
 
@@ -1201,9 +1251,8 @@ export class BackupImportStream extends Writable {
 
     this.chatIdToConvo.set(chat.id.toNumber(), conversation);
 
-    // Make sure conversation appears in left pane
-    if (conversation.active_at == null) {
-      conversation.active_at = Math.max(chat.id.toNumber(), 1);
+    if (isTestEnvironment(getEnvironment())) {
+      conversation.test_chatFrameImportedFromBackup = true;
     }
 
     conversation.isArchived = chat.archived === true;
@@ -1214,9 +1263,18 @@ export class BackupImportStream extends Writable {
         ? DurationInSeconds.fromMillis(chat.expirationTimerMs.toNumber())
         : undefined;
     conversation.expireTimerVersion = chat.expireTimerVersion || 1;
-    conversation.muteExpiresAt = getTimestampOrUndefinedFromLong(
-      chat.muteUntilMs
-    );
+
+    if (
+      chat.muteUntilMs != null &&
+      chat.muteUntilMs.toNumber() >= MAX_SAFE_DATE
+    ) {
+      // Muted forever
+      conversation.muteExpiresAt = Number.MAX_SAFE_INTEGER;
+    } else {
+      conversation.muteExpiresAt = getCheckedTimestampOrUndefinedFromLong(
+        chat.muteUntilMs
+      );
+    }
     conversation.markedUnread = chat.markedUnread === true;
     conversation.dontNotifyForMentionsIfMuted =
       chat.dontNotifyForMentionsIfMuted === true;
@@ -1258,7 +1316,7 @@ export class BackupImportStream extends Writable {
   ): Promise<void> {
     const { aboutMe } = options;
 
-    const timestamp = item?.dateSent?.toNumber();
+    const timestamp = getCheckedTimestampOrUndefinedFromLong(item?.dateSent);
     const logId = `fromChatItem(${timestamp})`;
 
     strictAssert(this.ourConversation != null, `${logId}: AccountData missing`);
@@ -1288,14 +1346,18 @@ export class BackupImportStream extends Writable {
       unread,
     } = this.fromDirectionDetails(item, timestamp);
 
-    if (newActiveAt != null) {
+    if (
+      newActiveAt != null &&
+      this.shouldChatItemAffectChatListPresence(item)
+    ) {
       chatConvo.active_at = newActiveAt;
     }
+
     if (unread != null) {
       chatConvo.unreadCount = (chatConvo.unreadCount ?? 0) + 1;
     }
 
-    const expirationStartTimestamp = getTimestampOrUndefinedFromLong(
+    const expirationStartTimestamp = getCheckedTimestampOrUndefinedFromLong(
       item.expireStartDate
     );
     const expireTimer =
@@ -1412,14 +1474,12 @@ export class BackupImportStream extends Writable {
       ...additionalMessages.map(additional => this.saveMessage(additional)),
     ]);
 
-    // TODO (DESKTOP-6964): We'll want to increment for more types here - stickers, etc.
-    if (item.standardMessage) {
-      if (item.outgoing != null) {
-        chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
-      } else {
-        chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
-      }
+    if (item.outgoing != null) {
+      chatConvo.sentMessageCount = (chatConvo.sentMessageCount ?? 0) + 1;
+    } else if (item.incoming != null) {
+      chatConvo.messageCount = (chatConvo.messageCount ?? 0) + 1;
     }
+
     await this.updateConversation(chatConvo);
   }
 
@@ -1519,7 +1579,7 @@ export class BackupImportStream extends Writable {
           status: sendStatus,
           updatedAt:
             status.timestamp != null && !status.timestamp.isZero()
-              ? getTimestampFromLong(status.timestamp)
+              ? getCheckedTimestampFromLong(status.timestamp)
               : undefined,
         };
       }
@@ -1537,8 +1597,12 @@ export class BackupImportStream extends Writable {
       };
     }
     if (incoming) {
-      const receivedAtMs = incoming.dateReceived?.toNumber() || this.now;
-      const serverTimestamp = incoming.dateServerSent?.toNumber() || undefined;
+      const receivedAtMs =
+        getCheckedTimestampOrUndefinedFromLong(incoming.dateReceived) ??
+        this.now;
+      const serverTimestamp = getCheckedTimestampOrUndefinedFromLong(
+        incoming.dateServerSent
+      );
 
       const unidentifiedDeliveryReceived = incoming.sealedSender === true;
 
@@ -1574,7 +1638,65 @@ export class BackupImportStream extends Writable {
         readStatus: ReadStatus.Read,
         seenStatus: SeenStatus.Seen,
       },
+      newActiveAt: timestamp,
     };
+  }
+
+  /**
+   * Some update messages should not affect the chat's position in the left pane chat
+   * list. For example, conversations with only an identity update (SN change) message
+   * should not show in the left pane.
+   */
+  private shouldChatItemAffectChatListPresence(
+    item: Backups.IChatItem
+  ): boolean {
+    if (!item.updateMessage) {
+      return true;
+    }
+
+    if (item.updateMessage.simpleUpdate) {
+      switch (item.updateMessage.simpleUpdate.type) {
+        case Backups.SimpleChatUpdate.Type.IDENTITY_UPDATE:
+        case Backups.SimpleChatUpdate.Type.CHANGE_NUMBER:
+        case Backups.SimpleChatUpdate.Type.MESSAGE_REQUEST_ACCEPTED:
+        case Backups.SimpleChatUpdate.Type.REPORTED_SPAM:
+        case undefined:
+        case null:
+          return false;
+        // Listing all of these out (rather than a default case) so that TS will force us
+        // to update this list when a new type is introduced
+        case Backups.SimpleChatUpdate.Type.BAD_DECRYPT:
+        case Backups.SimpleChatUpdate.Type.BLOCKED:
+        case Backups.SimpleChatUpdate.Type.CHAT_SESSION_REFRESH:
+        case Backups.SimpleChatUpdate.Type.END_SESSION:
+        case Backups.SimpleChatUpdate.Type.IDENTITY_DEFAULT:
+        case Backups.SimpleChatUpdate.Type.IDENTITY_VERIFIED:
+        case Backups.SimpleChatUpdate.Type.JOINED_SIGNAL:
+        case Backups.SimpleChatUpdate.Type.PAYMENTS_ACTIVATED:
+        case Backups.SimpleChatUpdate.Type.PAYMENT_ACTIVATION_REQUEST:
+        case Backups.SimpleChatUpdate.Type.RELEASE_CHANNEL_DONATION_REQUEST:
+        case Backups.SimpleChatUpdate.Type.UNBLOCKED:
+        case Backups.SimpleChatUpdate.Type.UNKNOWN:
+        case Backups.SimpleChatUpdate.Type.UNSUPPORTED_PROTOCOL_MESSAGE:
+          return true;
+        default:
+          throw missingCaseError(item.updateMessage.simpleUpdate.type);
+      }
+    }
+
+    if (
+      item.updateMessage.groupChange?.updates?.every(update =>
+        Boolean(update.groupMemberLeftUpdate)
+      )
+    ) {
+      return false;
+    }
+
+    if (item.updateMessage.profileChange) {
+      return false;
+    }
+
+    return true;
   }
 
   private async fromStandardMessage(
@@ -1599,7 +1721,7 @@ export class BackupImportStream extends Writable {
               url,
               title: dropNull(preview.title),
               description: dropNull(preview.description),
-              date: getTimestampFromLong(preview.date),
+              date: getCheckedTimestampFromLong(preview.date),
               image: preview.image
                 ? convertFilePointerToAttachment(preview.image)
                 : undefined,
@@ -1644,7 +1766,7 @@ export class BackupImportStream extends Writable {
             'Edit history has non-standard messages'
           );
 
-          const timestamp = getTimestampFromLong(rev.dateSent);
+          const timestamp = getCheckedTimestampFromLong(rev.dateSent);
 
           const {
             patch: {
@@ -1703,7 +1825,9 @@ export class BackupImportStream extends Writable {
     strictAssert(authorConvo !== undefined, 'author conversation not found');
 
     return {
-      id: getTimestampFromLong(quote.targetSentTimestamp) || null,
+      id:
+        getCheckedTimestampOrUndefinedFromLong(quote.targetSentTimestamp) ??
+        null,
       referencedMessageNotFound: quote.targetSentTimestamp == null,
       authorAci: isAciString(authorConvo.serviceId)
         ? authorConvo.serviceId
@@ -1783,8 +1907,8 @@ export class BackupImportStream extends Writable {
         return {
           emoji,
           fromId: authorConvo.id,
-          targetTimestamp: getTimestampFromLong(sentTimestamp),
-          timestamp: getTimestampFromLong(sentTimestamp),
+          targetTimestamp: getCheckedTimestampFromLong(sentTimestamp),
+          timestamp: getCheckedTimestampFromLong(sentTimestamp),
         };
       });
   }
@@ -2193,8 +2317,9 @@ export class BackupImportStream extends Writable {
           : null,
         peerId: groupId,
         direction: isRingerMe ? CallDirection.Outgoing : CallDirection.Incoming,
-        timestamp: startedCallTimestamp.toNumber(),
-        endedTimestamp: getTimestampFromLong(endedCallTimestamp) || null,
+        timestamp: getCheckedTimestampFromLong(startedCallTimestamp),
+        endedTimestamp:
+          getCheckedTimestampOrUndefinedFromLong(endedCallTimestamp) ?? null,
       };
 
       await this.saveCallHistory(callHistory);
@@ -2252,7 +2377,7 @@ export class BackupImportStream extends Writable {
         startedById: null,
         peerId,
         direction,
-        timestamp: startedCallTimestamp.toNumber(),
+        timestamp: getCheckedTimestampFromLong(startedCallTimestamp),
         endedTimestamp: null,
       };
 
@@ -3021,7 +3146,7 @@ export class BackupImportStream extends Writable {
       mode: CallMode.Adhoc,
       type: CallType.Adhoc,
       direction: CallDirection.Unknown,
-      timestamp: callTimestamp.toNumber(),
+      timestamp: getCheckedTimestampFromLong(callTimestamp),
       status: fromAdHocCallStateProto(state),
       endedTimestamp: null,
     };

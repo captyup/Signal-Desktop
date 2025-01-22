@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofons ieslēgts"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Nolaist roku?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Nolaist"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zvana signāls ieslēgts"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Gatavo lejupielādi…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Process var aizņemt dažas minūtes atkarībā no rezerves kopijas izmēra"
+    "messageformat": "Šis process var aizņemt dažas minūtes atkarībā no ziņu vēstures apjoma"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Atcelt pārsūtīšanu"
+    "messageformat": "Atcelt"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Ziņas un sarunu informāciju aizsargā pilnīga šifrēšana, tostarp sinhronizēšanas process. <learnMoreLink>Uzzināt vairāk</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Vai atcelt pārsūtīšanu?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Ziņu un multivides atjaunošana nav pabeigta. Ja atcelsiet to, pārsūtīšanu varēsiet veikt vēlreiz iestatījumos."
+    "messageformat": "Ziņu un multivides atjaunošana nav pabeigta. Ja izvēlēsieties atcelt, ierīce tiks piesaistīta, bet ziņu vēsture netiks atjaunota."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Turpināt pārsūtīšanu"
@@ -5782,13 +5788,10 @@
     "messageformat": "Nelielas izmaiņas, kļūdu labojumi un darbības uzlabojumi. Paldies, ka lietojat Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Šajā atjauninājumā ir novērsta kļūda, kas traucēja kopīgot ekrānu macOS Sonoma operētājsistēmas ierīcēs, ja atļauja kopīgot ekrānu iepriekš tika noraidīta."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrējot nelasītās ziņas, tagad tiks izcelta atlasītā saruna, un saraksts ar nelasītajām sarunām automātiski atjaunināsies, kolīdz parādīsies jaunas ziņas vai kad pārslēgsieties no vienas sarunas uz citu."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Tagad varat ērti apskatīt pielikumu lejupielādēs progresu, kā arī apturēt lejupielādes un tās atsākt. Ja failu pārsūtīšanas ātrums samazinās, jo atrodaties ceļā (piemēram, lidmašīnā) vai jums hotelī pieejams tikai lēns Wi-Fi tīkls, tagad varat atsākt failu lejupielādi, kolīdz tiekat pie ātrāka interneta savienojuma."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Mēs atrisinājām kļūdu, kas lika arī jūsu kontam parādīties @ pieminējumu automātiskās pabeigšanas ieteikumu sarakstā. Ja jums šī kļūda kādreiz pietrūkst, iesakām šādos gadījumos grupu sarunās atsaukties uz sevi trešajā personā."
   }
 }

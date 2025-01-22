@@ -1,47 +1,70 @@
-// Copyright 2021 Signal Messenger, LLC
+// Copyright 2024 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
 const fs = require('fs');
 const _ = require('lodash');
+const { execSync } = require('child_process');
 
 const packageJson = require('../package.json');
-const { isAxolotl } = require('../ts/util/version');
+const { isAdhoc } = require('../ts/util/version');
 
 const { version } = packageJson;
 
 // You might be wondering why this file is necessary. It comes down to our desire to allow
-//   side-by-side installation of production and alpha builds. Electron-Builder uses
+//   side-by-side installation of production and adhoc builds. Electron-Builder uses
 //   top-level data from package.json for many things, like the executable name, the
 //   debian package name, the install directory under /opt on linux, etc. We tried
 //   adding the ${channel} macro to these values, but Electron-Builder didn't like that.
 
-if (!isAxolotl(version)) {
-  console.error(`Version '${version}' is not an backup version!`);
+if (!isAdhoc(version)) {
+  console.error(`Version '${version}' is not an adhoc version!`);
   process.exit(1);
 }
 
-console.log('prepare_backup_build: updating package.json');
+const shortSha = execSync('git rev-parse --short HEAD')
+  .toString('utf8')
+  .replace(/[\n\r]/g, '');
+
+const dateTimeParts = new Intl.DateTimeFormat('en', {
+  day: '2-digit',
+  hour: '2-digit',
+  hourCycle: 'h23',
+  month: '2-digit',
+  timeZone: 'GMT',
+  year: 'numeric',
+}).formatToParts(new Date());
+const dateTimeMap = new Map();
+dateTimeParts.forEach(({ type, value }) => {
+  dateTimeMap.set(type, value);
+});
+const formattedDate = `${dateTimeMap.get('year')}${dateTimeMap.get(
+  'month'
+)}${dateTimeMap.get('day')}`;
+
+console.log(
+  `prepare_adhoc_build(adhoc-${formattedDate}-${shortSha}): updating package.json`
+);
 
 // -------
 
 const NAME_PATH = 'name';
 const PRODUCTION_NAME = 'signal-desktop';
-const AXOLOTL_NAME = 'signal-desktop-axolotl';
+const ADHOC_NAME = `signal-desktop-adhoc-${formattedDate}-${shortSha}`;
 
 const PRODUCT_NAME_PATH = 'productName';
 const PRODUCTION_PRODUCT_NAME = 'Signal';
-const AXOLOTL_PRODUCT_NAME = 'Signal Axolotl';
+const ADHOC_PRODUCT_NAME = `Signal Adhoc ${formattedDate}.${shortSha}`;
 
 const APP_ID_PATH = 'build.appId';
 const PRODUCTION_APP_ID = 'org.whispersystems.signal-desktop';
-const AXOLOTL_APP_ID = 'org.whispersystems.signal-desktop-axolotl';
+const ADHOC_APP_ID = `org.whispersystems.signal-desktop-adhoc-${formattedDate}-${shortSha}`;
 
 const DESKTOP_NAME_PATH = 'desktopName';
 
 // Note: we're avoiding dashes in our .desktop name due to xdg-settings behavior
 //   https://github.com/signalapp/Signal-Desktop/issues/3602
 const PRODUCTION_DESKTOP_NAME = 'signal.desktop';
-const AXOLOTL_DESKTOP_NAME = 'signalaxolotl.desktop';
+const ADHOC_DESKTOP_NAME = `signaladhoc.${formattedDate}.${shortSha}.desktop`;
 
 // -------
 
@@ -61,10 +84,10 @@ checkValue(packageJson, DESKTOP_NAME_PATH, PRODUCTION_DESKTOP_NAME);
 
 // -------
 
-_.set(packageJson, NAME_PATH, AXOLOTL_NAME);
-_.set(packageJson, PRODUCT_NAME_PATH, AXOLOTL_PRODUCT_NAME);
-_.set(packageJson, APP_ID_PATH, AXOLOTL_APP_ID);
-_.set(packageJson, DESKTOP_NAME_PATH, AXOLOTL_DESKTOP_NAME);
+_.set(packageJson, NAME_PATH, ADHOC_NAME);
+_.set(packageJson, PRODUCT_NAME_PATH, ADHOC_PRODUCT_NAME);
+_.set(packageJson, APP_ID_PATH, ADHOC_APP_ID);
+_.set(packageJson, DESKTOP_NAME_PATH, ADHOC_DESKTOP_NAME);
 
 // -------
 

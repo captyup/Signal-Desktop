@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofonoa aktibatuta"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Eskua jaitsi nahi duzu?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Jaitsi"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Dei-tonua aktibatuta"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Deskargatzeko prestatzen…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Zure babeskopiaren tamainaren arabera, baliteke minutu batzuk behar izatea"
+    "messageformat": "Agian minutu batzuk beharko dira, mezu-historiaren tamainaren arabera"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Utzi transferentzia bertan behera"
+    "messageformat": "Utzi"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mezuak eta txatari buruzko informazioa muturretik muturrerako enkriptatzearen bidez daude babestuta (sinkronizazio-prozesua barne). <learnMoreLink>Informazio gehiago</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Transferentzia bertan behera utzi nahi duzu?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Oraindik ez dira leheneratu mezuak eta multimedia-fitxategiak. Bertan behera utzi arren, berriro transferitu ahalko dituzu ezarpenetatik."
+    "messageformat": "Oraindik ez dira leheneratu mezuak eta multimedia-fitxategiak. Bertan behera uztea aukeratzen baduzu, mezu-historia gabe lotuko da gailua."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Jarraitu transferitzen"
@@ -5782,13 +5788,10 @@
     "messageformat": "Doikuntza txikiak, akats-konponketak eta errendimendu-hobekuntzak. Eskerrik asko Signal erabiltzeagatik!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Eguneraketa honen bidez, macOS Sonoma-n pantaila partekatzeko akats bat konpondu da."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Orain, irakurri gabeen arabera iragaztean, hautatutako txata nabarmentzen da eta, mezuak irakurri eta jaso ahala, txaten zerrenda eguneratu egiten da."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Orain, erraz ikus dezakezu eranskinen deskargaren aurrerapena. Halaber, abian diren deskargak geldiarazi eta berrabiaraz ditzakezu."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "@Aipamenak automatikoki osatzeko iradokizun-zerrendan batzuetan zeure kontua agerrarazten zuen akats bat konpondu dugu."
   }
 }

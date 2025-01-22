@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Microfon activat"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Lași mâna jos?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Coboară"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Sunet de apel activat"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Se pregătește descărcarea..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Poate dura câteva minute, în funcție de dimensiunea backup-ului"
+    "messageformat": "Poate dura câteva minute, în funcție de dimensiunea istoricului mesajelor"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Anulează transferul"
+    "messageformat": "Anulează"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesajele și informațiile legate de conversații sunt protejate prin criptare end-to-end, inclusiv prin procesul de sincronizare. <learnMoreLink>Află mai multe</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Anulezi transferul?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Nu s-a finalizat restabilirea mesajelor și ale fișierelor. Dacă alegi să anulezi, poți transfera din nou din Setări."
+    "messageformat": "Nu s-a finalizat restabilirea mesajelor și a fișierelor. Dacă alegi să anulezi, dispozitivul tău va fi asociat fără istoricul mesajelor."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuă transferul"
@@ -5782,13 +5788,10 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Această actualizare remediază o eroare pe macOS Sonoma care împiedica partajarea ecranului să funcționeze corect dacă permisiunea de a partaja ecranul a fost refuzată anterior — astfel încât nu mai trebuie să partajezi ecranul cu un mesaj de eroare."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtrarea după mesaje necitite evidențiază acum conversația selectată, iar lista de conversații necitite se va actualiza automat pe măsură ce sosesc mesaje noi sau când ai parcurs mesajele dintr-un chat și dai clic pe altul."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Acum poți vedea cu ușurință progresul descărcărilor de atașamente. De asemenea, poți opri și reporni și descărcările în curs. Așadar, dacă un transfer e lent pentru că ești pe drum sau WiFi-ul este slab, poți aștepta să reîncarci când există mai multă lățime de bandă."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Am remediat o eroare cu mențiunile @ care, uneori, includeau incorect propriul tău cont în lista de sugestii de completare automată. Dacă ai un ego puternic, poți folosi în continuare vorbirea la persoana a treia pentru a spune ceva despre tine în conversațiile de grup, dacă îți scapă vreodată această eroare."
   }
 }

@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon på"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Vil du ta ned hånden?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Ta ned"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Ringing på"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Gjør klart for nedlasting …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Dette kan ta et par minutter, avhengig av størrelsen på sikkerhetskopien"
+    "messageformat": "Dette kan ta et par minutter avhengig av størrelsen på meldingsloggen"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Avbryt overføring"
+    "messageformat": "Avbryt"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Meldinger og samtaleinnhold beskyttes av ende-til-ende-kryptering. Dette inkluderer også synkroniseringen. <learnMoreLink>Les mer</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Vil du avbryte overføringen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Meldingene og mediefilene har ikke blitt gjenopprettet. Dersom du avbryter overføringen, kan du starte den igjen via innstillingene."
+    "messageformat": "Meldingene og mediefilene har ikke blitt gjenopprettet. Dersom du avbryter overføringen, vil enheten kobles til uten meldingsloggen din."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Fortsett overføring"
@@ -5782,13 +5788,10 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "I denne oppdateringen har vi rettet opp i en feil med skjermdeling i macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Når du velger «Filtrer etter ulest», fremheves den valgte samtalen, og samtalene oppdateres ettersom du mottar og åpner meldinger."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Nå kan du se hvor langt nedlastingen har kommet når du laster ned et vedlegg. Du kan også sette nedlastinger på pause."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Vi har fikset en feil som førte til at ditt eget navn dukket opp i listen over foreslåtte tagger når du skriver meldinger."
   }
 }

@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon je uključen"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Spustiti ruku?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Spusti"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zvono je uključeno"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Priprema za preuzimanje..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Ovo može potrajati nekoliko minuta ovisno o veličini vaše sigurnosne kopije"
+    "messageformat": "Ovo može potrajati nekoliko minuta u zavisnosti od veličine vaše historije poruka"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Otkaži transfer"
+    "messageformat": "Otkaži"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Poruke i informacije o chatu zaštićene su sveobuhvatnim šifriranjem, uključujući postupak sinhronizacije. <learnMoreLink>Saznajte više</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Otkazati transfer?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Vraćanje vaših poruka i medija nije završeno. Ako odaberete da otkažete, možete ponovo prenijeti iz postavki."
+    "messageformat": "Vraćanje vaših poruka i medija nije završeno. Ako odaberete otkazivanje, vaš uređaj će biti povezan bez vaše historije poruka."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Nastavi transfer"
@@ -5782,13 +5788,10 @@
     "messageformat": "Mala podešavanja, otklanjanje grešaka i poboljšanja performansi. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Ovo ažuriranje ispravlja grešku u dijeljenju zaslona na macOS Sonoma.—"
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Filtriranje prema nepročitanom sada ističe odabrani chat i ažurira kako se poruke čitaju i primaju."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Sada možete jednostavno vidjeti napredak preuzimanja privitaka. Također možete zaustaviti i ponovno pokrenuti preuzimanja koja su u tijeku."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Ispravili smo pogrešku sa @ spominjanjima koja su ponekad uključivala vaš vlastiti račun na popis prijedloga za automatsko dovršavanje."
   }
 }

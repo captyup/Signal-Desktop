@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Micro activado"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Queres baixar a man?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Baixar"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Son da chamada activado"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Preparando a descarga…"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Dependendo do tamaño da túa copia, pode tardar uns minutos"
+    "messageformat": "Dependendo do tamaño do teu historial de mensaxes, pode tardar uns minutos"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Cancelar transferencia"
+    "messageformat": "Cancelar"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "As mensaxes e a información das conversas están protexidas por unha encriptación de extremo a extremo, incluído o proceso de sincronización. <learnMoreLink>Saber máis</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Cancelar transferencia?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Non se completou a recuperación das túas mensaxes e arquivos multimedia. Se cancelas o proceso, podes volver a facelo dende Configuración."
+    "messageformat": "Non se completou a recuperación das túas mensaxes e arquivos multimedia. Se cancelas o proceso, vincularase o teu dispositivo sen o historial de mensaxes."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Continuar a transferencia"
@@ -5782,13 +5788,10 @@
     "messageformat": "Comprende pequenas modificacións e melloras no rendemento. Moitas grazas por empregar Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Esta actualización corrixe un problema que ocorre ao compartir pantalla en macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "«Filtrar por Sen ler» agora destaca a conversa seleccionada e actualízase ao ler e recibir mensaxes."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Agora podes visualizar facilmente o progreso da descarga dos anexos. Tamén podes parar e reiniciar as descargas en curso."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Corriximos un erro coas mencións @ que ás veces incluía a túa conta na listaxe de suxestións."
   }
 }

@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Mikrofon açıqdır"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Əl endirilsin?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Əlini endir"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Zəng aktivdir"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Endirməyə hazırlaşır..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Ehtiyat nüsxənizin həcmindən asılı olaraq bu, bir qədər çəkə bilər"
+    "messageformat": "Mesaj tarixçəsinin həcmindən asılı olaraq bu, bir neçə dəqiqə çəkə bilər"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "Köçürməni ləğv et"
+    "messageformat": "Ləğv et"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Mesajlar və çat məlumatı sinxronlaşdırma prosesi daxil, tam şifrələmə ilə qorunur. <learnMoreLink>Daha ətraflı</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Köçürmə ləğv edilsin?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Mesajlarınız və media faylınızın bərpası tamamlanmayıb. Ləğv etsəniz, Parametrlərdən yenidən köçürə bilərsiniz."
+    "messageformat": "Mesajlarınız və media faylınızın bərpası tamamlanmayıb. Prosesi ləğv etməyi seçsəniz, cihazınız mesaj tarixçəsi olmadan qoşulacaq."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Köçürməni davam et"
@@ -5782,13 +5788,10 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "macOS Sonoma-da ekranı paylaşma icazəsi əvvəl rədd edilibsə, bu yeniləmə həmin nasazlığı aradan qaldırır — bununla da ekranı xəta mesajı ilə paylaşmırsınız."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Artıq \"Oxunmamışlara görə filtrlə\" seçimini etmək seçilmiş çatı vurğulayır, yeni mesajlar gəldikdən, oxunduqdan və qəbul edildikdən sonra isə siyahı yenilənir."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Artıq endirilən qoşmanın gedişatını asanlıqla görə bilərsiniz. Siz həm də davam edən endirimləri dayandıra və təkrar başlada bilərsiniz. Yolda olduğunuz üçün (təyyarə rejimində?) köçürmə ləngiyirsə və ya adi bir otel WiFi-ı yükləməyə tab gətirmirsə, daha müvafiq bir internetiniz olanadək gözləyin."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "Bəzən səhvən şəxsi hesabınızın avtomatik tamamlanan təklif siyahısına daxil edilməsinə səbəb olan @ işarəli etiketlərlə bağlı xətanı aradan qaldırdıq. Bu xətanı gözdən qaçırsanız, qrup çatlarında özünüzdən üçüncü şəxs kimi bəhs edə bilərsiniz."
   }
 }

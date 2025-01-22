@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "Naka-on ang mic"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "Gusto mo bang ibaba ang iyong kamay?"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "Ibaba"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "Naka-on ang pag-ring"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "Naghahandang mag-download..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Maaaring tumagal ito nang ilang minuto depende sa laki ng iyong backup"
+    "messageformat": "Maaaring itong tumagal nang ilang minuto depende sa laki ng message history mo"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "I-cancel ang transfer"
+    "messageformat": "I-cancel"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "Protektado ng end-to-end encryption ang messages at chat info, kasama ang proseso ng pag-sync. <learnMoreLink>Matuto pa</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "Gusto mo bang i-cancel ang transfer?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Hindi pa tapos ang pag-restore ng messages at media mo. Kapag kinancel mo ito, maaari mong ulitin ang pag-transfer mula sa Settings."
+    "messageformat": "Hindi natapos ang pag-restore ng messages at media mo. Kapag pinili mong mag-cancel, mali-link ang device mo nang hindi kasama ang iyong message history."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "Ituloy ang pag-transfer"
@@ -5782,13 +5788,10 @@
     "messageformat": "Dagdag na maliliit na pag-aayos, pag-alis ng bugs, at pagpapaganda ng takbo ng app. Maraming salamat sa paggamit ng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "Inaayos ng update na ito ang isang screen sharing bug sa macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "Hina-highlight na ng Filter by Unread ang piniling chat at nag-u-update habang nagbabasa at tumatanggap ng messages."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "Madali mo nang makikita ang progress ng attachment downloads. Pwede mo na ring ihinto at simulan ulit ang in-progress download."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "May inayos kaming bug sa @ mentions kung saan sinasama nito minsan ang account mo sa autocomplete suggestion list."
   }
 }

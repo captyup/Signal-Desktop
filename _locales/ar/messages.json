@@ -2789,6 +2789,12 @@
   "icu:CallControls__MutedToast--unmuted": {
     "messageformat": "الميكروفون مفعل"
   },
+  "icu:CallControls__LowerHandSuggestionToast": {
+    "messageformat": "هل تريد خفض يدك؟"
+  },
+  "icu:CallControls__LowerHandSuggestionToast--button": {
+    "messageformat": "خفض اليد"
+  },
   "icu:CallControls__RingingToast--ringing-on": {
     "messageformat": "تم تفعيل الرنين"
   },
@@ -3597,10 +3603,10 @@
     "messageformat": "جارٍ الإعداد للتنزيل..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "قد يستغرق هذا بضع دقائق حسب حجم نسختك الاحتياطية"
+    "messageformat": "قد يستغرق الأمر بضع دقائق حسب حجم سِجل رسائلك"
   },
   "icu:BackupImportScreen__cancel": {
-    "messageformat": "إلغاء التحويل"
+    "messageformat": "إلغاء"
   },
   "icu:BackupImportScreen__security-description": {
     "messageformat": "معلومات الرسائل والدردشات محمية من خلال التشفير من طرف لِطرف، بما في ذلك عملية المزامنة. <learnMoreLink>اعرف المزيد</learnMoreLink>"
@@ -3609,7 +3615,7 @@
     "messageformat": "أترغبُ بإلغاء التحويل؟"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "لم تكتمل استعادة رسائلك ووسائطك. إذا اخترتَ الإلغاء، يمكنك تحويلها مجددًا من خلال \"الإعدادات\"."
+    "messageformat": "لم تكتمل استعادة رسائلك ووسائطك. إذا اخترت الإلغاء، سَيتمُّ ربط جهازك دون سِجل رسائلك."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
     "messageformat": "مواصلة التحويل"
@@ -5782,13 +5788,10 @@
     "messageformat": "تعديلات صغيرة، تصليح الأعطال، وتحسينات للأداء. شكرًا على استخدامكم سيجنال!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.36--0": {
-    "messageformat": "يُصلِح هذا التحديث خطأ متعلقًا بمشاركة الشاشة على نظام macOS Sonoma."
-  },
-  "icu:WhatsNew__v7.36--1": {
-    "messageformat": "تُبرِز الآن خاصية \"الفلترة بحسب الدردشات غير المقروءة\" المحادثة المُختارة ويتمُّ تحديثها بالموازاة مع قراءة الرسائل والتوصل بها."
-  },
   "icu:WhatsNew__v7.37--0": {
     "messageformat": "يُمكنك الآن رؤية تقدّم تنزيل الملفات المُرفَقة بسهولة. يُمكنك أيضًا توقيف التنزيلات الجارية وإعادة بدئها من جديد."
+  },
+  "icu:WhatsNew__v7.38--0": {
+    "messageformat": "أصلحنا خطأ يتعلق بالإشارات إلى الأفراد @ التي كانت في بعض الأحيان تُضيف حسابك الخاص في قائمة اقتراحات الإكمال التلقائي."
   }
 }

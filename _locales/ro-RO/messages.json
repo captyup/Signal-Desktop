@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Imagine trimisă în conversație"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Se descarcă {downloaded} din {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Pictogramă ce arată că această imagine are titlu"
   },
@@ -1133,14 +1136,62 @@
   "icu:cancelDownload": {
     "messageformat": "Anulează descărcarea"
   },
-  "icu:retryDownload": {
-    "messageformat": "Reîncearcă descărcarea"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Încearcă din nou"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} articol} few {{count,number} itemi} other {{count,number} de itemi}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "Acest fișier nu mai este disponibil."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "Acest fișier media nu este disponibil"
+  },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Fișierul nu este disponibil"
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Află mai multe"
+  },
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "Fișierul nu este disponibil"
+  },
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "Acest mesaj este incomplet"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Autocolantul nu este disponibil"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Mesajul vocal nu este disponibil"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "Fișierul nu este disponibil"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Mesaj complet nu este disponibil"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Fișierul nu este disponibil"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Autocolantul nu este disponibil"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Mesajul vocal nu este disponibil"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "Acest fișier nu a fost transferat de pe telefonul tău când acest dispozitiv a fost asociat. Fișierele și conținutul media mai vechi de 45 de zile în momentul asocierii dispozitivului nu pot fi sincronizate."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "Textul complet din acest mesaj nu a fost transferat de pe telefonul tău atunci când acest dispozitiv a fost asociat. Mesajele text lungi mai vechi de 45 de zile la momentul asocierii dispozitivului nu pot fi sincronizate."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "Acest fișier nu a fost transferat de pe telefonul tău când acest dispozitiv a fost asociat. Fișierele media mai vechi de 45 de zile în momentul asocierii dispozitivului nu pot fi sincronizate."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "Acest fișier nu a fost transferat de pe telefonul tău când acest dispozitiv a fost asociat. Fișierele și conținutul media mai vechi de 45 de zile în momentul asocierii dispozitivului nu pot fi sincronizate."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "Acest mesaj vocal nu a fost transferat de pe telefonul tău când acest dispozitiv a fost asociat. Media și fișierele mai vechi de 45 de zile în momentul conectării dispozitivului nu pot fi sincronizate."
   },
   "icu:save": {
     "messageformat": "Salvează"
@@ -1184,6 +1235,9 @@
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Încearcă din nou"
   },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Actualizează codul"
+  },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Obține ajutor"
   },
@@ -1201,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "Numele dispozitivului"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "Pentru a schimba numele acestui dispozitiv, deschide Signal pe telefon și navighează la Setări > Dispozitive asociate"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Alege numele dispozitivului"
@@ -1578,10 +1635,10 @@
     "messageformat": "Ștergi toate datele?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Ștergi toate datele și mesajele din această versiune de Signal Desktop? Poți oricând să re-asociezi acest desktop, dar mesajele tale nu se vor restabili. Contul tău Signal și datele de pe telefon sau alte dispozitive conectate nu vor fi șterse."
+    "messageformat": "Ștergi toate datele și mesajele din această versiune de Signal Desktop? Contul tău Signal și datele de pe telefon sau alte dispozitive conectate nu vor fi șterse."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Se deconectează și se șterg toate datele"
+    "messageformat": "Se deconectează și se șterg toate datele…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Ai date învechite de la o instalare anterioara a Signal Desktop. Dacă alegi să continui, acestea vor fi șterse și vei începe de la zero."
@@ -3572,6 +3629,9 @@
   "icu:next": {
     "messageformat": "următorul"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "Această operațiune poate dura câteva minute"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donează pentru Signal"
   },
@@ -3599,11 +3659,14 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "Se finalizează transferul mesajelor..."
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Se anulează…"
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Se pregătește descărcarea..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Poate dura câteva minute, în funcție de dimensiunea istoricului mesajelor"
+    "messageformat": "Această operațiune poate dura câteva minute"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Anulează"
@@ -3612,16 +3675,16 @@
     "messageformat": "Mesajele și informațiile legate de conversații sunt protejate prin criptare end-to-end, inclusiv prin procesul de sincronizare. <learnMoreLink>Află mai multe</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Anulezi transferul?"
+    "messageformat": "Anulezi asocierea dispozitivului?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Nu s-a finalizat restabilirea mesajelor și a fișierelor. Dacă alegi să anulezi, dispozitivul tău va fi asociat fără istoricul mesajelor."
+    "messageformat": "Dacă alegi să anulezi, acest dispozitiv nu va fi asociat și niciun mesaj sau conținut media nu va fi transferat."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Continuă transferul"
+    "messageformat": "Continuă asocierea"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Anulează transferul"
+    "messageformat": "Anulează asocierea"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Eroare la transferul mesajelor tale"
@@ -4236,7 +4299,7 @@
     "messageformat": "Resetare culori pentru toate conversațiile"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Resetare implicită"
+    "messageformat": "Resetare culori implicite"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Resetare"
@@ -4555,6 +4618,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Alege o culoare"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Reîncearcă descărcarea"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Încearcă din nou"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Avatar de grup"
@@ -5788,10 +5857,16 @@
     "messageformat": "Mici ajustări, soluționări de bug-uri și îmbunătățiri ale performanței. Mersi că folosești Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Acum poți vedea cu ușurință progresul descărcărilor de atașamente. De asemenea, poți opri și reporni și descărcările în curs. Așadar, dacă un transfer e lent pentru că ești pe drum sau WiFi-ul este slab, poți aștepta să reîncarci când există mai multă lățime de bandă."
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Pe dispozitivele cu ecran tactil, acum poți ajusta bara laterală în lista conversațiilor. Astfel, atunci când tragi de ea să o dimensionezi, nu vei simți că ai tras din greu, iar urmele de pe ecran vor fi doar o dovadă că ți-ai folosit degetele."
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Am remediat o eroare cu mențiunile @ care, uneori, includeau incorect propriul tău cont în lista de sugestii de completare automată. Dacă ai un ego puternic, poți folosi în continuare vorbirea la persoana a treia pentru a spune ceva despre tine în conversațiile de grup, dacă îți scapă vreodată această eroare."
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "Am remediat o eroare rară care a împiedicat unele chat-uri să se deschidă corect după ce au fost selectate, așa că acum Signal Desktop nu ratează în timp ce încerci să-ți amintești ce s-a spus."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Acum, când conectezi dispozitivul Signal principal la un nou desktop, poți avea acces la istoricul conversațiilor și la fișierele media din ultimele 45 de zile. Procesul de transfer este criptat end-to-end și complet opțional. Când vine vorba de a alege dacă să lași sau nu trecutul în urmă, ești la mâna propriilor tale dispozitive."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Ziua Îndrăgostiților înseamnă sărbătorirea unei potriviri perfecte, așa că am actualizat eticheta textului pe un singur buton din aplicația Desktop pentru a crea un cuplu drăguț cu același buton de pe telefon. Pare o schimbare foarte mică, și este, dar uneori lucrurile mărunte arată cât de mult îți pasă."
   }
 }

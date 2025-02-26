@@ -655,6 +655,20 @@ export function isPlayed(
   return readStatus === ReadStatus.Viewed;
 }
 
+export function canRenderAudio(
+  attachments?: ReadonlyArray<AttachmentType>
+): boolean {
+  const firstAttachment = attachments && attachments[0];
+  if (!firstAttachment) {
+    return false;
+  }
+
+  return (
+    isAudio(attachments) &&
+    (isDownloaded(firstAttachment) || isDownloadable(firstAttachment))
+  );
+}
+
 export function canDisplayImage(
   attachments?: ReadonlyArray<AttachmentType>
 ): boolean {
@@ -772,6 +786,12 @@ function resolveNestedAttachment<
   return attachment;
 }
 
+export function isIncremental(
+  attachment: Pick<AttachmentForUIType, 'incrementalMac' | 'chunkSize'>
+): boolean {
+  return Boolean(attachment.incrementalMac && attachment.chunkSize);
+}
+
 export function isDownloaded(
   attachment?: Pick<AttachmentType, 'path' | 'textAttachment'>
 ): boolean {
@@ -791,7 +811,10 @@ export function isReadyToView(
   }
 
   const resolved = resolveNestedAttachment(attachment);
-  return Boolean(resolved && (resolved.path || resolved.textAttachment));
+  return Boolean(
+    resolved &&
+      (resolved.path || resolved.textAttachment || isIncremental(resolved))
+  );
 }
 
 export function hasNotResolved(attachment?: AttachmentType): boolean {
@@ -1257,6 +1280,12 @@ export function isDownloadable(attachment: AttachmentType): boolean {
     isDownloadableFromTransitTier(attachment) ||
     isDownloadableFromBackupTier(attachment)
   );
+}
+
+export function isPermanentlyUndownloadable(
+  attachment: AttachmentType
+): boolean {
+  return Boolean(!isDownloadable(attachment) && attachment.error);
 }
 
 export function isAttachmentLocallySaved(

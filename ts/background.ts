@@ -203,6 +203,9 @@ import {
   maybeQueueDeviceNameFetch,
   onDeviceNameChangeSync,
 } from './util/onDeviceNameChangeSync';
+import { postSaveUpdates } from './util/cleanup';
+import { handleDataMessage } from './messages/handleDataMessage';
+import { MessageModel } from './models/messages';
 
 export function isOverHourIntoPast(timestamp: number): boolean {
   return isNumber(timestamp) && isOlderThan(timestamp, HOUR);
@@ -397,7 +400,9 @@ export async function startApp(): Promise<void> {
     }
     return server.getSocketStatus();
   };
+
   let accountManager: AccountManager;
+  let isInRegistration = false;
   window.getAccountManager = () => {
     if (accountManager) {
       return accountManager;
@@ -408,12 +413,14 @@ export async function startApp(): Promise<void> {
 
     accountManager = new window.textsecure.AccountManager(server);
     accountManager.addEventListener('startRegistration', () => {
+      isInRegistration = true;
       pauseProcessing();
 
       backupReady.reject(new Error('startRegistration'));
       backupReady = explodePromise();
     });
     accountManager.addEventListener('registration', () => {
+      isInRegistration = false;
       window.Whisper.events.trigger('userChanged', false);
 
       drop(Registration.markDone());
@@ -963,6 +970,10 @@ export async function startApp(): Promise<void> {
       if (window.isBeforeVersion(lastVersion, 'v7.33.0-beta.1')) {
         await window.storage.remove('masterKeyLastRequestTime');
       }
+
+      if (window.isBeforeVersion(lastVersion, 'v7.43.0-beta.1')) {
+        await window.storage.remove('primarySendsSms');
+      }
     }
 
     setAppLoadingScreenMessage(
@@ -1034,8 +1045,6 @@ export async function startApp(): Promise<void> {
         isIdleTaskProcessing = false;
       }
     });
-
-    void window.Signal.RemoteConfig.initRemoteConfig(server);
 
     const retryPlaceholders = new RetryPlaceholders({
       retryReceiptLifespan: HOUR,
@@ -1421,7 +1430,7 @@ export async function startApp(): Promise<void> {
 
     void badgeImageFileDownloader.checkForFilesToDownload();
 
-    initializeExpiringMessageService(singleProtoJobQueue);
+    initializeExpiringMessageService();
 
     log.info('Blocked uuids cleanup: starting...');
     const blockedUuids = window.storage.get(BLOCKED_UUIDS_ID, []);
@@ -1473,6 +1482,7 @@ export async function startApp(): Promise<void> {
 
       await DataWriter.saveMessages(newMessageAttributes, {
         ourAci: window.textsecure.storage.user.getCheckedAci(),
+        postSaveUpdates,
       });
     }
     log.info('Expiration start timestamp cleanup: complete');
@@ -1484,10 +1494,6 @@ export async function startApp(): Promise<void> {
       log.info('handling registration event');
 
       strictAssert(server !== undefined, 'WebAPI not ready');
-
-      // Cancel throttled calls to refreshRemoteConfig since our auth changed.
-      window.Signal.RemoteConfig.maybeRefreshRemoteConfig.cancel();
-      drop(window.Signal.RemoteConfig.maybeRefreshRemoteConfig(server));
 
       drop(connect(true));
 
@@ -1509,10 +1515,10 @@ export async function startApp(): Promise<void> {
     });
 
     void updateExpiringMessagesService();
-    void tapToViewMessagesDeletionService.update();
+    tapToViewMessagesDeletionService.update();
     window.Whisper.events.on('timetravel', () => {
       void updateExpiringMessagesService();
-      void tapToViewMessagesDeletionService.update();
+      tapToViewMessagesDeletionService.update();
     });
 
     const isCoreDataValid = Boolean(
@@ -1590,7 +1596,9 @@ export async function startApp(): Promise<void> {
     const onOnline = () => {
       log.info('background: online');
 
-      if (!remotelyExpired) {
+      // Do not attempt to connect while expired or in-the-middle of
+      // registration
+      if (!remotelyExpired && !isInRegistration) {
         drop(connect());
       }
     };
@@ -1648,6 +1656,8 @@ export async function startApp(): Promise<void> {
 
     const backupDownloadPath = window.storage.get('backupDownloadPath');
     if (backupDownloadPath) {
+      tapToViewMessagesDeletionService.pause();
+
       // Download backup before enabling request handler and storage service
       try {
         await backupsService.downloadAndImport({
@@ -1666,6 +1676,8 @@ export async function startApp(): Promise<void> {
         log.error('afterStart: backup download failed, rejecting');
         backupReady.reject(error);
         throw error;
+      } finally {
+        tapToViewMessagesDeletionService.resume();
       }
     } else {
       backupReady.resolve();
@@ -1840,11 +1852,14 @@ export async function startApp(): Promise<void> {
         drop(AttachmentBackupManager.start());
       }
 
-      if (connectCount === 0) {
+      if (connectCount === 0 || firstRun) {
         try {
           // Force a re-fetch before we process our queue. We may want to turn on
           //   something which changes how we process incoming messages!
-          await window.Signal.RemoteConfig.refreshRemoteConfig(server);
+          await window.Signal.RemoteConfig.forceRefreshRemoteConfig(
+            server,
+            `connectCount=${connectCount} firstRun=${firstRun}`
+          );
 
           const expiration = window.Signal.RemoteConfig.getValue(
             'desktop.clientExpiration'
@@ -2332,17 +2347,17 @@ export async function startApp(): Promise<void> {
 
       if (status === 'installed' && isRemove) {
         window.reduxActions.stickers.uninstallStickerPack(id, key, {
-          fromSync: true,
+          actionSource: 'syncMessage',
         });
       } else if (isInstall) {
         if (status === 'downloaded') {
           window.reduxActions.stickers.installStickerPack(id, key, {
-            fromSync: true,
+            actionSource: 'syncMessage',
           });
         } else {
           void Stickers.downloadStickerPack(id, key, {
             finalStatus: 'installed',
-            fromSync: true,
+            actionSource: 'syncMessage',
           });
         }
       }
@@ -2461,7 +2476,7 @@ export async function startApp(): Promise<void> {
 
     const messageDescriptor = getMessageDescriptor({
       // 'message' event: for 1:1 converations, the conversation is same as sender
-      destination: data.source,
+      destinationE164: data.source,
       destinationServiceId: data.sourceAci,
       envelopeId: data.envelopeId,
       message: data.message,
@@ -2627,7 +2642,7 @@ export async function startApp(): Promise<void> {
     }
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
-    drop(message.handleDataMessage(data.message, event.confirm));
+    drop(handleDataMessage(message, data.message, event.confirm));
   }
 
   async function onProfileKey({
@@ -2721,12 +2736,10 @@ export async function startApp(): Promise<void> {
 
     for (const {
       destinationServiceId,
-      destination,
       isAllowedToReplyToStory,
     } of unidentifiedStatus) {
-      const conversation = window.ConversationController.get(
-        destinationServiceId || destination
-      );
+      const conversation =
+        window.ConversationController.get(destinationServiceId);
       if (!conversation || conversation.id === ourId) {
         continue;
       }
@@ -2773,7 +2786,7 @@ export async function startApp(): Promise<void> {
     if (unidentifiedStatus.length) {
       unidentifiedDeliveries = unidentifiedStatus
         .filter(item => Boolean(item.unidentified))
-        .map(item => item.destinationServiceId || item.destination)
+        .map(item => item.destinationServiceId)
         .filter(isNotNil);
     }
 
@@ -2803,19 +2816,19 @@ export async function startApp(): Promise<void> {
       unidentifiedDeliveries,
     };
 
-    return new window.Whisper.Message(partialMessage);
+    return new MessageModel(partialMessage);
   }
 
   // Works with 'sent' and 'message' data sent from MessageReceiver
   const getMessageDescriptor = ({
-    destination,
+    destinationE164,
     destinationServiceId,
     envelopeId,
     message,
     source,
     sourceDevice,
   }: {
-    destination?: string;
+    destinationE164?: string;
     destinationServiceId?: ServiceIdString;
     envelopeId: string;
     message: ProcessedDataMessage;
@@ -2862,7 +2875,7 @@ export async function startApp(): Promise<void> {
       };
     }
 
-    const id = destinationServiceId || destination;
+    const id = destinationServiceId || destinationE164;
     strictAssert(
       id,
       `${logId}: We need some sort of destination for the conversation`
@@ -2895,7 +2908,7 @@ export async function startApp(): Promise<void> {
     ) {
       const { mergePromises } =
         window.ConversationController.maybeMergeContacts({
-          e164: data.destination,
+          e164: data.destinationE164,
           aci: isAciString(data.destinationServiceId)
             ? data.destinationServiceId
             : undefined,
@@ -3021,7 +3034,7 @@ export async function startApp(): Promise<void> {
 
     // Don't wait for handleDataMessage, as it has its own per-conversation queueing
     drop(
-      message.handleDataMessage(data.message, event.confirm, {
+      handleDataMessage(message, data.message, event.confirm, {
         data,
       })
     );
@@ -3060,7 +3073,7 @@ export async function startApp(): Promise<void> {
       type: data.message.isStory ? 'story' : 'incoming',
       unidentifiedDeliveryReceived: data.unidentifiedDeliveryReceived,
     };
-    return new window.Whisper.Message(partialMessage);
+    return new MessageModel(partialMessage);
   }
 
   // Returns `false` if this message isn't a group call message.
@@ -3226,14 +3239,13 @@ export async function startApp(): Promise<void> {
   }
 
   function onViewOnceOpenSync(ev: ViewOnceOpenSyncEvent): void {
-    const { source, sourceAci, timestamp } = ev;
-    log.info(`view once open sync ${source} ${timestamp}`);
+    const { sourceAci, timestamp } = ev;
+    log.info(`view once open sync ${sourceAci} ${timestamp}`);
     strictAssert(sourceAci, 'ViewOnceOpen without sourceAci');
     strictAssert(timestamp, 'ViewOnceOpen without timestamp');
 
     const attributes: ViewOnceOpenSyncAttributesType = {
       removeFromMessageReceiverCache: ev.confirm,
-      source,
       sourceAci,
       timestamp,
     };
@@ -3364,10 +3376,9 @@ export async function startApp(): Promise<void> {
   }
 
   function onMessageRequestResponse(ev: MessageRequestResponseEvent): void {
-    const { threadE164, threadAci, groupV2Id, messageRequestResponseType } = ev;
+    const { threadAci, groupV2Id, messageRequestResponseType } = ev;
 
     log.info('onMessageRequestResponse', {
-      threadE164,
       threadAci,
       groupV2Id: `groupv2(${groupV2Id})`,
       messageRequestResponseType,
@@ -3383,7 +3394,6 @@ export async function startApp(): Promise<void> {
     const attributes: MessageRequestAttributesType = {
       envelopeId: ev.envelopeId,
       removeFromMessageReceiverCache: ev.confirm,
-      threadE164,
       threadAci,
       groupV2Id,
       type: messageRequestResponseType,

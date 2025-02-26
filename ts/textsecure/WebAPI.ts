@@ -829,9 +829,11 @@ const remoteConfigResponseZod = z.object({
       value: z.string().or(z.null()).optional(),
     })
     .array(),
-  serverEpochTime: z.number(),
 });
-export type RemoteConfigResponseType = z.infer<typeof remoteConfigResponseZod>;
+export type RemoteConfigResponseType = z.infer<typeof remoteConfigResponseZod> &
+  Readonly<{
+    serverTimestamp: number;
+  }>;
 
 export type ProfileType = Readonly<{
   identityKey?: string;
@@ -1216,6 +1218,7 @@ export type GetBackupInfoResponseType = z.infer<
 
 export type GetReleaseNoteOptionsType = Readonly<{
   uuid: string;
+  locale: string;
 }>;
 
 export const releaseNoteSchema = z.object({
@@ -1228,9 +1231,9 @@ export const releaseNoteSchema = z.object({
   bodyRanges: z
     .array(
       z.object({
-        style: z.string(),
-        start: z.number(),
-        length: z.number(),
+        style: z.string().optional(),
+        start: z.number().optional(),
+        length: z.number().optional(),
       })
     )
     .optional(),
@@ -1263,6 +1266,11 @@ export const releaseNotesManifestSchema = z.object({
 export type ReleaseNotesManifestResponseType = z.infer<
   typeof releaseNotesManifestSchema
 >;
+
+export type GetReleaseNoteImageAttachmentResultType = Readonly<{
+  imageData: Uint8Array;
+  contentType: string | null;
+}>;
 
 export type CallLinkCreateAuthResponseType = Readonly<{
   credential: string;
@@ -1400,7 +1408,8 @@ export type WebAPIType = {
     userLanguages: ReadonlyArray<string>
   ) => Promise<unknown>;
   getProvisioningResource: (
-    handler: IRequestHandler
+    handler: IRequestHandler,
+    timeout?: number
   ) => Promise<IWebSocketResource>;
   getSenderCertificate: (
     withUuid?: boolean
@@ -1408,8 +1417,14 @@ export type WebAPIType = {
   getReleaseNote: (
     options: GetReleaseNoteOptionsType
   ) => Promise<ReleaseNoteResponseType>;
+  getReleaseNoteHash: (
+    options: GetReleaseNoteOptionsType
+  ) => Promise<string | undefined>;
   getReleaseNotesManifest: () => Promise<ReleaseNotesManifestResponseType>;
   getReleaseNotesManifestHash: () => Promise<string | undefined>;
+  getReleaseNoteImageAttachment: (
+    path: string
+  ) => Promise<GetReleaseNoteImageAttachmentResultType>;
   getSticker: (packId: string, stickerId: number) => Promise<Uint8Array>;
   getStickerPackManifest: (packId: string) => Promise<StickerPackManifestType>;
   getStorageCredentials: MessageSender['getStorageCredentials'];
@@ -1880,8 +1895,10 @@ export function initialize({
       getProfileUnauth,
       getProvisioningResource,
       getReleaseNote,
+      getReleaseNoteHash,
       getReleaseNotesManifest,
       getReleaseNotesManifestHash,
+      getReleaseNoteImageAttachment,
       getTransferArchive,
       getSenderCertificate,
       getSocketStatus,
@@ -2124,16 +2141,24 @@ export function initialize({
     }
 
     async function getConfig() {
-      const rawRes = await _ajax({
+      const { data, response } = await _ajax({
         call: 'config',
         httpType: 'GET',
-        responseType: 'json',
+        responseType: 'jsonwithdetails',
       });
-      const res = parseUnknown(remoteConfigResponseZod, rawRes);
+      const json = parseUnknown(remoteConfigResponseZod, data);
+
+      const serverTimestamp = safeParseNumber(
+        response.headers.get('x-signal-timestamp') || ''
+      );
+      if (serverTimestamp == null) {
+        throw new Error('Missing required x-signal-timestamp header');
+      }
 
       return {
-        ...res,
-        config: res.config.filter(
+        ...json,
+        serverTimestamp,
+        config: json.config.filter(
           ({ name }: { name: string }) =>
             name.startsWith('desktop.') ||
             name.startsWith('global.') ||
@@ -2174,15 +2199,43 @@ export function initialize({
         languages: Record<string, Array<string>>;
       };
     }
+
+    async function getReleaseNoteHash({
+      uuid,
+      locale,
+    }: {
+      uuid: string;
+      locale: string;
+    }): Promise<string | undefined> {
+      const { response } = await _ajax({
+        call: 'releaseNotes',
+        host: resourcesUrl,
+        httpType: 'HEAD',
+        urlParameters: `/${uuid}/${locale}.json`,
+        responseType: 'byteswithdetails',
+      });
+
+      const etag = response.headers.get('etag');
+
+      if (etag == null) {
+        return undefined;
+      }
+
+      return etag;
+    }
     async function getReleaseNote({
       uuid,
-    }: GetReleaseNoteOptionsType): Promise<ReleaseNoteResponseType> {
+      locale,
+    }: {
+      uuid: string;
+      locale: string;
+    }): Promise<ReleaseNoteResponseType> {
       const rawRes = await _ajax({
         call: 'releaseNotes',
         host: resourcesUrl,
         httpType: 'GET',
         responseType: 'json',
-        urlParameters: `/${uuid}/en.json`,
+        urlParameters: `/${uuid}/${locale}.json`,
       });
       return parseUnknown(releaseNoteSchema, rawRes);
     }
@@ -2211,6 +2264,29 @@ export function initialize({
       }
 
       return etag;
+    }
+
+    async function getReleaseNoteImageAttachment(
+      path: string
+    ): Promise<GetReleaseNoteImageAttachmentResultType> {
+      const { origin: expectedOrigin } = new URL(resourcesUrl);
+      const url = `${resourcesUrl}${path}`;
+      const { origin } = new URL(url);
+      strictAssert(origin === expectedOrigin, `Unexpected origin: ${origin}`);
+
+      const { data: imageData, contentType } = await _outerAjax(url, {
+        certificateAuthority,
+        proxyUrl,
+        responseType: 'byteswithdetails',
+        timeout: 0,
+        type: 'GET',
+        version,
+      });
+
+      return {
+        imageData,
+        contentType,
+      };
     }
 
     async function getStorageManifest(
@@ -3873,7 +3949,12 @@ export function initialize({
         if (options?.downloadOffset) {
           targetHeaders.range = `bytes=${options.downloadOffset}-`;
         }
-        streamWithDetails = await _outerAjax(`${cdnUrl}${cdnPath}`, {
+        const { origin: expectedOrigin } = new URL(cdnUrl);
+        const fullCdnUrl = `${cdnUrl}${cdnPath}`;
+        const { origin } = new URL(fullCdnUrl);
+        strictAssert(origin === expectedOrigin, `Unexpected origin: ${origin}`);
+
+        streamWithDetails = await _outerAjax(fullCdnUrl, {
           headers: targetHeaders,
           certificateAuthority,
           disableRetries: options?.disableRetries,
@@ -4555,9 +4636,10 @@ export function initialize({
     }
 
     function getProvisioningResource(
-      handler: IRequestHandler
+      handler: IRequestHandler,
+      timeout?: number
     ): Promise<IWebSocketResource> {
-      return socketManager.getProvisioningResource(handler);
+      return socketManager.getProvisioningResource(handler, timeout);
     }
 
     async function cdsLookup({

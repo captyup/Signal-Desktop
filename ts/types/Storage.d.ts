@@ -124,7 +124,6 @@ export type StorageAccessType = {
   phoneNumberDiscoverability: PhoneNumberDiscoverability;
   pinnedConversationIds: ReadonlyArray<string>;
   preferContactAvatars: boolean;
-  primarySendsSms: boolean;
   textFormatting: boolean;
   typingIndicators: boolean;
   sealedSenderIndicators: boolean;
@@ -206,6 +205,12 @@ export type StorageAccessType = {
   // link-and-sync backup
   backupEphemeralKey: Uint8Array;
 
+  // If present - we are resuming the download of known transfer archive
+  backupTransitArchive: {
+    cdn: number;
+    key: string;
+  };
+
   // If true Desktop message history was restored from backup
   isRestoredFromBackup: boolean;
 
@@ -226,6 +231,7 @@ export type StorageAccessType = {
   hasRegisterSupportForUnauthenticatedDelivery: never;
   masterKeyLastRequestTime: never;
   versionedExpirationTimer: never;
+  primarySendsSms: never;
 };
 
 export type StorageInterface = {

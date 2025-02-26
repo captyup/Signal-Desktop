@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Çata şəkil göndərildi"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "{downloaded}/{total} endirilir"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Nişan, bu təsvirin başlığının olduğunu göstərir"
   },
@@ -1133,14 +1136,62 @@
   "icu:cancelDownload": {
     "messageformat": "Endirməni ləğv et"
   },
-  "icu:retryDownload": {
-    "messageformat": "Yenidən endirməyə cəhd et"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Yenidən sına"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} Bənd} other {{count,number} element}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "Bu media faylı artıq mövcud deyil."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "Bu media faylı aktiv deyil"
+  },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media faylı mövcud deyil"
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Daha ətraflı"
+  },
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "Fayl mövcud deyil"
+  },
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "Bu mesaj natamamdır"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Stiker mövcud deyil"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Səsli mesaj mövcud deyil"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "Fayl mövcud deyil"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Tam mesaj mövcud deyil"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media faylı mövcud deyil"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Stiker mövcud deyil"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Səsli mesaj mövcud deyil"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "Bu cihaz qoşulduqda həmin fayl telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan media və fayllar sinxronlaşdırıla bilmir."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "Bu cihaz qoşulduqda həmin mesajdakı tam mətn telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan uzun mətn mesajları sinxronizasiya edilə bilmir."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "Bu cihaz qoşulduqda həmin media fayl telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan media faylları sinxronlaşdırıla bilmir."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "Bu cihaz qoşulduqda həmin stiker telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan media və fayllar sinxronlaşdırıla bilmir."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "Bu cihaz qoşulduqda həmin səsli mesaj telefonunuzdan köçürülmədi. Cihaz qoşularkən 45 gündən köhnə olan media və fayllar sinxronlaşdırıla bilmir."
   },
   "icu:save": {
     "messageformat": "Saxla"
@@ -1184,6 +1235,9 @@
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Yenidən sına"
   },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Kodu yenilə"
+  },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Kömək istəyin"
   },
@@ -1201,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "Cihaz adı"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "Bu cihazın adını dəyişmək üçün telefonunuzda Signal tətbiqini açıb, Parametrlər > Əlaqələndirilmiş cihazlar bölməsinə keçin"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Bu cihazın adını seçin"
@@ -1578,10 +1635,10 @@
     "messageformat": "Bütün verilənlər silinsin?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Signal Desktop-un bu versiyasından bütün verilənlər və mesajlar silinsin? Masaüstünə hər zaman yenidən bağlana bilərsiniz, amma mesajlarınızı bərpa etmək mümkün olmayacaq. Signal hesabınız və telefonunuzdakı verilənlər, yaxud da əlaqələndirilmiş digər cihazlar silinməyəcək."
+    "messageformat": "Signal Desktop-un bu versiyasından bütün verilənlər və mesajlar silinsin? Signal hesabınız və telefonunuzdakı verilənlər, yaxud da əlaqələndirilmiş digər cihazlar silinməyəcək."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Bağlantı kəsilir və bütün verilənlər silinir"
+    "messageformat": "Bağlantı kəsilir və bütün verilənlər silinir…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "\"Signal Masaüstü\"nün əvvəlki quraşdırmasından qalma köhnə verilənləriniz var. \"Davam et\"i seçsəniz, bu verilənlər silinəcək və sıfırdan başlayacaqsınız."
@@ -3572,6 +3629,9 @@
   "icu:next": {
     "messageformat": "növbəti"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "Bu bir neçə dəqiqə çəkə bilər"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Signal-a ianə verin"
   },
@@ -3599,11 +3659,14 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "Mesaj köçürmə yekunlaşdırılır..."
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Ləğv olunur..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Endirməyə hazırlaşır..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Mesaj tarixçəsinin həcmindən asılı olaraq bu, bir neçə dəqiqə çəkə bilər"
+    "messageformat": "Bu bir neçə dəqiqə çəkə bilər"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Ləğv et"
@@ -3612,16 +3675,16 @@
     "messageformat": "Mesajlar və çat məlumatı sinxronlaşdırma prosesi daxil, tam şifrələmə ilə qorunur. <learnMoreLink>Daha ətraflı</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Köçürmə ləğv edilsin?"
+    "messageformat": "Cihazın əlaqələndirilməsi ləğv edilsin?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Mesajlarınız və media faylınızın bərpası tamamlanmayıb. Prosesi ləğv etməyi seçsəniz, cihazınız mesaj tarixçəsi olmadan qoşulacaq."
+    "messageformat": "Ləğv etməyi seçsəniz, bu cihaz qoşulmayacaq və heç bir mesaj və ya media faylı köçürülməyəcək."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Köçürməni davam et"
+    "messageformat": "Qoşulmağa davam et"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Köçürməni ləğv et"
+    "messageformat": "Qoşulmanı ləğv et"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Mesajlarınız köçürülərkən xəta baş verdi"
@@ -4236,7 +4299,7 @@
     "messageformat": "Bütün çat rənglərini sıfırla"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "İlkin vəziyyətinə qaytar"
+    "messageformat": "İlkin rəngləri sıfırla"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Sıfırla"
@@ -4555,6 +4618,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Bir rəng seçin"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Yenidən endirməyə cəhd et"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Yenidən sına"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Qrup avatarı"
@@ -5788,10 +5857,16 @@
     "messageformat": "Kiçik spesifik tənzimləmələr, xəta düzəlişləri və məhsuldarlığın artırılması. Signal istifadə etdiyiniz üçün təşəkkürlər!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Artıq endirilən qoşmanın gedişatını asanlıqla görə bilərsiniz. Siz həm də davam edən endirimləri dayandıra və təkrar başlada bilərsiniz. Yolda olduğunuz üçün (təyyarə rejimində?) köçürmə ləngiyirsə və ya adi bir otel WiFi-ı yükləməyə tab gətirmirsə, daha müvafiq bir internetiniz olanadək gözləyin."
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Artıq sensorlu ekranı olan cihazlarda çat siyahısının yan panelinin ölçüsünü tənzimləyə bilərsiniz. Bundan sonra onu sürüşdürməyə çalışdığınız zaman cihazınızın ekranındakı barmaq izləri geridə qalan yeganə dəlil olacaq."
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Bəzən səhvən şəxsi hesabınızın avtomatik tamamlanan təklif siyahısına daxil edilməsinə səbəb olan @ işarəli etiketlərlə bağlı xətanı aradan qaldırdıq. Bu xətanı gözdən qaçırsanız, qrup çatlarında özünüzdən üçüncü şəxs kimi bəhs edə bilərsiniz."
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "Seçildikdən sonra bəzi çatların düzgün açılmasına mane olan nadir görünən bir nasazlığı aradan qaldırdıq ki, siz həmin çatları xatırlayarkən Signal Desktop-da boşluq görünməsin."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "İndi əsas Signal cihazınızı yeni Masaüstü cihazınızla əlaqələndirdiyiniz zaman çat tarixçənizi və son 45 günlük media fayllarınızı da köçürə bilərsiniz. Köçürmə prosesi ucdan-uca şifrələnib və tamamilə öz seçiminizdən asılıdır. \"Keçmiş keçmişdə qaldı\" demək və ya onu özünüzlə daşımaq artıq yalnız sizdən asılıdır."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "\"Sevgililər günü\" mükəmməl uyğunlaşmaların günüdür. Biz də Android və iOS ilə uyğunlaşdırma üçün Desktop tətbiqində düymə üzərindəki mətni yenilədik. Bu sizə çox kiçik bir dəyişiklik kimi gələ bilər, amma sevginizi göstərməyin yolu da kiçik incəliklərdən keçir."
   }
 }

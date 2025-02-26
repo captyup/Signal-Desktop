@@ -15,7 +15,7 @@
     "messageformat": "Søk"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "{contact} ble lagt til {group}"
+    "messageformat": "{contact} ble lagt til i {group}"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
     "messageformat": "Legger til {contact} …"
@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Bilde sendt i samtale"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "Laster ned {downloaded} av {total}"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Ikon som viser at bildet har bildetekst"
   },
@@ -1133,14 +1136,62 @@
   "icu:cancelDownload": {
     "messageformat": "Avbryt nedlastingen"
   },
-  "icu:retryDownload": {
-    "messageformat": "Prøv å laste ned på nytt"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Prøv på nytt"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} element} other {{count,number} elementer}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "Mediefilen er ikke lenger tilgjengelig."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "Mediefilen er ikke tilgjengelig"
+  },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Mediefilen er ikke tilgjengelig"
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Les mer"
+  },
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "Filen er ikke tilgjengelig"
+  },
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "Denne meldingen er ufullstendig"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Klistremerket er ikke tilgjengelig"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Talemeldingen er ikke tilgjengelig"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "Filen er ikke tilgjengelig"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Resten av meldingen er ikke tilgjengelig"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Mediefilen er ikke tilgjengelig"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Klistremerket er ikke tilgjengelig"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Talemeldingen er ikke tilgjengelig"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "Denne filen ble ikke overført fra telefonen din da du koblet til denne enheten. Det er ikke mulig å synkronisere mediefiler og andre filer som er mer enn 45 dager gamle, når enheten kobles til."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "Resten av denne meldingen ble ikke overført fra telefonen din da du koblet til denne enheten. Det er ikke mulig å synkronisere lange meldinger som er mer enn 45 dager gamle, når enheten kobles til."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "Denne mediefilen ble ikke overført fra telefonen din da du koblet til denne enheten. Det er ikke mulig å synkronisere mediefiler som er mer enn 45 dager gamle, når enheten kobles til."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "Dette klistremerket ble ikke overført fra telefonen din da du koblet til denne enheten. Det er ikke mulig å synkronisere mediefiler og andre filer som er mer enn 45 dager gamle, når enheten kobles til."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "Denne talemeldingen ble ikke overført fra telefonen din da du koblet til denne enheten. Det er ikke mulig å synkronisere mediefiler og andre filer som er mer enn 45 dager gamle, når enheten kobles til."
   },
   "icu:save": {
     "messageformat": "Lagre"
@@ -1184,6 +1235,9 @@
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Prøv på nytt"
   },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "Last inn koden igjen"
+  },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Få hjelp"
   },
@@ -1201,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "Enhetsnavn"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "For å endre navnet på denne enheten må du åpne Signal på telefonen din og gå til Innstillinger > Tilkoblede enheter."
   },
   "icu:chooseDeviceName": {
     "messageformat": "Skriv inn et navn for enheten"
@@ -1578,10 +1635,10 @@
     "messageformat": "Vil du slette alle dataene?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Vil du slette alle dataene og meldingene fra denne Signal Desktop-versjonen? Du kan koble til skrivebordet på nytt, men meldingene kan ikke gjenopprettes. Signal-kontoen og dataene du har på mobilen og andre tilkoblede enheter, slettes ikke."
+    "messageformat": "Vil du slette alle dataene og meldingene fra denne Signal Desktop-versjonen? Signal-kontoen og dataene du har på mobilen og andre tilkoblede enheter, slettes ikke."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Kobler fra og sletter alle data"
+    "messageformat": "Kobler fra og sletter alle data …"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Du har foreldede data fra en tidligere installasjon av Signal Desktop. Hvis du velger å fortsette, blir den slettet, og du vil starte med blank konfigurasjon."
@@ -3572,6 +3629,9 @@
   "icu:next": {
     "messageformat": "Neste"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "Dette kan ta noen minutter"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Donér til Signal"
   },
@@ -3599,11 +3659,14 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "Ferdigstiller meldingsoverføringen …"
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Avbryter …"
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Gjør klart for nedlasting …"
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Dette kan ta et par minutter avhengig av størrelsen på meldingsloggen"
+    "messageformat": "Dette kan ta noen minutter"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Avbryt"
@@ -3612,16 +3675,16 @@
     "messageformat": "Meldinger og samtaleinnhold beskyttes av ende-til-ende-kryptering. Dette inkluderer også synkroniseringen. <learnMoreLink>Les mer</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Vil du avbryte overføringen?"
+    "messageformat": "Vil du avbryte tilkoblingen?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Meldingene og mediefilene har ikke blitt gjenopprettet. Dersom du avbryter overføringen, vil enheten kobles til uten meldingsloggen din."
+    "messageformat": "Dersom du avbryter tilkoblingen, blir ikke filene og meldingene dine overført til denne enheten."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Fortsett overføring"
+    "messageformat": "Fortsett"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Avbryt overføring"
+    "messageformat": "Avbryt"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Kunne ikke overføre meldingene"
@@ -4236,7 +4299,7 @@
     "messageformat": "Tilbakestill alle samtalefarger"
   },
   "icu:ChatColorPicker__confirm-reset-default": {
-    "messageformat": "Tilbakestill standardfarge"
+    "messageformat": "Tilbakestill standardfarger"
   },
   "icu:ChatColorPicker__confirm-reset": {
     "messageformat": "Tilbakestill"
@@ -4555,6 +4618,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Velg en farge"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Prøv å laste ned på nytt"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Prøv på nytt"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Gruppeikon"
@@ -5788,10 +5857,16 @@
     "messageformat": "Noen små justeringer, feilrettinger og ytelsesforbedringer. Takk for at du bruker Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Nå kan du se hvor langt nedlastingen har kommet når du laster ned et vedlegg. Du kan også sette nedlastinger på pause."
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Nå kan du justere størrelsen på sidestolpen i samtalelisten på enheter med berøringsskjerm."
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "Vi har fikset en feil som førte til at ditt eget navn dukket opp i listen over foreslåtte tagger når du skriver meldinger."
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "Vi har rettet opp i en sjelden feil som førte til at enkelte samtalevindu ikke kunne åpnes."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Nå kan du overføre samtaleloggen din og mediefilene dine fra de siste 45 dagene til en ny Desktop. Overføringen er ende-til-ende-kryptert og helt valgfri."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "Vi har endret teksten på en knapp i Desktop-appen, slik at den samsvarer med Android og iOS."
   }
 }

@@ -10,9 +10,11 @@ import type { MessageAttributesType } from '../../model-types.d';
 import type { Avatar, Email, Phone } from '../../types/EmbeddedContact';
 import {
   _validate,
+  ContactFormType,
   embeddedContactSelector,
   getName,
   parseAndWriteAvatar,
+  parsePhoneItem,
 } from '../../types/EmbeddedContact';
 import { fakeAttachment } from '../../test-both/helpers/fakeAttachment';
 import { generateAci } from '../../types/ServiceId';
@@ -632,6 +634,48 @@ describe('Contact', () => {
     });
   });
 
+  describe('parsePhoneItem', () => {
+    it('adds default phone type', () => {
+      const phone: Phone = {
+        value: '+18005550000',
+        // @ts-expect-error Forcing an invalid value here
+        type: null,
+      };
+      const expected = {
+        value: '+18005550000',
+        type: ContactFormType.HOME,
+      };
+      const actual = parsePhoneItem(phone, { regionCode: '805' });
+      assert.deepEqual(actual, expected);
+    });
+
+    it('passes invalid phone numbers through', () => {
+      const phone: Phone = {
+        value: '+1800555u000',
+        type: ContactFormType.WORK,
+      };
+      const expected = {
+        value: '+1800555u000',
+        type: ContactFormType.WORK,
+      };
+      const actual = parsePhoneItem(phone, { regionCode: '805' });
+      assert.deepEqual(actual, expected);
+    });
+
+    it('returns original data if regionCode not provided', () => {
+      const phone: Phone = {
+        value: '+18005550000',
+        type: ContactFormType.MOBILE,
+      };
+      const expected = {
+        value: '+18005550000',
+        type: ContactFormType.MOBILE,
+      };
+      const actual = parsePhoneItem(phone, { regionCode: undefined });
+      assert.deepEqual(actual, expected);
+    });
+  });
+
   describe('_validate', () => {
     it('returns error if contact has no name.displayName or organization', () => {
       const messageId = 'the-message-id';
@@ -648,22 +692,6 @@ describe('Contact', () => {
       };
       const expected =
         "Message the-message-id: Contact had neither 'displayName' nor 'organization'";
-
-      const result = _validate(contact, { messageId });
-      assert.deepEqual(result?.message, expected);
-    });
-
-    it('logs if no values remain in contact', async () => {
-      const messageId = 'the-message-id';
-      const contact = {
-        name: {
-          nickname: 'Someone Somewhere',
-        },
-        number: [],
-        email: [],
-      };
-      const expected =
-        'Message the-message-id: Contact had no included numbers, email or addresses';
 
       const result = _validate(contact, { messageId });
       assert.deepEqual(result?.message, expected);

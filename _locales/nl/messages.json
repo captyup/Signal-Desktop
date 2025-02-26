@@ -99,7 +99,7 @@
     "messageformat": "Stickerpakket maken/uploaden"
   },
   "icu:mainMenuEdit": {
-    "messageformat": "&Bewerken"
+    "messageformat": "B&ewerken"
   },
   "icu:mainMenuView": {
     "messageformat": "&Weergave"
@@ -1121,6 +1121,9 @@
   "icu:lightboxImageAlt": {
     "messageformat": "Afbeelding verstuurd in chat"
   },
+  "icu:lightBoxDownloading": {
+    "messageformat": "{downloaded} van {total} aan het downloaden"
+  },
   "icu:imageCaptionIconAlt": {
     "messageformat": "Icoon dat laat zien dat deze afbeelding een bijschrift heeft"
   },
@@ -1133,14 +1136,62 @@
   "icu:cancelDownload": {
     "messageformat": "Download annuleren"
   },
-  "icu:retryDownload": {
-    "messageformat": "Download opnieuw proberen"
-  },
-  "icu:retryDownloadShort": {
-    "messageformat": "Opnieuw proberen"
-  },
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} item} other {{count,number} items}}"
+  },
+  "icu:mediaNoLongerAvailable": {
+    "messageformat": "Dit mediabestand is niet langer beschikbaar."
+  },
+  "icu:mediaNotAvailable": {
+    "messageformat": "Dit mediabestand is niet beschikbaar"
+  },
+  "icu:mediaNotAvailable--short": {
+    "messageformat": "Media niet beschikbaar"
+  },
+  "icu:attachmentNoLongerAvailable__learnMore": {
+    "messageformat": "Meer informatie"
+  },
+  "icu:attachmentNotAvailable__file": {
+    "messageformat": "Bestand niet beschikbaar"
+  },
+  "icu:attachmentNotAvailable__longMessage": {
+    "messageformat": "Dit bericht is onvolledig"
+  },
+  "icu:attachmentNotAvailable__sticker": {
+    "messageformat": "Sticker niet beschikbaar"
+  },
+  "icu:attachmentNotAvailable__voice": {
+    "messageformat": "Spraakbericht niet beschikbaar"
+  },
+  "icu:AttachmentNotAvailableModal__title--file": {
+    "messageformat": "Bestand niet beschikbaar"
+  },
+  "icu:AttachmentNotAvailableModal__title--long-text": {
+    "messageformat": "Volledig bericht niet beschikbaar"
+  },
+  "icu:AttachmentNotAvailableModal__title--media": {
+    "messageformat": "Media niet beschikbaar"
+  },
+  "icu:AttachmentNotAvailableModal__title--sticker": {
+    "messageformat": "Sticker niet beschikbaar"
+  },
+  "icu:AttachmentNotAvailableModal__title--voice-message": {
+    "messageformat": "Spraakbericht niet beschikbaar"
+  },
+  "icu:AttachmentNotAvailableModal__body--file": {
+    "messageformat": "Dit bestand is niet overgezet van je telefoon toen dit apparaat werd gekoppeld. Media en bestanden die ouder zijn dan 45 dagen op het moment dat het apparaat wordt gekoppeld, kunnen niet worden gesynchroniseerd."
+  },
+  "icu:AttachmentNotAvailableModal__body--long-text": {
+    "messageformat": "Van dit bericht is niet de volledige tekst overgezet van je telefoon toen dit apparaat werd gekoppeld. Lange tekstberichten die ouder zijn dan 45 dagen op het moment dat een apparaat wordt gekoppeld, kunnen niet worden gesynchroniseerd."
+  },
+  "icu:AttachmentNotAvailableModal__body--media": {
+    "messageformat": "Dit bestand is niet overgezet van je telefoon toen dit apparaat werd gekoppeld. Bestanden ouder dan 45 dagen op het moment dat het apparaat wordt gekoppeld, kunnen niet worden gesynchroniseerd."
+  },
+  "icu:AttachmentNotAvailableModal__body--sticker": {
+    "messageformat": "Deze sticker is niet overgezet van je telefoon toen dit apparaat werd gekoppeld. Media en bestanden die ouder zijn dan 45 dagen op het moment dat het apparaat wordt gekoppeld, kunnen niet worden gesynchroniseerd."
+  },
+  "icu:AttachmentNotAvailableModal__body--voice-message": {
+    "messageformat": "Dit spraakbericht is niet overgezet van je telefoon toen dit apparaat werd gekoppeld. Media en bestanden die ouder zijn dan 45 dagen op het moment dat het apparaat wordt gekoppeld, kunnen niet worden gesynchroniseerd."
   },
   "icu:save": {
     "messageformat": "Opslaan"
@@ -1184,6 +1235,9 @@
   "icu:Install__qr-failed-load__retry": {
     "messageformat": "Opnieuw proberen"
   },
+  "icu:Install__qr-max-rotations__retry": {
+    "messageformat": "QR-code vernieuwen"
+  },
   "icu:Install__qr-failed-load__get-help": {
     "messageformat": "Hulp vragen"
   },
@@ -1201,6 +1255,9 @@
   },
   "icu:Preferences--device-name": {
     "messageformat": "Apparaatnaam"
+  },
+  "icu:Preferences--device-name__description": {
+    "messageformat": "Om de naam van dit apparaat te wijzigen, open de Signal-app op je mobiele telefoon en navigeer naar Instellingen > Gekoppelde apparaten"
   },
   "icu:chooseDeviceName": {
     "messageformat": "Kies een naam voor dit apparaat"
@@ -1578,10 +1635,10 @@
     "messageformat": "Alle gegevens wissen?"
   },
   "icu:deleteAllDataBody": {
-    "messageformat": "Alle gegevens en berichten wissen uit deze versie van Signal Desktop? Je kunt dit apparaat altijd opnieuw koppelen, maar je berichten worden niet hersteld. Je Signal-account en gegevens op je telefoon of andere gekoppelde apparaten worden niet gewist."
+    "messageformat": "Alle gegevens en berichten wissen uit deze versie van Signal Desktop? Je Signal-account en gegevens op je telefoon of andere gekoppelde apparaten worden niet gewist."
   },
   "icu:deleteAllDataProgress": {
-    "messageformat": "Aan het ontkoppelen en alle gegevens aan het wissen"
+    "messageformat": "Aan het ontkoppelen en alle gegevens aan het wissen…"
   },
   "icu:deleteOldIndexedDBData": {
     "messageformat": "Je hebt nog verouderde gegevens op je apparaat van een eerdere installatie van Signal Desktop. Als je ervoor kiest om verder te gaan, dan zullen alle gegevens worden gewist en zal je met een schone installatie van Signal Desktop beginnen."
@@ -3572,6 +3629,9 @@
   "icu:next": {
     "messageformat": "Volgende"
   },
+  "icu:ClearingData__description": {
+    "messageformat": "Dit kan enkele minuten duren"
+  },
   "icu:BadgeDialog__become-a-sustainer-button": {
     "messageformat": "Aan Signal doneren"
   },
@@ -3599,11 +3659,14 @@
   "icu:BackupImportScreen__progressbar-hint--processing": {
     "messageformat": "Berichtoverdracht aan het afronden..."
   },
+  "icu:BackupImportScreen__progressbar-hint--canceling": {
+    "messageformat": "Annuleren..."
+  },
   "icu:BackupImportScreen__progressbar-hint--preparing": {
     "messageformat": "Download voorbereiden..."
   },
   "icu:BackupImportScreen__description": {
-    "messageformat": "Dit kan enkele minuten duren, afhankelijk van de grootte van je chatgeschiedenis"
+    "messageformat": "Dit kan enkele minuten duren"
   },
   "icu:BackupImportScreen__cancel": {
     "messageformat": "Annuleren"
@@ -3612,16 +3675,16 @@
     "messageformat": "Berichten en chatgegevens worden beschermd door end-to-end-versleuteling, ook tijdens het synchronisatieproces. <learnMoreLink>Meer informatie</learnMoreLink>"
   },
   "icu:BackupImportScreen__cancel-confirmation__title": {
-    "messageformat": "Overzetten annuleren?"
+    "messageformat": "Koppelen van apparaat annuleren?"
   },
   "icu:BackupImportScreen__cancel-confirmation__body": {
-    "messageformat": "Het herstellen van je berichten en media is nog niet voltooid. Als je ervoor kiest om te annuleren, wordt je apparaat gekoppeld zonder je chatgeschiedenis."
+    "messageformat": "Als je ervoor kiest om te annuleren, wordt je apparaat niet gekoppeld en worden berichten en media niet overgezet."
   },
   "icu:BackupImportScreen__cancel-confirmation__cancel": {
-    "messageformat": "Doorgaan met overzetten"
+    "messageformat": "Doorgaan met koppelen"
   },
   "icu:BackupImportScreen__cancel-confirmation__confirm": {
-    "messageformat": "Overzetten annuleren"
+    "messageformat": "Koppelen annuleren"
   },
   "icu:BackupImportScreen__error__title": {
     "messageformat": "Fout bij het overzetten van je berichten"
@@ -4555,6 +4618,12 @@
   },
   "icu:AvatarColorPicker--choose": {
     "messageformat": "Kies een kleur"
+  },
+  "icu:AttachmentDetailPill__retryDownload": {
+    "messageformat": "Download opnieuw proberen"
+  },
+  "icu:AttachmentDetailPill__retryDownloadShort": {
+    "messageformat": "Opnieuw proberen"
   },
   "icu:LeftPaneSetGroupMetadataHelper__avatar-modal-title": {
     "messageformat": "Groepsafbeelding"
@@ -5788,10 +5857,16 @@
     "messageformat": "Kleine aanpassingen, bugfixes en prestatieverbeteringen. Bedankt dat je Signal gebruikt!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.37--0": {
-    "messageformat": "Je kunt nu eenvoudig de voortgang van het downloaden van bijlagen zien. Je kunt lopende downloads nu ook stoppen en opnieuw starten. Dus als een transfer traag gaat omdat je onderweg bent (in vliegtuigmodus?) of door de matige wifi van het hotel… Wacht dan op een snellere verbinding en upload het bestand gewoon verder."
+  "icu:WhatsNew__v7.39--0": {
+    "messageformat": "Op touchscreen-apparaten kun je nu de breedte van de chatlijst in de zijbalk aanpassen – de finishing touch voor wie van personalisatie houdt."
   },
-  "icu:WhatsNew__v7.38--0": {
-    "messageformat": "We hebben een bug met @-vermeldingen opgelost waardoor soms je eigen account verscheen in de lijst met suggesties voor automatisch invullen. Je kunt natuurlijk altijd nog in derde persoon over jezelf praten, mocht je deze bug heel erg missen."
+  "icu:WhatsNew__v7.40--0": {
+    "messageformat": "We hebben een zeldzame bug opgelost die ervoor zorgde dat sommige chats niet correct werden geopend nadat ze waren geselecteerd."
+  },
+  "icu:WhatsNew__v7.40--1": {
+    "messageformat": "Je kunt er nu voor kiezen om je volledige chatgeschiedenis en je laatste 45 dagen aan media over te zetten naar een nieuw gekoppelde desktop. Het overzetten is end-to-end versleuteld en volledig optioneel. Aan jou de keus of je je verleden achter je laat of gewoon met je mee blijft dragen."
+  },
+  "icu:WhatsNew__v7.43--0": {
+    "messageformat": "We hebben de tekst op een knop in de desktop-app aangepast zodat deze hetzelfde is als in Android en iOS."
   }
 }

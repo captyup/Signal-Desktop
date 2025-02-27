@@ -2613,7 +2613,7 @@ ipc.on(
   'set-auto-hide-menu-bar',
   (_event: Electron.Event, autoHide: boolean) => {
     if (mainWindow) {
-      mainWindow.autoHideMenuBar = true;
+      mainWindow.autoHideMenuBar = autoHide;
     }
   }
 );

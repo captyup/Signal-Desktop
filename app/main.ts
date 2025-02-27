@@ -443,9 +443,13 @@ const windowConfigParsed = safeParseUnknown(
 if (windowConfigParsed.success) {
   windowConfig = windowConfigParsed.data;
   windowConfig.fullscreen = true;
+  windowConfig.autoHideMenuBar = true;
 }
 if (windowConfig && windowConfig?.fullscreen !== true) {
   windowConfig.fullscreen = true;
+}
+if (windowConfig && windowConfig?.autoHideMenuBar !== true) {
+  windowConfig.autoHideMenuBar = true;
 }
 
 if (windowFromUserConfig) {
@@ -699,7 +703,7 @@ async function createWindow() {
     height,
     minWidth: MIN_WIDTH,
     minHeight: MIN_HEIGHT,
-    autoHideMenuBar: false,
+    autoHideMenuBar: true,
     titleBarStyle: mainTitleBarStyle,
     backgroundColor: isTestEnvironment(getEnvironment())
       ? '#ffffff' // Tests should always be rendered on a white background

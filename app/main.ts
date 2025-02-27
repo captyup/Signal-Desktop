@@ -704,6 +704,7 @@ async function createWindow() {
     minWidth: MIN_WIDTH,
     minHeight: MIN_HEIGHT,
     autoHideMenuBar: true,
+    frame: false,
     titleBarStyle: mainTitleBarStyle,
     backgroundColor: isTestEnvironment(getEnvironment())
       ? '#ffffff' // Tests should always be rendered on a white background
@@ -2612,7 +2613,7 @@ ipc.on(
   'set-auto-hide-menu-bar',
   (_event: Electron.Event, autoHide: boolean) => {
     if (mainWindow) {
-      mainWindow.autoHideMenuBar = autoHide;
+      mainWindow.autoHideMenuBar = true;
     }
   }
 );

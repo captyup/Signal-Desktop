@@ -15,7 +15,7 @@
     "messageformat": "Iskanje"
   },
   "icu:AddUserToAnotherGroupModal__toast--user-added-to-group": {
-    "messageformat": "{contact} je bil dodan/-a v skupino {group}"
+    "messageformat": "{contact} je bil/-a dodan/-a v skupino {group}"
   },
   "icu:AddUserToAnotherGroupModal__toast--adding-user-to-group": {
     "messageformat": "Dodajanje uporabnika_ice {contact} …"
@@ -37,6 +37,9 @@
   },
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Kvaliteta poslanih medijskih datotek"
+  },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "Pošiljanje predstavnosti boljše kvalitete porabi več podatkov."
   },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standardna"
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} neprebrano sporočilo} two {{count,number} neprebrani sporočili} few {{count,number} neprebrana sporočila} other {{count,number} neprebranih sporočil}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "Zaradi vaše varnosti zgodovina klepetov ni prenešena na na novo povezane naprave."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "Varnostno število z osebo {name} ste označili kot potrjeno"
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Neveljaven odziv iz storitve shranjevanja. Prosimo, delite svoje dnevnike."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} predmet} two {{count,number} predmeta} few {{count,number} predmeti} other {{count,number} predmetov}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Ta medij ni več na voljo."
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "Ta medij ni na voljo"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "Glasovno sporočilo ni na voljo"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "Predstavnost za enkratni ogled ni na voljo"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Predstavnosti za enkratni ogled ni mogoče prenesti"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "Datoteka ni na voljo"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "To glasovno sporočilo ni bilo preneseno iz vašega telefona, ko je bila ta naprava povezana. Medijev in datotek, ki so v času povezovanja naprave starejši od 45 dni, ni mogoče sinhronizirati."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "Ta predstavnost za enkratni ogled več ni na voljo za prenos. Prosite osebo {name}, naj jo ponovno pošlje."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Ne morete prenesti predstavnosti za enkratni ogled. {name} ga bo moral/-a znova poslati."
   },
   "icu:save": {
     "messageformat": "Shrani"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Ne najdemo številke. Preverite internetno povezavo in poskusite znova."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Prenos ni uspel"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Urejanje je mogoče uporabiti samo v 24 urah od trenutka, ko ste poslali to sporočilo."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "Zastava"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Emoji"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Nalepke"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIF-i"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Iskanje po emojijih"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Iskanje po emojijih"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Kategorije emojijev"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nedavno uporabljeno"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Smeški in ljudje"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Živali in narava"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Hrana in pijača"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Dejavnosti"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Potovanja in kraji"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Objekti"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Simboli"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Zastave"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "Najden ni bil noben emoji"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Spreminjanje tona kože"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Izberite privzeti ton kože"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Rezultati iskanja"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Nedavno uporabljeno"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Smeški in ljudje"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Živali in narava"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Hrana in pijača"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Potovanja in kraji"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Dejavnosti"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Objekti"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Simboli"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Zastave"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Iskanje med nalepkami"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Iskanje med nalepkami"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Paket nalepk"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nedavno uporabljeno"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Rezultati iskanja"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Nedavno uporabljeno"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "Na voljo ni nobenih nalepk"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Iskanje GIF-ov v Tenorju"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Iskanje v Tenorju"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "Kategorije GIF-ov"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nedavno uporabljeno"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Popularno"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Praznovanje"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Ljubezen"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Palec gor"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Presenečenje"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Navdušenje"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Žalost"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Jeza"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Nalaganje GIF-ov"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Ni bilo mogoče naložiti GIF-ov. Preverite povezavo in poskusite znova"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Ponovno"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "Ni najdenih GIF-ov"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Prekliči"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Ogledano"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "Ogledano"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Medijske datoteke"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "Predstavnost za enkratni ogled"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Sporočilo ste si že ogledali."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "Ogled videa"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "Ogled videa za enkratni ogled"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "Ogled fotografije za enkratni ogled"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Kliknite za ogled"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(priponka)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Pošlji urejeno sporočilo"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Dodajte emoji, nalepko ali GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Uredi sporočilo"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Prelivajoči se konec"
   },
+  "icu:GIF--download": {
+    "messageformat": "Prenos priponke z GIF-om"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Čas po meri ..."
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "Zasebnost"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Poraba podatkov"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "Samodejen prenos priponk"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "Fotografije"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "Video"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "Zvok"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "Dokumenti"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Glasovna sporočila in nalepke se vedno samodejno prenesejo."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Zadnji uvoz: {date} {time}"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Posodobitev prenesena"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "Odprite Signal v svoji napravi"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Vaš račun bo kmalu izbrisan, razen če v telefonu odprete aplikacijo Signal. To sporočilo bo izginilo, če ste postopek uspešno opravili. <learnMoreLink>Več o tem</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Prihaja do tehničnih težav v omrežju Signal. Ekipa vzdrževalcev se trudi, da bodo čimprej odpravljene."
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Dovoli dostop do mikrofona"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Dovoli dostop do kamere"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "Če se želite pridružiti klicu ali ga začeti:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "Omogočanje videa:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "Za pošiljanje glasovnih sporočil:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Kliknite \"{buttonName}\" spodaj"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Vklopite \"Signal\""
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Pojdite v nastavitve"
   },
   "icu:MyStories__title": {
     "messageformat": "Moje zgodbe"
@@ -5857,16 +6097,13 @@
     "messageformat": "Majhne prilagoditve, popravki napak in izboljšave zmogljivosti. Hvala, da uporabljate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Zdaj lahko prilagodite velikost seznama klepetov v stranski vrstici v napravah z zaslonom na dotik. Ko boste poskušali povleči, ne bo tako težko, madeži na zaslonu pa bodo le dokaz moči, ki jo izžarevajo vaši prsti."
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Izboljšave prenosa nalepk."
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Odpravili smo redko napako, ki je preprečevala, da bi se nekateri pogovori pravilno odprli."
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "Z novo funkcijo \"Poraba podatkov\" v nastavitvah Signala lahko preprosto izberete, ali želite, da se fotografije, videi, zvočne datoteke ali drugi dokumenti samodejno prenesejo. Če Signal v skupinskem klepetu ne bo več samodejno prenašal najnovejših skladb glasbene skupine prijateljičinega fanta, boste ohranili svoj glasbeni okus in nekaj prostora na trdem disku."
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Zdaj se lahko odločite za prenos zgodovine klepetov in zadnjih 45 dni medijev v novo povezano napravo. Postopek prenosa je šifriran od konca do konca in je popolnoma neobvezen. Ko se morate odločiti, ali boste preteklost pustili za seboj ali ne, ste prepuščeni sami sebi."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Posodobili smo besedilo na gumbu v namizni aplikaciji, da se ujema s tistim v sistemih Android in iOS. Sliši se kot zelo majhna sprememba in tudi je, vendar včasih prav majhne stvari pokažejo, kako zelo nam je mar."
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Ko boste poskušali začeti klepet z uporabniškim imenom nekoga, bo to delovalo, tudi če pomotoma najprej vnesete simbol \"@\". Nekatere navade je težko prekiniti."
   }
 }

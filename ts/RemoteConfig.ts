@@ -13,9 +13,10 @@ import { uuidToBytes } from './util/uuidToBytes';
 import { dropNull } from './util/dropNull';
 import { HashType } from './types/Crypto';
 import { getCountryCode } from './types/PhoneNumber';
+import { parseRemoteClientExpiration } from './util/parseRemoteClientExpiration';
 
 export type ConfigKeyType =
-  | 'desktop.calling.ringrtcAdmFull'
+  | 'desktop.calling.ringrtcAdmFull.2'
   | 'desktop.calling.ringrtcAdmInternal'
   | 'desktop.calling.ringrtcAdmPreStable'
   | 'desktop.clientExpiration'
@@ -31,6 +32,8 @@ export type ConfigKeyType =
   | 'desktop.experimentalTransportEnabled.beta'
   | 'desktop.experimentalTransportEnabled.prod'
   | 'desktop.cdsiViaLibsignal'
+  | 'desktop.cdsiViaLibsignal.libsignalRouteBasedCDSILookup'
+  | 'desktop.funPicker'
   | 'desktop.releaseNotes'
   | 'desktop.releaseNotes.beta'
   | 'desktop.releaseNotes.dev'
@@ -135,13 +138,23 @@ export const _refreshRemoteConfig = async (
     };
   }, {});
 
-  // If remote configuration fetch worked - we are not expired anymore.
-  if (
-    !getValue('desktop.clientExpiration') &&
-    window.storage.get('remoteBuildExpiration') != null
-  ) {
-    log.warn('Remote Config: clearing remote expiration on successful fetch');
+  const remoteExpirationValue = getValue('desktop.clientExpiration');
+  if (!remoteExpirationValue) {
+    // If remote configuration fetch worked - we are not expired anymore.
+    if (window.storage.get('remoteBuildExpiration') != null) {
+      log.warn('Remote Config: clearing remote expiration on successful fetch');
+    }
     await window.storage.remove('remoteBuildExpiration');
+  } else {
+    const remoteBuildExpirationTimestamp = parseRemoteClientExpiration(
+      remoteExpirationValue
+    );
+    if (remoteBuildExpirationTimestamp) {
+      await window.storage.put(
+        'remoteBuildExpiration',
+        remoteBuildExpirationTimestamp
+      );
+    }
   }
 
   await window.storage.put('remoteConfig', config);

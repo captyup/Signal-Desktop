@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Kvalita odoslaných médií"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "Odosielanie médií vo vysokej kvalite využije viac dát."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Štandardná"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} neprečítaná správa} few {{count,number} neprečítané správy} many {{count,number} neprečítaných správ} other {{count,number} neprečítaných správ}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "Kvôli vašej bezpečnosti sa história četov neprenáša do nových pripojených zariadení."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "Označili ste bezpečnostné číslo s {name} za overené"
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Bola prijatá neplatná odpoveď zo služby cloudového úložiska. Zdieľajte svoje denníky ladenia."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} položka} few {{count,number} položky} many {{count,number} položiek} other {{count,number} položiek}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Toto médium už nie je dostupné."
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "Toto médium nie je k dispozícii"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "Hlasová správa nie je k dispozícii"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "Médium na jedno pozretie nie je k dispozícii"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Médium na jedno pozretie sa nepodarilo stiahnuť"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "Súbor nie je k dispozícii"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "Táto hlasová správa nebola po prepojení zariadenia prenesená z vášho telefónu. Médiá a súbory, ktoré sú v čase prepojenia zariadenia staršie ako 45 dní, nie je možné synchronizovať."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "Toto médium na jedno pozretie už nie je k dispozícii na stiahnutie. Požiadajte používateľa {name}, aby vám ho poslal znova."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Médium na jedno pozretie sa nepodarilo stiahnuť. {name} ho musí odoslať znova."
   },
   "icu:save": {
     "messageformat": "Uložiť"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Nepodarilo sa načítať telefónne číslo. Skontrolujte pripojenie a skúste to znova."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Sťahovanie zlyhalo"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Úpravy je možné vykonať len do 24 hodín od odoslania tejto správy."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "Vlajka"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Emotikony"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Nálepky"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIFy"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Hľadať emotikon"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Hľadať emotikon"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Kategórie emoji"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nedávno použité"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Smajlíky a ľudia"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Zvieratá a príroda"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Jedlo a nápoje"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Aktivity"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Cestovanie a miesta"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Objekty"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Symboly"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Vlajky"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "Nenašli sa žiadne emoji"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Zmeniť nastavenie tónu pleti"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Vyberte si predvolený tón pleti"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Výsledky vyhľadávania"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Nedávno použité"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Smajlíky a ľudia"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Zvieratá a príroda"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Jedlo a nápoje"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Cestovanie a miesta"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Aktivity"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Objekty"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Symboly"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Vlajky"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Hľadať nálepky"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Hľadať nálepky"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Balíčky nálepiek"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nedávno použité"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Výsledky vyhľadávania"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Nedávno použité"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "Nenašli sa žiadne nálepky"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Vyhľadať GIFy v službe Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Vyhľadať v službe Tenor"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "Kategórie GIF"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nedávno použité"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Trendy"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Oslava"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Láska"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Palec hore"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Prekvapený"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Nadšený"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Smutný"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Nahnevaný"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Načítavajú sa súbory GIF"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Nepodarilo sa načítať súbory GIF. Skontrolujte pripojenie a skúste to znova."
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Skúsiť znovu"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "Nenašli sa žiadne súbory GIF"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Zrušiť"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Zobrazené"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "Zobrazené"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Médiá"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "Jednorazové médium"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Túto správu ste už videli."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "Zobraziť video"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "Video na jedno pozretie"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "Fotka na jedno pozretie"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Kliknutím zobrazíte"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(príloha)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Odoslať upravenú správu"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Pridajte emoji, nálepku alebo GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Upraviť správu"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Koniec prechodu"
   },
+  "icu:GIF--download": {
+    "messageformat": "Stiahnuť prílohu GIF"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Vlastný čas…"
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "Súkromie"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Využitie dát"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "Automatické sťahovanie médií"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "Fotky"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "Videá"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "Zvuky"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "Dokumenty"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Hlasové správy a nálepky sa vždy stiahnu automaticky."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Posledný import {date} {time}"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Aktualizácia bola stiahnutá"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "Otvorte Signal na svojom telefóne"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Váš účet bude čoskoro odstránený, pokiaľ v telefóne neotvoríte Signal. Ak ste tak urobili, táto správa zmizne. <learnMoreLink>Zistiť viac</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal má technické ťažkosti. Pracujeme na tom, aby sme čo najskôr obnovili našu službu."
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Povoľte prístup k mikrofónu"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Povoľte prístup k fotoaparátu"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "Ak sa chcete pripojiť alebo začať hovor:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "Ak chcete zapnúť video:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "Ak chcete odosielať hlasové správy:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Kliknite na „{buttonName}“ nižšie"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Zapnite „Signal“"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Prejsť na nastavenia"
   },
   "icu:MyStories__title": {
     "messageformat": "Moje príbehy"
@@ -5857,16 +6097,13 @@
     "messageformat": "Malé úpravy, opravy chýb a vylepšenia výkonu. Ďakujeme, že používate Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Teraz môžete upraviť veľkosť bočného panela zoznamu četov na zariadeniach s dotykovou obrazovkou."
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Optimalizácia rýchlosti sťahovania nálepiek."
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Opravili sme zriedkavú chybu, ktorá bránila správnemu otvoreniu niektorých četov po ich výbere."
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "Vďaka novej funkcii „Využitie dát“ v nastaveniach služby Signal si jednoducho vyberiete, či sa majú fotky, videá, zvukové súbory alebo iné dokumenty sťahovať automaticky."
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Teraz si po prepojení svojho primárneho zariadenia Signal s novým počítačom môžete preniesť históriu četov a médiá z posledných 45 dní. Prenos je voliteľný a jeho proces chránený end-to-end šifrovaním."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Aktualizovali sme text na tlačidle v aplikácii Desktop, aby zodpovedal systémom Android a iOS."
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Keď teraz pri začatí četu omylom zadáte ako prvý symbol „@“ namiesto používateľského mena Signal, čet bude bez problémov fungovať."
   }
 }

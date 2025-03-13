@@ -20,8 +20,13 @@ import { ButtonVariant } from './Button';
 import { ConfirmationDialog } from './ConfirmationDialog';
 import { SignalConnectionsModal } from './SignalConnectionsModal';
 import { WhatsNewModal } from './WhatsNewModal';
+import { MediaPermissionsModal } from './MediaPermissionsModal';
 import type { StartCallData } from './ConfirmLeaveCallModal';
 import type { AttachmentNotAvailableModalType } from './AttachmentNotAvailableModal';
+import {
+  TapToViewNotAvailableModal,
+  type DataPropsType as TapToViewNotAvailablePropsType,
+} from './TapToViewNotAvailableModal';
 
 // NOTE: All types should be required for this component so that the smart
 // component gives you type errors when adding/removing props.
@@ -74,6 +79,15 @@ export type PropsType = {
   // ForwardMessageModal
   forwardMessagesProps: ForwardMessagesPropsType | undefined;
   renderForwardMessagesModal: () => JSX.Element;
+  // MediaPermissionsModal
+  mediaPermissionsModalProps:
+    | {
+        mediaType: 'camera' | 'microphone';
+        requestor: 'call' | 'voiceNote';
+      }
+    | undefined;
+  closeMediaPermissionsModal: () => void;
+  openSystemMediaPermissions: (mediaType: 'camera' | 'microphone') => void;
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps: MessageRequestActionsConfirmationPropsType | null;
   renderMessageRequestActionsConfirmation: () => JSX.Element;
@@ -107,6 +121,9 @@ export type PropsType = {
     | SafetyNumberChangedBlockingDataType
     | undefined;
   renderSendAnywayDialog: () => JSX.Element;
+  // TapToViewNotAvailableModal
+  tapToViewNotAvailableModalProps: TapToViewNotAvailablePropsType | undefined;
+  hideTapToViewNotAvailableModal: () => void;
   // UserNotFoundModal
   hideUserNotFoundModal: () => unknown;
   userNotFoundModalState: UserNotFoundModalStateType | undefined;
@@ -156,6 +173,10 @@ export function GlobalModalContainer({
   // ForwardMessageModal
   forwardMessagesProps,
   renderForwardMessagesModal,
+  // MediaPermissionsModal
+  mediaPermissionsModalProps,
+  closeMediaPermissionsModal,
+  openSystemMediaPermissions,
   // MessageRequestActionsConfirmation
   messageRequestActionsConfirmationProps,
   renderMessageRequestActionsConfirmation,
@@ -187,6 +208,9 @@ export function GlobalModalContainer({
   hasSafetyNumberChangeModal,
   safetyNumberChangedBlockingData,
   renderSendAnywayDialog,
+  // TapToViewNotAvailableModal
+  tapToViewNotAvailableModalProps,
+  hideTapToViewNotAvailableModal,
   // UserNotFoundModal
   hideUserNotFoundModal,
   userNotFoundModalState,
@@ -216,6 +240,18 @@ export function GlobalModalContainer({
   // Forward Modal
   if (forwardMessagesProps) {
     return renderForwardMessagesModal();
+  }
+
+  // Media Permissions Modal
+  if (mediaPermissionsModalProps) {
+    return (
+      <MediaPermissionsModal
+        i18n={i18n}
+        {...mediaPermissionsModalProps}
+        openSystemMediaPermissions={openSystemMediaPermissions}
+        onClose={closeMediaPermissionsModal}
+      />
+    );
   }
 
   // The Rest
@@ -336,6 +372,16 @@ export function GlobalModalContainer({
 
   if (attachmentNotAvailableModalType) {
     return renderAttachmentNotAvailableModal();
+  }
+
+  if (tapToViewNotAvailableModalProps) {
+    return (
+      <TapToViewNotAvailableModal
+        i18n={i18n}
+        onClose={hideTapToViewNotAvailableModal}
+        {...tapToViewNotAvailableModalProps}
+      />
+    );
   }
 
   return null;

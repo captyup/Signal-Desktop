@@ -1,9 +1,8 @@
 // Copyright 2020 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import { partition } from 'lodash';
-import * as logger from '../logging/log';
-import { isLongMessage } from '../types/MIME';
+import * as defaultLogger from '../logging/log';
+import { isAudio, isImage, isLongMessage, isVideo } from '../types/MIME';
 import { getMessageIdForLogging } from './idForLogging';
 import {
   copyStickerToAttachments,
@@ -24,6 +23,8 @@ import {
   getAttachmentSignatureSafe,
   isDownloading,
   isDownloaded,
+  isVoiceMessage,
+  partitionBodyAndNormalAttachments,
 } from '../types/Attachment';
 import type { StickerType } from '../types/Stickers';
 import type { LinkPreviewType } from '../types/message/LinkPreviews';
@@ -43,6 +44,8 @@ import {
   shouldUseAttachmentDownloadQueue,
 } from './attachmentDownloadQueue';
 import { queueUpdateMessage } from './messageBatcher';
+import type { LoggerType } from '../types/Logging';
+import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../textsecure/Storage';
 
 export type MessageAttachmentsDownloadedType = {
   bodyAttachment?: AttachmentType;
@@ -56,7 +59,7 @@ export type MessageAttachmentsDownloadedType = {
 
 function getLogger(source: AttachmentDownloadSource) {
   const verbose = source !== AttachmentDownloadSource.BACKUP_IMPORT;
-  const log = verbose ? logger : { ...logger, info: () => null };
+  const log = verbose ? defaultLogger : { ...defaultLogger, info: () => null };
   return log;
 }
 
@@ -64,7 +67,9 @@ export async function handleAttachmentDownloadsForNewMessage(
   message: MessageModel,
   conversation: ConversationModel
 ): Promise<void> {
-  const idLog = `handleAttachmentDownloadsForNewMessage/${conversation.idForLogging()} ${getMessageIdForLogging(message.attributes)}`;
+  const logId =
+    `handleAttachmentDownloadsForNewMessage/${conversation.idForLogging()} ` +
+    `${getMessageIdForLogging(message.attributes)}`;
 
   // Only queue attachments for downloads if this is a story (with additional logic), or
   // if it's either an outgoing message or we've accepted the conversation
@@ -79,20 +84,23 @@ export async function handleAttachmentDownloadsForNewMessage(
 
   if (shouldQueueForDownload) {
     if (shouldUseAttachmentDownloadQueue()) {
-      addToAttachmentDownloadQueue(idLog, message);
+      addToAttachmentDownloadQueue(logId, message);
     } else {
-      await queueAttachmentDownloadsForMessage(message);
+      await queueAttachmentDownloadsForMessage(message, {
+        isManualDownload: false,
+      });
     }
   }
 }
 
 export async function queueAttachmentDownloadsForMessage(
   message: MessageModel,
-  urgency?: AttachmentDownloadUrgency
+  options: {
+    urgency?: AttachmentDownloadUrgency;
+    isManualDownload: boolean;
+  }
 ): Promise<boolean> {
-  const updated = await queueAttachmentDownloads(message, {
-    urgency,
-  });
+  const updated = await queueAttachmentDownloads(message, options);
   if (!updated) {
     return false;
   }
@@ -108,36 +116,36 @@ export async function queueAttachmentDownloadsForMessage(
 export async function queueAttachmentDownloads(
   message: MessageModel,
   {
-    urgency = AttachmentDownloadUrgency.STANDARD,
-    source = AttachmentDownloadSource.STANDARD,
     attachmentDigestForImmediate,
+    isManualDownload,
+    source = AttachmentDownloadSource.STANDARD,
+    urgency = AttachmentDownloadUrgency.STANDARD,
   }: {
-    urgency?: AttachmentDownloadUrgency;
-    source?: AttachmentDownloadSource;
     attachmentDigestForImmediate?: string;
-  } = {}
+    isManualDownload: boolean;
+    source?: AttachmentDownloadSource;
+    urgency?: AttachmentDownloadUrgency;
+  }
 ): Promise<boolean> {
-  const attachmentsToQueue = message.get('attachments') || [];
+  const autoDownloadAttachment = window.storage.get(
+    'auto-download-attachment',
+    DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
+  );
+
   const messageId = message.id;
   const idForLogging = getMessageIdForLogging(message.attributes);
 
   let count = 0;
 
-  const idLog = `queueAttachmentDownloads(${idForLogging}})`;
+  const logId = `queueAttachmentDownloads(${idForLogging}})`;
   const log = getLogger(source);
 
-  const [longMessageAttachments, normalAttachments] = partition(
-    attachmentsToQueue,
-    attachment => isLongMessage(attachment.contentType)
+  message.set(
+    ensureBodyAttachmentsAreSeparated(message.attributes, {
+      logId,
+      logger: log,
+    })
   );
-
-  if (longMessageAttachments.length > 1) {
-    log.error(`${idLog}: Received more than one long message attachment`);
-  }
-
-  if (longMessageAttachments.length > 0) {
-    message.set({ bodyAttachment: longMessageAttachments[0] });
-  }
 
   const bodyAttachmentsToDownload = [
     message.get('bodyAttachment'),
@@ -151,57 +159,57 @@ export async function queueAttachmentDownloads(
 
   if (bodyAttachmentsToDownload.length) {
     log.info(
-      `${idLog}: Queueing ${bodyAttachmentsToDownload.length} long message attachment download`
+      `${logId}: Queueing ${bodyAttachmentsToDownload.length} long message attachment download`
     );
     await Promise.all(
       bodyAttachmentsToDownload.map(attachment =>
         AttachmentDownloadManager.addJob({
           attachment,
-          messageId,
           attachmentType: 'long-message',
+          isManualDownload,
+          messageId,
           receivedAt: message.get('received_at'),
           sentAt: message.get('sent_at'),
-          urgency,
           source,
+          urgency,
         })
       )
     );
     count += bodyAttachmentsToDownload.length;
   }
 
-  if (normalAttachments.length > 0) {
-    log.info(
-      `${idLog}: Queueing ${normalAttachments.length} normal attachment downloads`
-    );
-  }
+  const startingAttachments = message.get('attachments') || [];
   const { attachments, count: attachmentsCount } = await queueNormalAttachments(
     {
-      idLog,
+      attachmentDigestForImmediate,
+      attachments: startingAttachments,
+      isManualDownload,
+      logId,
       messageId,
-      attachments: normalAttachments,
       otherAttachments: message
         .get('editHistory')
         ?.flatMap(x => x.attachments ?? []),
       receivedAt: message.get('received_at'),
       sentAt: message.get('sent_at'),
-      urgency,
       source,
-      attachmentDigestForImmediate,
+      urgency,
     }
   );
+
   if (attachmentsCount > 0) {
     message.set({ attachments });
+  }
+  if (startingAttachments.length > 0) {
+    log.info(
+      `${logId}: Queued ${attachmentsCount} (of ${startingAttachments.length}) normal attachment downloads`
+    );
   }
   count += attachmentsCount;
 
   const previewsToQueue = message.get('preview') || [];
-  if (previewsToQueue.length > 0) {
-    log.info(
-      `${idLog}: Queueing ${previewsToQueue.length} preview attachment downloads`
-    );
-  }
   const { preview, count: previewCount } = await queuePreviews({
-    idLog,
+    logId,
+    isManualDownload,
     messageId,
     previews: previewsToQueue,
     otherPreviews: message.get('editHistory')?.flatMap(x => x.preview ?? []),
@@ -213,40 +221,41 @@ export async function queueAttachmentDownloads(
   if (previewCount > 0) {
     message.set({ preview });
   }
+  if (previewsToQueue.length > 0) {
+    log.info(
+      `${logId}: Queued ${previewCount} (of ${previewsToQueue.length}) preview attachment downloads`
+    );
+  }
   count += previewCount;
 
   const numQuoteAttachments = message.get('quote')?.attachments?.length ?? 0;
-  if (numQuoteAttachments > 0) {
-    log.info(
-      `${idLog}: Queueing ${numQuoteAttachments} ` +
-        'quote attachment downloads'
-    );
-  }
   const { quote, count: thumbnailCount } = await queueQuoteAttachments({
-    idLog,
+    logId,
+    isManualDownload,
     messageId,
-    quote: message.get('quote'),
     otherQuotes:
       message
         .get('editHistory')
         ?.map(x => x.quote)
         .filter(isNotNil) ?? [],
+    quote: message.get('quote'),
     receivedAt: message.get('received_at'),
     sentAt: message.get('sent_at'),
-    urgency,
     source,
+    urgency,
   });
   if (thumbnailCount > 0) {
     message.set({ quote });
   }
+  if (numQuoteAttachments > 0) {
+    log.info(
+      `${logId}: Queued ${thumbnailCount} (of ${numQuoteAttachments}) quote attachment downloads`
+    );
+  }
   count += thumbnailCount;
 
   const contactsToQueue = message.get('contact') || [];
-  if (contactsToQueue.length > 0) {
-    log.info(
-      `${idLog}: Queueing ${contactsToQueue.length} contact attachment downloads`
-    );
-  }
+  let avatarCount = 0;
   const contact = await Promise.all(
     contactsToQueue.map(async item => {
       if (!item.avatar || !item.avatar.avatar) {
@@ -254,35 +263,51 @@ export async function queueAttachmentDownloads(
       }
       // We've already downloaded this!
       if (item.avatar.avatar.path) {
-        log.info(`${idLog}: Contact attachment already downloaded`);
+        log.info(`${logId}: Contact attachment already downloaded`);
         return item;
       }
 
-      count += 1;
+      if (!isManualDownload) {
+        if (autoDownloadAttachment.photos === false) {
+          return item;
+        }
+      }
+
+      avatarCount += 1;
       return {
         ...item,
         avatar: {
           ...item.avatar,
           avatar: await AttachmentDownloadManager.addJob({
             attachment: item.avatar.avatar,
-            messageId,
             attachmentType: 'contact',
+            isManualDownload,
+            messageId,
             receivedAt: message.get('received_at'),
             sentAt: message.get('sent_at'),
-            urgency,
             source,
+            urgency,
           }),
         },
       };
     })
   );
-  message.set({ contact });
+  if (avatarCount > 0) {
+    message.set({ contact });
+  }
+  if (contactsToQueue.length > 0) {
+    log.info(
+      `${logId}: Queued ${avatarCount} (of ${contactsToQueue.length}) contact attachment downloads`
+    );
+  }
+  count += avatarCount;
 
   let sticker = message.get('sticker');
+  let copiedSticker = false;
+  let queuedStickerDownload = false;
   if (sticker && sticker.data && sticker.data.path) {
-    log.info(`${idLog}: Sticker attachment already downloaded`);
+    log.info(`${logId}: Sticker attachment already downloaded`);
   } else if (sticker) {
-    log.info(`${idLog}: Queueing sticker download`);
     count += 1;
     const { packId, stickerId, packKey } = sticker;
 
@@ -291,27 +316,33 @@ export async function queueAttachmentDownloads(
 
     if (status && (status === 'downloaded' || status === 'installed')) {
       try {
+        log.info(`${logId}: Copying sticker from installed pack`);
         data = await copyStickerToAttachments(packId, stickerId);
+        copiedSticker = true;
       } catch (error) {
         log.error(
-          `${idLog}: Problem copying sticker (${packId}, ${stickerId}) to attachments:`,
+          `${logId}: Problem copying sticker (${packId}, ${stickerId}) to attachments:`,
           Errors.toLogFormat(error)
         );
       }
     }
+
     if (!data) {
       if (sticker.data) {
+        log.info(`${logId}: Queueing sticker download`);
+        queuedStickerDownload = true;
         data = await AttachmentDownloadManager.addJob({
           attachment: sticker.data,
-          messageId,
           attachmentType: 'sticker',
+          isManualDownload,
+          messageId,
           receivedAt: message.get('received_at'),
           sentAt: message.get('sent_at'),
-          urgency,
           source,
+          urgency,
         });
       } else {
-        log.error(`${idLog}: Sticker data was missing`);
+        log.error(`${logId}: Sticker data was missing`);
       }
     }
     const stickerRef = {
@@ -322,7 +353,7 @@ export async function queueAttachmentDownloads(
     };
     if (!status) {
       // Save the packId/packKey for future download/install
-      void savePackMetadata(packId, packKey, stickerRef);
+      await savePackMetadata(packId, packKey, stickerRef);
     } else {
       await DataWriter.addStickerPackReference(stickerRef);
     }
@@ -333,39 +364,45 @@ export async function queueAttachmentDownloads(
 
     sticker = {
       ...sticker,
-      packId,
       data,
     };
   }
-  message.set({ sticker });
+  if (queuedStickerDownload || copiedSticker) {
+    message.set({ sticker });
+  }
 
   let editHistory = message.get('editHistory');
+
+  let allEditsAttachmentCount = 0;
   if (editHistory) {
-    log.info(`${idLog}: Looping through ${editHistory.length} edits`);
+    log.info(`${logId}: Looping through ${editHistory.length} edits`);
     editHistory = await Promise.all(
       editHistory.map(async edit => {
         const { attachments: editAttachments, count: editAttachmentsCount } =
           await queueNormalAttachments({
-            idLog,
-            messageId,
             attachments: edit.attachments,
+            isManualDownload,
+            logId,
+            messageId,
             otherAttachments: attachments,
             receivedAt: message.get('received_at'),
             sentAt: message.get('sent_at'),
-            urgency,
             source,
+            urgency,
           });
         count += editAttachmentsCount;
-        if (editAttachmentsCount !== 0) {
+        allEditsAttachmentCount += editAttachmentsCount;
+        if (editAttachments.length !== 0) {
           log.info(
-            `${idLog}: Queueing ${editAttachmentsCount} normal attachment ` +
-              `downloads (edited:${edit.timestamp})`
+            `${logId}: Queued ${editAttachmentsCount} (of ${edit.attachments?.length ?? 0}) ` +
+              `normal attachment downloads (edited:${edit.timestamp})`
           );
         }
 
         const { preview: editPreview, count: editPreviewCount } =
           await queuePreviews({
-            idLog,
+            logId,
+            isManualDownload,
             messageId,
             previews: edit.preview,
             otherPreviews: preview,
@@ -375,10 +412,11 @@ export async function queueAttachmentDownloads(
             source,
           });
         count += editPreviewCount;
-        if (editPreviewCount !== 0) {
+        allEditsAttachmentCount += editPreviewCount;
+        if (editPreview.length !== 0) {
           log.info(
-            `${idLog}: Queueing ${editPreviewCount} preview attachment ` +
-              `downloads (edited:${edit.timestamp})`
+            `${logId}: Queued ${editPreviewCount} (of ${edit.preview?.length ?? 0}) ` +
+              `preview attachment downloads (edited:${edit.timestamp})`
           );
         }
 
@@ -390,37 +428,41 @@ export async function queueAttachmentDownloads(
       })
     );
   }
-  message.set({ editHistory });
+  if (allEditsAttachmentCount > 0) {
+    message.set({ editHistory });
+  }
 
   if (count <= 0) {
     return false;
   }
 
-  log.info(`${idLog}: Queued ${count} total attachment downloads`);
+  log.info(`${logId}: Queued ${count} total attachment downloads`);
 
   return true;
 }
 
 export async function queueNormalAttachments({
-  idLog,
-  messageId,
+  attachmentDigestForImmediate,
   attachments = [],
+  isManualDownload,
+  logId,
+  messageId,
   otherAttachments,
   receivedAt,
   sentAt,
-  urgency,
   source,
-  attachmentDigestForImmediate,
+  urgency,
 }: {
-  idLog: string;
-  messageId: string;
+  attachmentDigestForImmediate?: string;
   attachments: MessageAttributesType['attachments'];
+  isManualDownload: boolean;
+  logId: string;
+  messageId: string;
   otherAttachments: MessageAttributesType['attachments'];
   receivedAt: number;
   sentAt: number;
-  urgency: AttachmentDownloadUrgency;
   source: AttachmentDownloadSource;
-  attachmentDigestForImmediate?: string;
+  urgency: AttachmentDownloadUrgency;
 }): Promise<{
   attachments: Array<AttachmentType>;
   count: number;
@@ -446,9 +488,16 @@ export async function queueNormalAttachments({
       if (!attachment) {
         return attachment;
       }
+
+      if (isLongMessage(attachment.contentType)) {
+        throw new Error(
+          `${logId}: queueNormalAttachments passed long-message attachment`
+        );
+      }
+
       // We've already downloaded this!
       if (isDownloaded(attachment)) {
-        log.info(`${idLog}: Normal attachment already downloaded`);
+        log.info(`${logId}: Normal attachment already downloaded`);
         return attachment;
       }
 
@@ -463,11 +512,38 @@ export async function queueNormalAttachments({
         (isDownloading(existingAttachment) || isDownloaded(existingAttachment))
       ) {
         log.info(
-          `${idLog}: Normal attachment already downloaded in other attachments. Replacing`
+          `${logId}: Normal attachment already downloaded in other attachments. Replacing`
         );
         // Incrementing count so that we update the message's fields downstream
         count += 1;
         return existingAttachment;
+      }
+
+      const { contentType } = attachment;
+      if (!isManualDownload) {
+        const autoDownloadAttachment = window.storage.get(
+          'auto-download-attachment',
+          DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
+        );
+
+        if (isVideo(contentType)) {
+          if (autoDownloadAttachment.videos === false) {
+            return attachment;
+          }
+        } else if (isImage(contentType)) {
+          if (autoDownloadAttachment.photos === false) {
+            return attachment;
+          }
+        } else if (isAudio(contentType)) {
+          if (
+            autoDownloadAttachment.audio === false &&
+            !isVoiceMessage(attachment)
+          ) {
+            return attachment;
+          }
+        } else if (autoDownloadAttachment.documents === false) {
+          return attachment;
+        }
       }
 
       count += 1;
@@ -479,12 +555,13 @@ export async function queueNormalAttachments({
           : urgency;
       return AttachmentDownloadManager.addJob({
         attachment,
-        messageId,
         attachmentType: 'attachment',
+        isManualDownload,
+        messageId,
         receivedAt,
         sentAt,
-        urgency: urgencyForAttachment,
         source,
+        urgency: urgencyForAttachment,
       });
     })
   );
@@ -511,23 +588,25 @@ function getLinkPreviewSignature(preview: LinkPreviewType): string | undefined {
 }
 
 async function queuePreviews({
-  idLog,
+  isManualDownload,
+  logId,
   messageId,
-  previews = [],
   otherPreviews,
+  previews = [],
   receivedAt,
   sentAt,
-  urgency,
   source,
+  urgency,
 }: {
-  idLog: string;
+  isManualDownload: boolean;
+  logId: string;
   messageId: string;
-  previews: MessageAttributesType['preview'];
   otherPreviews: MessageAttributesType['preview'];
+  previews: MessageAttributesType['preview'];
   receivedAt: number;
   sentAt: number;
-  urgency: AttachmentDownloadUrgency;
   source: AttachmentDownloadSource;
+  urgency: AttachmentDownloadUrgency;
 }): Promise<{ preview: Array<LinkPreviewType>; count: number }> {
   const log = getLogger(source);
   // Similar to queueNormalAttachments' logic for detecting same attachments
@@ -550,7 +629,7 @@ async function queuePreviews({
       }
       // We've already downloaded this!
       if (isDownloaded(item.image)) {
-        log.info(`${idLog}: Preview attachment already downloaded`);
+        log.info(`${logId}: Preview attachment already downloaded`);
         return item;
       }
       const signature = getLinkPreviewSignature(item);
@@ -564,10 +643,21 @@ async function queuePreviews({
         (isDownloading(existingPreview.image) ||
           isDownloaded(existingPreview.image))
       ) {
-        log.info(`${idLog}: Preview already downloaded elsewhere. Replacing`);
+        log.info(`${logId}: Preview already downloaded elsewhere. Replacing`);
         // Incrementing count so that we update the message's fields downstream
         count += 1;
         return existingPreview;
+      }
+
+      if (!isManualDownload) {
+        const autoDownloadAttachment = window.storage.get(
+          'auto-download-attachment',
+          DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
+        );
+
+        if (autoDownloadAttachment.photos === false) {
+          return item;
+        }
       }
 
       count += 1;
@@ -575,12 +665,13 @@ async function queuePreviews({
         ...item,
         image: await AttachmentDownloadManager.addJob({
           attachment: item.image,
-          messageId,
           attachmentType: 'preview',
+          isManualDownload,
+          messageId,
           receivedAt,
           sentAt,
-          urgency,
           source,
+          urgency,
         }),
       };
     })
@@ -607,23 +698,25 @@ function getQuoteThumbnailSignature(
 }
 
 async function queueQuoteAttachments({
-  idLog,
+  isManualDownload,
+  logId,
   messageId,
-  quote,
   otherQuotes,
+  quote,
   receivedAt,
   sentAt,
-  urgency,
   source,
+  urgency,
 }: {
-  idLog: string;
+  logId: string;
+  isManualDownload: boolean;
   messageId: string;
-  quote: QuotedMessageType | undefined;
   otherQuotes: ReadonlyArray<QuotedMessageType>;
+  quote: QuotedMessageType | undefined;
   receivedAt: number;
   sentAt: number;
-  urgency: AttachmentDownloadUrgency;
   source: AttachmentDownloadSource;
+  urgency: AttachmentDownloadUrgency;
 }): Promise<{ quote?: QuotedMessageType; count: number }> {
   const log = getLogger(source);
   let count = 0;
@@ -663,7 +756,7 @@ async function queueQuoteAttachments({
           }
           // We've already downloaded this!
           if (isDownloaded(item.thumbnail)) {
-            log.info(`${idLog}: Quote attachment already downloaded`);
+            log.info(`${logId}: Quote attachment already downloaded`);
             return item;
           }
 
@@ -679,7 +772,7 @@ async function queueQuoteAttachments({
               isDownloaded(existingThumbnail))
           ) {
             log.info(
-              `${idLog}: Preview already downloaded elsewhere. Replacing`
+              `${logId}: Preview already downloaded elsewhere. Replacing`
             );
             // Incrementing count so that we update the message's fields downstream
             count += 1;
@@ -689,22 +782,64 @@ async function queueQuoteAttachments({
             };
           }
 
+          // Note: we always download quote attachments
+
           count += 1;
           return {
             ...item,
             thumbnail: await AttachmentDownloadManager.addJob({
               attachment: item.thumbnail,
-              messageId,
               attachmentType: 'quote',
+              isManualDownload,
+              messageId,
               receivedAt,
               sentAt,
-              urgency,
               source,
+              urgency,
             }),
           };
         })
       ),
     },
     count,
+  };
+}
+
+export function ensureBodyAttachmentsAreSeparated(
+  messageAttributes: MessageAttributesType,
+  { logId, logger = defaultLogger }: { logId: string; logger?: LoggerType }
+): {
+  bodyAttachment: AttachmentType | undefined;
+  attachments: Array<AttachmentType>;
+  editHistory: Array<EditHistoryType> | undefined;
+} {
+  const { bodyAttachment, attachments } = partitionBodyAndNormalAttachments(
+    {
+      attachments: messageAttributes.attachments ?? [],
+      existingBodyAttachment: messageAttributes.bodyAttachment,
+    },
+    { logId, logger }
+  );
+
+  const updatedEditHistory = messageAttributes.editHistory?.map(edit => {
+    return {
+      ...edit,
+      ...partitionBodyAndNormalAttachments(
+        {
+          attachments: edit.attachments ?? [],
+          existingBodyAttachment: edit.bodyAttachment,
+        },
+        {
+          logId: `${logId}/editHistory(${edit.timestamp})`,
+          logger,
+        }
+      ),
+    };
+  });
+
+  return {
+    bodyAttachment: bodyAttachment ?? messageAttributes.bodyAttachment,
+    attachments,
+    editHistory: updatedEditHistory,
   };
 }

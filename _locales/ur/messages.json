@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "بھیجے گئے میڈیا کی کوالٹی"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "اعلیٰ کوالٹی کے میڈیا کو بھیجنے میں مزید ڈیٹا استعمال ہو گا۔"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "معیار"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number}نہ پڑھے ہوئے پیغامات} other {{count,number}نہ پڑھے ہوئے پیغامات}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "آپ کی سیکیورٹی کے لیے، چیٹ ہسٹری نئی لنک کردہ ڈیوائسز پر ٹرانسفر نہیں کی جاتی۔"
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "آپ نے بطور تصدیق شدہ اپنے حفاظتی نمبر کو {name} کے ساتھ نشان لگایا"
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "اسٹوریج سروس کی جانب سے غلط جواب موصول ہوا۔ براہ کرم اپنے لاگز شیئر کریں۔"
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number}} other {{count,number} آئٹمز}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "یہ میڈیا مزید دستیاب نہیں ہے۔"
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "یہ میڈیا دستیاب نہیں"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "صوتی میسج دستیاب نہیں ہے"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "صرف ایک بار دیکھنے کا میڈیا دستیاب نہیں ہے"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "صرف ایک بار دیکھنے کا میڈیا ڈاؤن لوڈ نہیں ہو سکتا"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "فائل دستیاب نہیں ہے"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "جب اس ڈیوائس کو لنک کیا گیا تھا تو یہ صوتی میسج آپ کے فون سے ٹرانسفر نہیں ہوا تھا۔s ڈیوائس لنک کرتے وقت 45 دنوں سے زیادہ پرانے میڈیا اور فائلز کو سنک نہیں کیا جا سکتا۔"
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "صرف ایک بار دیکھنے کا میڈیا ڈاؤن لوڈ کے لیے مزید دستیاب نہیں ہے۔ {name} سے اسے دوبارہ بھیجنے کے لیے کہیں۔"
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "صرف ایک بار دیکھنے کا میڈیا ڈاؤن لوڈ نہیں ہو سکتا۔ {name} کو اسے دوبارہ بھیجنے کی ضرورت ہو گی۔"
   },
   "icu:save": {
     "messageformat": "محفوظ کریں"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "فون نمبر ڈھونڈنے میں ناکامی ہوئی۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں۔"
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "ڈاؤن لوڈ ناکام ہو گیا"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "آپ کی طرف سے اس میسج کو بھیجنے کے بعد ترامیم کا اطلاق محض 24 گھنٹوں کے اندر کیا جا سکتا ہے۔"
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "پرچم"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "ایموجی"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "اسٹیکرز"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIFs"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "ایموجی تلاش کریں"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "ایموجی تلاش کریں"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "ایموجی کی کیٹیگریز"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "حالیہ استعمال شدہ"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "سمائیلیز اور افراد"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "جانور اور قدرت"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "خوراک اور مشروب"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "سرگرمیاں"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "سفر اور مقامات"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "اشیاء"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "علامتیں"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "جھنڈے"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "کوئی ایموجی نہیں ملا"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "اسکن ٹون کی ترجیحات کو تبدیل کریں"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "اپنی ڈیفالٹ اسکن ٹون منتخب کریں"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "تلاش کے نتائج"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "حالیہ استعمال شدہ"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "سمائیلیز اور افراد"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "جانور اور قدرت"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "خوراک اور مشروب"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "سفر اور مقامات"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "سرگرمیاں"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "اشیاء"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "علامتیں"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "جھنڈے"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "اسٹیکرز تلاش کریں"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "اسٹیکرز تلاش کریں"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "اسٹیکر پیکس"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "حالیہ استعمال شدہ"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "تلاش کے نتائج"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "حالیہ استعمال شدہ"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "کوئی اسٹیکر نہیں ملا"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Tenor کے ذریعے GIFs کو تلاش کریں"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Tenor کو تلاش کریں"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF کی کیٹیگریز"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "حالیہ استعمال شدہ"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "ٹرینڈنگ"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "خوشی منائیں"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "محبت"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "تھمبز اپ"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "حیران"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "پرجوش"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "اداس"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "ناراض"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "GIFs لوڈ ہو رہے ہیں"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "GIFs لوڈ نہیں کیے جا سکے۔ اپنا کنکشن چیک کریں اور دوبارہ کوشش کریں"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "دوبارہ کوشش کریں"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "کوئی GIFs نہیں ملے"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "منسوخ کریں"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "دیکھا ہوا"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "دیکھا ہوا"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "میڈیا"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "ایک مرتبہ دیکھا جانے والا میڈیا"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "آپ یہ پیغام پہلے ہی دیکھ چکے ہیں۔"
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "ویڈیو دیکھیں"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "ایک بار دیکھنے کی ویڈیو"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "ایک بار دیکھنے کی تصویر"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "دیکھنے کے لیے کلک کریں"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "( منسلک شدہ مواد)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "ترمیم کردہ میسج بھیجیں"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "کوئی ایموجی، اسٹیکر، یا GIF شامل کریں"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "میسج میں ترمیم کریں"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "گریڈینٹ کا اختتام"
   },
+  "icu:GIF--download": {
+    "messageformat": "منسلک شدہ GIF ڈاؤن لوڈ کریں"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "کسٹم ٹائم ..."
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "رازداری"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "ڈیٹا کا استعمال"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "میڈیا آٹو ڈاون لوڈ"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "تصاویر"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "ویڈیوز"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "آڈیو"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "دستاویزات"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "صوتی میسجز اور اسٹیکرز ہمیشہ خودکار طور پر ڈاؤن لوڈ ہوتے ہیں۔"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "آخری درآمد {date} {time} پر کی گئی"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "اپ ڈیٹ ڈاؤن لوڈ ہو گئی ہے"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "اپنے فون پر Signal کھولیں"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "اگر آپ اپنے فون پر Signal نہیں کھولتے تو آپ کا اکاؤنٹ جلد ہی خذف کر دیا جائے گا۔ اگر آپ نے اسے کامیابی سے کر لیا ہے تو یہ میسج غائب ہو جائے گا۔ <learnMoreLink>مزید جانیں</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "signal تکنیکی مشکلات کا تجربہ کر رہا ہے۔جتنا جلدی ممکن ہو ہم سروس بحال کرنے کیلئے سخت محنت کر رہے ہیں۔"
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "اپنے مائیکروفون تک رسائی کی اجازت دیں"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "اپنے کیمرے تک رسائی کی اجازت دیں"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "کال میں شامل ہونے یا شروع کرنے کے لیے:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "اپنی ویڈیو کو اہل کے لیے:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "صوتی میسج بھیجنے کے لیے:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "نیچے “{buttonName}” پر کلک کریں"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "“Signal” کو آن کریں"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "سیٹنگز پر جائیں"
   },
   "icu:MyStories__title": {
     "messageformat": "میری سٹوریز"
@@ -5857,16 +6097,13 @@
     "messageformat": "معمولی تبدیلیاں کی گئیں، بگ ٹھیک کیے گئے، اور کارکردگی اور بھی بہتر بنائی گئی ہے۔ Signal استعمال کرنے کے لیے شکریہ!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "اب آپ ٹچ اسکرین ڈیوائسز پر چیٹ لسٹ کی سائیڈ بار کے سائز کو ایڈجسٹ کر سکتے ہیں۔"
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "اسٹیکر ڈاؤن لوڈ کرنے کی کارکردگی میں بہتریاں۔"
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "ہم نے ایک ایسے شاذو نادر پیش آنے والے نقص کو ٹھیک کیا ہے جس کی وجہ سے کچھ چیٹس ٹھیک طرح سے کھل نہیں رہی تھیں۔"
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "Signal کی سیٹنگز میں \"ڈیٹا کے استعمال\" کا نیا فیچر یہ منتخب کرنے کو آسان بناتا ہے کہ آیا تصاویر، ویڈیوز، آڈیو فائلز، یا دیگر دستاویزات خود کار طور پر ڈاؤن لوڈ ہوں یا نہ ہوں۔"
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "اب جب آپ اپنی بنیادی Signal ڈیوائس کو ایک نئے ڈیسک ٹاپ کے ساتھ لنک کریں گے، تو آپ اپنی چیٹ ہسٹری اور گزشتہ 45 دنوں کا میڈیا اس میں اپنے ساتھ لا سکتے ہیں۔ ٹرانسفر کا عمل اینڈ ٹو اینڈ انکرپٹ کردہ ہے، اور مکمل طور پر اختیاری ہے۔ جب یہ انتخاب کرنے کی بات آتی ہے کہ آیا ماضی کو پیچھے چھوڑنا ہے یا نہیں، تو آپ اپنی ڈیوائسز پر انحصار کرتے ہیں۔"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "ہم نے Desktop ایپ میں ایک بٹن کے متن کو اپ ڈیٹ کیا ہے تاکہ Android اور iOS کے ساتھ ہم آہنگ ہو سکے۔"
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "اب جب آپ کسی کے Signal یوزر نیم کے ساتھ چیٹ شروع کرنے کی کوشش کرتے ہیں، تو یہ اس صورت میں بھی کام کرے گا اگر آپ بھولے سے “@” کی علامت پہلے ٹائپ کر دیتے ہیں۔"
   }
 }

@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Квалитет на испратена медиумска датотека"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "Испраќањето на висококвалитетна медиумска датотека ќе користи повеќе податоци."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Стандардно"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} непрочитана порака} other {{count,number} непрочитани пораки}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "За ваша безбедност, историјата од разговорите не се пренесува на нови поврзани уреди."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "Го обележавте вашиот безбедносен број со{name} како проверен"
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Добиен е невалиден одговор од услугата за складирање. Ве молиме споделете ги вашите записи."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} предмет} other {{count,number} предмети}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Оваа медиумска датотека повеќе не е достапна."
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "Оваа медиумска датотека не е достапна"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "Гласовната порака не е достапна"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "Еднократно видливата медиумска датотека не е достапна"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Не може да се преземе еднократно видливата медиумска датотека"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "Датотеката не е достапна"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "Оваа гласовна порака не беше пренесена од вашиот телефон кога се поврза овој уред. Медиумските датотеки и датотеките постари од 45 дена во моментот на поврзување на уредот не може да се синхронизираат."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "Оваа еднократно видлива медиумска датотека повеќе не е достапна за преземање. Побарајте {name} да ви ја испрати повторно."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Не може да се преземе еднократно видливата медиумска датотека. {name} ќе мора одново да ја испрати."
   },
   "icu:save": {
     "messageformat": "Зачувај"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Неуспешно пронаоѓање на телефонски број. Проверете ја интернет врската и обидете се повторно."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Преземањето не успеа"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Може да се применуваат измени само во рок од 3 часа откако ја имате испратено пораката."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "Знаме"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Емоџи"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Стикери"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIF-ови"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Пребарувај емоџи"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Пребарувај емоџи"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Категории на емотикони"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Скорешни"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Смешко-емотикони и луѓе"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Животни и природа"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Храна и пијалаци"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Активности"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Патување и места"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Предмети"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Симболи"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Знамиња"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "Не е пронајдено емоџи"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Променете го изборот на боја на кожа"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Изберете стандардна боја на кожа"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Резултати од пребарувањето"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Скорешни"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Смешко-емотикони и луѓе"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Животни и природа"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Храна и пијалаци"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Патување и места"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Активности"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Предмети"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Симболи"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Знамиња"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Пребарувај стикери"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Пребарувај стикери"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Пакети налепници"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Скорешни"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Резултати од пребарувањето"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Скорешни"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "Не се пронајдени стикери"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Пребарајте GIF-ови во Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Пребарајте во Tenor"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "Категории на GIF-ови"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Скорешни"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Во тренд"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Прослави"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Љубов"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Палци горе"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Изненадени"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Возбудени"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Тажни"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Лути"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Се вчитуваат GIF-овите"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "GIF-овите не можеа да се вчитаат. Проверете ја интернет врската и обидете се повторно"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Обидете се повторно"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "Не се пронајдени GIF-ови"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Откажи"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Видено"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "Видено"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Медиумски датотеки"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "Еднократно видлива медиумска датотека"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Веќе ја видовте оваа порака."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "Види видео"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "Еднократно видливо видео"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "Еднократно видлива фотографија"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Кликнете за да видите"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(прилог)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Испрати изменета порака"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Додајте емотикон, налепница или GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Измени ја пораката"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Крај со прелевање"
   },
+  "icu:GIF--download": {
+    "messageformat": "Преземете GIF прилог"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Прилагодено време…"
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "Приватност"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Искористеност на податоци"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "Автоматско преземање на медиумски датотеки"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "Слики"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "Видео"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "Аудио"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "Документи"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Гласовните пораки и налепниците секогаш се преземаат автоматски."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Последен внес на {date} {time}"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Новата верзија е преземена"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "Отворете Signal на вашиот телефон"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Вашата корисничка сметка наскоро ќе биде избришана ако не отворите Signal на вашиот телефон. Поракава ќе исчезне ако успешно го направите тоа. <learnMoreLink>Дознајте повеќе</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal се соочува со технички потешкотии. Работиме напорно да ја вратиме услугата што е можно побрзо."
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Дозволи пристап до микрофонот"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Дозволете пристап до камерата"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "За да се приклучите или да започнете повик:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "За да снимате:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "За да испраќате гласовни пораки:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Кликнете на „{buttonName}“ подолу"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Вклучете „Signal“"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Оди во поставувањата"
   },
   "icu:MyStories__title": {
     "messageformat": "Мои приказни"
@@ -5857,16 +6097,13 @@
     "messageformat": "Mали подобрувања, решени багови и подобрувања на перформансот. Ви благодариме што користите Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Сега можете да ја прилагодите големината на страничната лента на листата со разговори на уреди со екран на допир."
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Подобрувања на перформансот за преземање налепници."
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Решивме грешка која спречуваше правилно отворање на одредени разговори."
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "Новата функција за „Искористеност на податоци“ во поставувањата на Signal ви го поедноставува изборот за тоа дали автоматски ќе се преземаат фотографиите, видеата, аудио датотеките, или другите документи."
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Сега можете да ја пренесете вашата историја на разговори и вашите медиумски датотеки од последните 45 дена на нов поврзан уред."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Го ажуриравме текстот на копче во апликацијата за десктоп за да се совпаѓа со Android и iOS."
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Сега, кога ќе се обидете да започнете разговор со нечие корисничко име на Signal, ќе успеете дури и ако по грешка прво го внесете симболот „@“."
   }
 }

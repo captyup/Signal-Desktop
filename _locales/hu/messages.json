@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Elküldött médiafájl minősége"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "A nagyfelbontású média nagyobb adathasználatot igényel."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Normál"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} olvasatlan üzenet} other {{count,number} olvasatlan üzenet}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "A biztonságod érdekében a csevegési előzmények nem kerülnek áthelyezésre a kapcsolt eszközeidre."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "Biztonsági számodat {name} nevű partnereddel hitelesítettnek jelölted"
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Érvénytelen szerver válasz. Kérjük, oszd meg a naplófájlokat."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} db elem} other {{count,number} elem}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Ez a médiafájl már nem érhető el."
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "Ez a médiatartalom nem érhető el"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "Hangüzenet nem érhető el"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "Egyszer megjelenő médiafájl nem érhető el"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Az egyszer megjelenő médiafájl nem tölthető le"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "A fájl nem érhető el"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "Ez a hangüzenet nem lett áthelyezve a telefonodról az eszköz összekapcsolásakor. Az eszköz összekapcsolásakor 45 napnál régebbi médiafájlok és fájlok nem szinkronizálhatók."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "Az egyszer megjelenő médiafájl már nem érhető el letöltésre. Kérd meg {name} felhasználót, hogy küldje el újra."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Az egyszer megjelenő médiafájl nem tölthető le. {name} felhasználónak újra el kell küldenie."
   },
   "icu:save": {
     "messageformat": "Mentés"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "A telefonszám lekérése sikertelen. Ellenőrizd a kapcsolatodat, majd próbáld újra!"
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Letöltés sikertelen"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "A módosításokat csak az üzenet elküldésétől számított 24 órán belül lehet alkalmazni."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "Zászló"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Emoji"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Matricák"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIF-ek"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Emoji keresése"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Emoji keresése"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Hangulatjel kategóriák"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nemrég használt"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Smiley-k és emberek"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Állatok és természet"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Étel-ital"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Tevékenységek"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Utazás és helyek"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Tárgyak"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Szimbólumok"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Zászlók"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "Nem található emoji"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Bőrtónus-beállítás módosítása"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Válaszd ki az alapértelmezett bőrtónust"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Keresési eredmények"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Nemrég használt"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Smiley-k és emberek"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Állatok és természet"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Étel-ital"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Utazás és helyek"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Tevékenységek"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Tárgyak"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Szimbólumok"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Zászlók"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Matricák keresése"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Matricák keresése"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Matricacsomagok"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nemrég használt"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Keresési eredmények"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Nemrég használt"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "Nem található matrica"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Keress GIF-eket a Tenoron keresztül"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Tenor keresése"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF-kategóriák"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nemrég használt"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Felkapott"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Ünneplés"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Szeretet/Szerelem"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Lájk"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Meglepett"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Izgatott"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Szomorú"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Dühös"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "GIF-ek betöltése"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Nem sikerült betölteni a GIF-eket. Ellenőrizd az internetkapcsolatot, és próbáld újra"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Újra"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "Nem található GIF"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Mégse"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Megtekintve"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "Megtekintve"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Média"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "Egyszer megjelenő médiafájl megtekintése"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Már megnézted ezt az üzenetet."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "Videó megtekintése"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "Egyszeri videó megtekintése"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "Egyszeri fénykép megtekintése"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "A megtekintéshez kattints"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(csatolmány)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Szerkesztett üzenet küldése"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Adj hozzá hangulatjelet, matricát vagy GIF-et"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Üzenet szerkesztése"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Átmenet vége"
   },
+  "icu:GIF--download": {
+    "messageformat": "GIF-csatolmány letöltése"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Egyedi időtartam…"
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "Adatvédelem"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Adathasználat"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "Médiafájlok automatikus letöltése"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "Fotók"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "Videók"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "Hang"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "Dokumentumok"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "A hangüzenetek és a matricák mindig automatikusan letöltődnek."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Utolsó importálás időpontja: {date} {time}"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Frissítés letöltve"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "Nyisd meg a Signalt a telefonodon!"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "A fiókod hamarosan törlésre kerül, hacsak nem nyitod meg a Signalt a telefonodon. Ez az üzenet eltűnik, ha sikerrel jártál. <learnMoreLink>Tudj meg többet!</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "A Signal technikai nehézségekkel küzd. Keményen dolgozunk a gyors helyreállásért."
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Hozzáférés engedélyezése a mikrofonodhoz"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Engedélyezd a kamerához való hozzáférést"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "Csatlakozáshoz vagy hívás kezdeményezéséhez:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "A videó engedélyezése:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "Hangüzenetek küldése:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Kattints az alábbi „{buttonName}” gombra"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Kapcsold be a „Signal” opciót"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Ugrás a Beállításokhoz"
   },
   "icu:MyStories__title": {
     "messageformat": "Történeteim"
@@ -5857,16 +6097,13 @@
     "messageformat": "Apró finomítások, hibajavítások és teljesítménynövelések. Köszönjük, hogy a Signalt használod!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Mostantól beállíthatod a csevegési lista oldalsávjának méretét az érintőképernyős eszközökön."
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Javítottuk a matricák letöltési teljesítményét."
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Kijavítottunk egy ritka hibát, amely megakadályozta, hogy néhány csevegés megfelelően nyíljon meg."
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "A Signal-beállítások új „Adathasználat” funkciója megkönnyíti annak eldöntését, hogy a rendszer automatikusan letöltse-e a fotókat, videókat, hangfájlokat vagy egyéb dokumentumokat."
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Amikor összekapcsolod elsődleges Signal-eszközödet egy új asztali számítógéppel, magaddal viheted csevegési előzményeidet és az elmúlt 45 nap médiatartalmát. Az átviteli folyamat végponttól végpontig titkosított, és teljesen opcionális. Amikor arról kell döntened, hogy magad mögött hagyod-e a múltat vagy sem, a saját eszközeidre kell hagyatkoznod."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Frissítettük az asztali alkalmazás gombjának szövegét, hogy megfeleljen az Android és az iOS rendszernek."
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Mostantól, amikor megpróbálsz csevegést indítani valakinek a Signal-felhasználónevével, akkor is működni fog, ha véletlenül először beírod a „@” szimbólumot."
   }
 }

@@ -158,6 +158,7 @@ import { getColorForCallLink } from '../util/getColorForCallLink';
 import { getUseRingrtcAdm } from '../util/ringrtc/ringrtcAdm';
 import OS from '../util/os/osMain';
 import { isLowerHandSuggestionEnabled } from '../util/isLowerHandSuggestionEnabled';
+import { sleep } from '../util/sleep';
 
 const { wasGroupCallRingPreviouslyCanceled } = DataReader;
 const {
@@ -176,6 +177,7 @@ const RINGRTC_HTTP_METHOD_TO_OUR_HTTP_METHOD: Map<
 ]);
 
 const CLEAN_EXPIRED_GROUP_CALL_RINGS_INTERVAL = 10 * durations.MINUTE;
+const OUTGOING_SIGNALING_WAIT = 15 * durations.SECOND;
 
 const ICE_SERVER_IS_IP_LIKE = /(turn|turns|stun):[.\d]+/;
 const MAX_CALL_DEBUG_STATS_TABS = 5;
@@ -195,6 +197,7 @@ type CallingReduxInterface = Pick<
   | 'callStateChange'
   | 'cancelIncomingGroupCallRing'
   | 'cancelPresenting'
+  | 'directCallAudioLevelsChange'
   | 'groupCallAudioLevelsChange'
   | 'groupCallEnded'
   | 'groupCallRaisedHandsChange'
@@ -326,6 +329,27 @@ export type NotifyScreenShareStatusOptionsType = Readonly<
       }
   )
 >;
+
+async function ensureSystemPermissions({
+  hasLocalVideo,
+  hasLocalAudio,
+}: {
+  hasLocalVideo: boolean;
+  hasLocalAudio: boolean;
+}): Promise<void> {
+  if (hasLocalAudio) {
+    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+      'microphone',
+      'call'
+    );
+  }
+  if (hasLocalVideo) {
+    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+      'camera',
+      'call'
+    );
+  }
+}
 
 export class CallingClass {
   readonly #videoCapturer: GumVideoCapturer;
@@ -502,6 +526,7 @@ export class CallingClass {
     }
 
     log.info('CallingClass.startCallingLobby(): Starting lobby');
+    await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
 
     // It's important that this function comes before any calls to
     //   `videoCapturer.enableCapture` or `videoCapturer.enableCaptureAndSend` because of
@@ -522,7 +547,7 @@ export class CallingClass {
     await this.#startDeviceReselectionTimer();
 
     const enableLocalCameraIfNecessary = hasLocalVideo
-      ? () => this.enableLocalCamera()
+      ? () => drop(this.enableLocalCamera())
       : noop;
 
     switch (callMode) {
@@ -833,6 +858,8 @@ export class CallingClass {
     const roomId = getRoomIdFromRootKey(callLinkRootKey);
     log.info('startCallLinkLobby() for roomId', roomId);
 
+    await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
+
     await this.#startDeviceReselectionTimer();
 
     const authCredentialPresentation =
@@ -848,7 +875,7 @@ export class CallingClass {
     groupCall.setOutgoingAudioMuted(!hasLocalAudio);
     groupCall.setOutgoingVideoMuted(!hasLocalVideo);
 
-    this.enableLocalCamera();
+    drop(this.enableLocalCamera());
 
     return {
       callMode: CallMode.Adhoc,
@@ -888,6 +915,17 @@ export class CallingClass {
     const haveMediaPermissions = await this.#requestPermissions(hasLocalVideo);
     if (!haveMediaPermissions) {
       log.info(`${logId}: Permissions were denied, new call not allowed.`);
+      this.stopCallingLobby();
+      return;
+    }
+
+    try {
+      await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
+    } catch (error) {
+      log.error(
+        `${logId}: failed to ensure system permissions`,
+        Errors.toLogFormat(error)
+      );
       this.stopCallingLobby();
       return;
     }
@@ -1239,6 +1277,7 @@ export class CallingClass {
       );
     }
 
+    await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
     await this.#startDeviceReselectionTimer();
 
     const groupCall = this.connectGroupCall(conversationId, {
@@ -1577,6 +1616,7 @@ export class CallingClass {
       );
     }
 
+    await ensureSystemPermissions({ hasLocalAudio, hasLocalVideo });
     await this.#startDeviceReselectionTimer();
 
     const callLinkRootKey = CallLinkRootKey.parse(rootKey);
@@ -1924,6 +1964,10 @@ export class CallingClass {
 
     const haveMediaPermissions = await this.#requestPermissions(asVideoCall);
     if (haveMediaPermissions) {
+      await ensureSystemPermissions({
+        hasLocalAudio: true,
+        hasLocalVideo: asVideoCall,
+      });
       await this.#startDeviceReselectionTimer();
       RingRTC.setVideoCapturer(callId, this.#videoCapturer);
       RingRTC.setVideoRenderer(callId, this.videoRenderer);
@@ -2024,12 +2068,20 @@ export class CallingClass {
     }
   }
 
-  setOutgoingVideo(conversationId: string, enabled: boolean): void {
+  async setOutgoingVideo(
+    conversationId: string,
+    enabled: boolean
+  ): Promise<void> {
     const call = getOwn(this.#callsLookup, conversationId);
     if (!call) {
       log.warn('Trying to set outgoing video for a non-existent call');
       return;
     }
+
+    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+      'camera',
+      'call'
+    );
 
     if (call instanceof Call) {
       RingRTC.setOutgoingVideo(call.callId, enabled);
@@ -2083,11 +2135,13 @@ export class CallingClass {
           },
         })
       );
-      this.setOutgoingVideo(conversationId, true);
+      drop(this.setOutgoingVideo(conversationId, true));
     } else {
-      this.setOutgoingVideo(
-        conversationId,
-        this.#hadLocalVideoBeforePresenting ?? hasLocalVideo
+      drop(
+        this.setOutgoingVideo(
+          conversationId,
+          this.#hadLocalVideoBeforePresenting ?? hasLocalVideo
+        )
       );
       this.#hadLocalVideoBeforePresenting = undefined;
     }
@@ -2405,8 +2459,12 @@ export class CallingClass {
     RingRTC.setAudioOutput(device.index);
   }
 
-  enableLocalCamera(): void {
-    drop(this.#videoCapturer.enableCapture());
+  async enableLocalCamera(): Promise<void> {
+    await window.reduxActions.globalModals.ensureSystemMediaPermissions(
+      'camera',
+      'call'
+    );
+    await this.#videoCapturer.enableCapture();
   }
 
   async enableCaptureAndSend(
@@ -2845,18 +2903,24 @@ export class CallingClass {
       const protoBytes = Proto.CallMessage.encode(proto).finish();
       const protoBase64 = Bytes.toBase64(protoBytes);
 
-      await conversationJobQueue.add({
+      const job = await conversationJobQueue.add({
         type: 'CallingMessage',
         conversationId: conversation.id,
         protoBase64,
         urgent,
       });
 
+      const failAfterTimeout = async () => {
+        await sleep(OUTGOING_SIGNALING_WAIT);
+        throw new Error('Ran out of time');
+      };
+      await Promise.race([job.completion, failAfterTimeout()]);
+
       return true;
     } catch (err) {
       const errorString = Errors.toLogFormat(err);
       log.error(
-        `handleOutgoingSignaling() failed to queue job: ${errorString}`
+        `handleOutgoingSignaling() failed to queue job or send: ${errorString}`
       );
       return false;
     }
@@ -2983,7 +3047,8 @@ export class CallingClass {
   }
 
   #attachToCall(conversation: ConversationModel, call: Call): void {
-    this.#callsLookup[conversation.id] = call;
+    const conversationId = conversation.id;
+    this.#callsLookup[conversationId] = call;
 
     const reduxInterface = this.#reduxInterface;
     if (!reduxInterface) {
@@ -3001,7 +3066,7 @@ export class CallingClass {
       if (call.state === CallState.Ended) {
         this.#stopDeviceReselectionTimer();
         this.#lastMediaDeviceSettings = undefined;
-        delete this.#callsLookup[conversation.id];
+        delete this.#callsLookup[conversationId];
       }
 
       const localCallEvent = getLocalCallEventFromDirectCall(call);
@@ -3017,7 +3082,7 @@ export class CallingClass {
       }
 
       reduxInterface.callStateChange({
-        conversationId: conversation.id,
+        conversationId,
         callState: call.state,
         callEndedReason: call.endedReason,
         acceptedTime,
@@ -3032,7 +3097,7 @@ export class CallingClass {
     // eslint-disable-next-line no-param-reassign
     call.handleRemoteVideoEnabled = () => {
       reduxInterface.remoteVideoChange({
-        conversationId: conversation.id,
+        conversationId,
         hasVideo: call.remoteVideoEnabled,
       });
     };
@@ -3040,8 +3105,17 @@ export class CallingClass {
     // eslint-disable-next-line no-param-reassign
     call.handleRemoteSharingScreen = () => {
       reduxInterface.remoteSharingScreenChange({
-        conversationId: conversation.id,
+        conversationId,
         isSharingScreen: Boolean(call.remoteSharingScreen),
+      });
+    };
+
+    // eslint-disable-next-line no-param-reassign
+    call.handleAudioLevels = () => {
+      reduxInterface.directCallAudioLevelsChange({
+        conversationId,
+        localAudioLevel: call.outgoingAudioLevel,
+        remoteAudioLevel: call.remoteAudioLevel,
       });
     };
 
@@ -3229,8 +3303,7 @@ export class CallingClass {
       iceServers,
       hideIp: shouldRelayCalls || isContactUntrusted,
       dataMode: DataMode.Normal,
-      // TODO: DESKTOP-3101
-      // audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
+      audioLevelsIntervalMillis: AUDIO_LEVEL_INTERVAL_MS,
     };
 
     log.info('CallingClass.handleStartCall(): Proceeding');

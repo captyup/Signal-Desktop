@@ -9,7 +9,7 @@
 import type { RequestInit, Response } from 'node-fetch';
 import fetch from 'node-fetch';
 import type { Agent } from 'https';
-import { escapeRegExp, isNumber, isString, isObject } from 'lodash';
+import { escapeRegExp, isNumber, isString, isObject, throttle } from 'lodash';
 import PQueue from 'p-queue';
 import { v4 as getGuid } from 'uuid';
 import { z } from 'zod';
@@ -30,7 +30,6 @@ import { createHTTPSAgent } from '../util/createHTTPSAgent';
 import { createProxyAgent } from '../util/createProxyAgent';
 import type { ProxyAgent } from '../util/createProxyAgent';
 import type { FetchFunctionType } from '../util/uploads/tusProtocol';
-import type { SocketStatus } from '../types/SocketStatus';
 import { VerificationTransport } from '../types/VerificationTransport';
 import { toLogFormat } from '../types/errors';
 import { isPackIdValid, redactPackId } from '../types/Stickers';
@@ -52,7 +51,7 @@ import { randomInt } from '../Crypto';
 import * as linkPreviewFetch from '../linkPreviews/linkPreviewFetch';
 import { isBadgeImageFileUrlValid } from '../badges/isBadgeImageFileUrlValid';
 
-import { SocketManager } from './SocketManager';
+import { SocketManager, type SocketStatuses } from './SocketManager';
 import type { CDSAuthType, CDSResponseType } from './cds/Types.d';
 import { CDSI } from './cds/CDSI';
 import { SignalService as Proto } from '../protobuf';
@@ -81,6 +80,9 @@ import type {
 import { isMockServer } from '../util/isMockServer';
 import { getMockServerPort } from '../util/getMockServerPort';
 import { pemToDer } from '../util/pemToDer';
+import { ToastType } from '../types/Toast';
+import { isProduction } from '../util/version';
+import type { ServerAlert } from '../state/ducks/server';
 
 // Note: this will break some code that expects to be able to use err.response when a
 //   web request fails, because it will force it to text. But it is very useful for
@@ -194,6 +196,7 @@ type PromiseAjaxOptionsType = {
   socketManager?: SocketManager;
   basicAuth?: string;
   certificateAuthority?: string;
+  chatServiceUrl?: string;
   contentType?: string;
   data?: Uint8Array | (() => Readable) | string;
   disableRetries?: boolean;
@@ -212,8 +215,8 @@ type PromiseAjaxOptionsType = {
     | 'byteswithdetails'
     | 'stream'
     | 'streamwithdetails';
-  serverUrl?: string;
   stack?: string;
+  storageUrl?: string;
   timeout?: number;
   type: HTTPCodeType;
   user?: string;
@@ -401,9 +404,35 @@ async function _promiseAjax(
     throw makeHTTPError('promiseAjax catch', 0, {}, e.toString(), stack);
   }
 
+  const urlHostname = getHostname(url);
+
+  if (options.storageUrl && url.startsWith(options.storageUrl)) {
+    // The cloud infrastructure that sits in front of the Storage Service / Groups server
+    // has in the past terminated requests with a 403 before they make it to a Signal
+    // server. That's a problem, since we might take destructive action locally in
+    // response to a 403. Responses from a Signal server should always contain the
+    // `x-signal-timestamp` headers.
+    if (response.headers.get('x-signal-timestamp') == null) {
+      log.error(
+        logId,
+        response.status,
+        'Invalid header: missing required x-signal-timestamp header'
+      );
+
+      onIncorrectHeadersFromStorageService();
+
+      // TODO: DESKTOP-8300
+      if (response.status === 403) {
+        throw new Error(
+          `${logId} ${response.status}: Dropping response, missing required x-signal-timestamp header`
+        );
+      }
+    }
+  }
+
   if (
-    options.serverUrl &&
-    getHostname(options.serverUrl) === getHostname(url)
+    options.chatServiceUrl &&
+    getHostname(options.chatServiceUrl) === urlHostname
   ) {
     await handleStatusCode(response.status);
 
@@ -890,13 +919,6 @@ export type IceServerGroupType = Readonly<{
 }>;
 
 export type GetSenderCertificateResultType = Readonly<{ certificate: string }>;
-
-export type MakeProxiedRequestResultType =
-  | Uint8Array
-  | {
-      result: BytesWithDetailsType;
-      totalSize: number;
-    };
 
 const whoamiResultZod = z.object({
   uuid: z.string(),
@@ -1440,10 +1462,14 @@ export type WebAPIType = {
   ) => Promise<null | linkPreviewFetch.LinkPreviewImage>;
   linkDevice: (options: LinkDeviceOptionsType) => Promise<LinkDeviceResultType>;
   unlink: () => Promise<void>;
-  makeProxiedRequest: (
+  fetchJsonViaProxy: (
     targetUrl: string,
-    options?: ProxiedRequestOptionsType
-  ) => Promise<MakeProxiedRequestResultType>;
+    signal?: AbortSignal
+  ) => Promise<JSONWithDetailsType>;
+  fetchBytesViaProxy: (
+    targetUrl: string,
+    signal?: AbortSignal
+  ) => Promise<BytesWithDetailsType>;
   makeSfuRequest: (
     targetUrl: string,
     type: HTTPCodeType,
@@ -1581,7 +1607,8 @@ export type WebAPIType = {
   getConfig: () => Promise<RemoteConfigResponseType>;
   authenticate: (credentials: WebAPICredentials) => Promise<void>;
   logout: () => Promise<void>;
-  getSocketStatus: () => SocketStatus;
+  getServerAlerts: () => Array<ServerAlert>;
+  getSocketStatus: () => SocketStatuses;
   registerRequestHandler: (handler: IRequestHandler) => void;
   unregisterRequestHandler: (handler: IRequestHandler) => void;
   onHasStoriesDisabledChange: (newValue: boolean) => void;
@@ -1726,6 +1753,19 @@ export function initialize({
     certificateAuthority
   );
   libsignalNet.setIpv6Enabled(!disableIPv6);
+  if (proxyUrl) {
+    log.info('Setting libsignal proxy');
+    try {
+      libsignalNet.setProxyFromUrl(proxyUrl);
+    } catch (error) {
+      log.error(`Failed to set proxy: ${error}`);
+      libsignalNet.clearProxy();
+    }
+  }
+
+  // We store server alerts (returned on the WS upgrade response headers) so that the app
+  // can query them later, which is necessary if they arrive before app state is ready
+  let serverAlerts: Array<ServerAlert> = [];
 
   // Thanks to function-hoisting, we can put this return statement before all of the
   //   below function definitions.
@@ -1776,6 +1816,11 @@ export function initialize({
 
     socketManager.on('firstEnvelope', incoming => {
       window.Whisper.events.trigger('firstEnvelope', incoming);
+    });
+
+    socketManager.on('serverAlerts', alerts => {
+      log.info(`onServerAlerts: number of alerts received: ${alerts.length}`);
+      serverAlerts = alerts;
     });
 
     if (useWebSocket) {
@@ -1901,6 +1946,7 @@ export function initialize({
       getReleaseNoteImageAttachment,
       getTransferArchive,
       getSenderCertificate,
+      getServerAlerts,
       getSocketStatus,
       getSticker,
       getStickerPackManifest,
@@ -1910,7 +1956,8 @@ export function initialize({
       getSubscriptionConfiguration,
       linkDevice,
       logout,
-      makeProxiedRequest,
+      fetchJsonViaProxy,
+      fetchBytesViaProxy,
       makeSfuRequest,
       modifyGroup,
       modifyStorageRecords,
@@ -1995,6 +2042,7 @@ export function initialize({
         socketManager: useWebSocketForEndpoint ? socketManager : undefined,
         basicAuth: param.basicAuth,
         certificateAuthority,
+        chatServiceUrl,
         contentType: param.contentType || 'application/json; charset=utf-8',
         data:
           param.data ||
@@ -2009,7 +2057,7 @@ export function initialize({
         type: param.httpType,
         user: param.username ?? username,
         redactUrl: param.redactUrl,
-        serverUrl: chatServiceUrl,
+        storageUrl,
         validateResponse: param.validateResponse,
         version,
         unauthenticated: param.unauthenticated,
@@ -2099,8 +2147,12 @@ export function initialize({
       }
     }
 
-    function getSocketStatus(): SocketStatus {
+    function getSocketStatus(): SocketStatuses {
       return socketManager.getStatus();
+    }
+
+    function getServerAlerts(): Array<ServerAlert> {
+      return serverAlerts;
     }
 
     function checkSockets(): void {
@@ -4194,53 +4246,40 @@ export function initialize({
       );
     }
 
-    async function makeProxiedRequest(
+    async function fetchJsonViaProxy(
       targetUrl: string,
-      options: ProxiedRequestOptionsType = {}
-    ): Promise<MakeProxiedRequestResultType> {
-      const { returnUint8Array, start, end } = options;
-      const headers: HeaderListType = {
-        'X-SignalPadding': getHeaderPadding(),
-      };
-
-      if (isNumber(start) && isNumber(end)) {
-        headers.Range = `bytes=${start}-${end}`;
-      }
-
-      const result = await _outerAjax(targetUrl, {
-        responseType: returnUint8Array ? 'byteswithdetails' : undefined,
+      signal?: AbortSignal
+    ): Promise<JSONWithDetailsType> {
+      return _outerAjax(targetUrl, {
+        responseType: 'jsonwithdetails',
         proxyUrl: contentProxyUrl,
         type: 'GET',
         redirect: 'follow',
         redactUrl: () => '[REDACTED_URL]',
-        headers,
+        headers: {
+          'X-SignalPadding': getHeaderPadding(),
+        },
         version,
+        abortSignal: signal,
       });
+    }
 
-      if (!returnUint8Array) {
-        return result as Uint8Array;
-      }
-
-      const { response } = result as BytesWithDetailsType;
-      if (!response.headers || !response.headers.get) {
-        throw new Error('makeProxiedRequest: Problem retrieving header value');
-      }
-
-      const range = response.headers.get('content-range');
-      const match = PARSE_RANGE_HEADER.exec(range || '');
-
-      if (!match || !match[1]) {
-        throw new Error(
-          `makeProxiedRequest: Unable to parse total size from ${range}`
-        );
-      }
-
-      const totalSize = parseInt(match[1], 10);
-
-      return {
-        totalSize,
-        result: result as BytesWithDetailsType,
-      };
+    async function fetchBytesViaProxy(
+      targetUrl: string,
+      signal?: AbortSignal
+    ): Promise<BytesWithDetailsType> {
+      return _outerAjax(targetUrl, {
+        responseType: 'byteswithdetails',
+        proxyUrl: contentProxyUrl,
+        type: 'GET',
+        redirect: 'follow',
+        redactUrl: () => '[REDACTED_URL]',
+        headers: {
+          'X-SignalPadding': getHeaderPadding(),
+        },
+        version,
+        abortSignal: signal,
+      });
     }
 
     async function makeSfuRequest(
@@ -4657,3 +4696,16 @@ export function initialize({
     }
   }
 }
+
+// TODO: DESKTOP-8300
+const onIncorrectHeadersFromStorageService = throttle(
+  () => {
+    if (!isProduction(window.getVersion())) {
+      window.reduxActions.toast.showToast({
+        toastType: ToastType.InvalidStorageServiceHeaders,
+      });
+    }
+  },
+  5 * MINUTE,
+  { trailing: false }
+);

@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "పంపిన మీడియా నాణ్యత"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "అధిక నాణ్యత కలిగిన మీడియాను పంపడం వల్ల మరింత డేటా ఉపయోగించబడుతుంది."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "ప్రామాణికం"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} చదవని సందేశం} other {{count,number} చదవని సందేశాలు}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "మీ భద్రత కోసం, కొత్తగా లింక్ చేసిన పరికరాలకు చాట్ చరిత్ర బదిలీ చేయబడలేదు."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "మీరు ధృవీకరించినట్లుగా మీ భద్రతా నంబర్‌ను {name}తో గుర్తించారు."
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "చెల్లని సర్వర్ ప్రతిస్పందన. దయచేసి మీ లాగ్‌లను పంచుకోండి."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} అంశం} other {{count,number}అంశాలు}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "ఈ మీడియా ఇకపై అందుబాటులో లేదు."
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "ఈ మీడియా అందుబాటులో లేదు"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "స్వర సందేశం అందుబాటులో లేదు"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "ఒకసారి చూసే మీడియా అందుబాటులో లేదు"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "ఒకసారి చూసే మీడియాను డౌన్‌లోడ్ చేయలేరు"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "ఫైల్ అందుబాటులో లేదు"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "ఈ పరికరం లింక్ చేయబడినప్పుడు మీ ఫోన్ నుండి ఈ స్వర సందేశం బదిలీ చేయబడలేదు. పరికరాన్ని లింక్ చేసే సమయంలో 45 రోజుల కంటే పాతవైన మీడియా మరియు ఫైల్‌లు సమకాలీకరించబడవు."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "ఈ ఒకసారి చూసే మీడియా డౌన్‌లోడ్ చేయడానికి ఇకపై అందుబాటులో ఉండదు. దానిని మళ్లీ పంపమని {name} ను అడగండి."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "ఒకసారి చూసే మీడియాను డౌన్‌లోడ్ చేయలేరు. దానిని {name} మళ్ళీ పంపాలి."
   },
   "icu:save": {
     "messageformat": "భద్రపరుచు"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "ఫోన్ నెంబర్ పొందడం విఫలమైంది. మీ కనెక్షన్ చెక్ చేసి, మళ్లీ ప్రయత్నించండి."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "డౌన్‌లోడ్ విఫలమైంది"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "ఈ సందేశాన్ని మీరు పంపిన సమయం నుంచి 24 గంటలలోపు మాత్రమే సవరణలు వర్తింపజేయబడతాయి."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "జెండా"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "ఎమోజి"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "స్టిక్కర్లు"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "గిఫ్ లు"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "ఎమోజీలను వెతకడం"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "ఎమోజీలను వెతకడం"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "ఎమోజీ వర్గాలు"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "ఇటీవల ఉపయోగించబడింది"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "స్మైలీస్ & ప్రజలు"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "జంతువులు & ప్రకృతి"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "ఆహారం & పానీయం"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "కార్యకలాపాలు"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "ప్రయాణం & ప్రదేశాలు"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "వస్తువులు"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "చిహ్నాలు"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "జెండాలు"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "ఎమోజీలు కనుగొనబడలేదు"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "స్కిన్ టోన్ ప్రాధాన్యతను మార్చండి"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "మీ డిఫాల్ట్ స్కిన్ టోన్‌ను ఎంచుకోండి"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "శోధన ఫలితాలు"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "ఇటీవల ఉపయోగించబడింది"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "స్మైలీస్ & ప్రజలు"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "జంతువులు & ప్రకృతి"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "ఆహారం & పానీయం"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "ప్రయాణం & ప్రదేశాలు"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "కార్యకలాపాలు"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "వస్తువులు"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "చిహ్నాలు"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "జెండాలు"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "స్టిక్కర్‌లను వెతకడం"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "స్టిక్కర్‌లను వెతకడం"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "స్టిక్కర్ ప్యాక్‌లు"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "ఇటీవల ఉపయోగించబడింది"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "శోధన ఫలితాలు"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "ఇటీవల ఉపయోగించబడింది"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "స్టిక్కర్లు కనుగొనబడలేదు"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Tenor ద్వారా GIFలను శోధించండి"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Tenor లో శోధించండి"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF వర్గాలు"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "ఇటీవల ఉపయోగించబడింది"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "ట్రెండింగ్"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "వేడుక"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "ప్రేమ"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "థంబ్స్ అప్"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "ఆశ్చర్యం"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "ఉత్సాహం"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "విచారం"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "కోపం"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "GIFలను లోడ్ చేస్తోంది"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "GIFలను లోడ్ చేయడం సాధ్యం కాలేదు. మీ కనెక్షన్‌ను తనిఖీ చేయండి మరియు మళ్ళీ ప్రయత్నించండి"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "మళ్ళీ ప్రయత్నించు"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "GIFలు ఏవీ కనుగొనబడలేదు"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "రద్దు"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "వీక్షించినవి"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "వీక్షించినవి"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "మీడియా"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "ఒక్కసారి వీక్షించదగిన మీడియా"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "మీరు ఇప్పటికే ఈ సందేశాన్ని చూశారు."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "వీడియో చూడండి"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "ఒకసారి చూసే వీడియో"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "ఒకసారి చూసే ఫోటో"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "వీక్షించడానికి క్లిక్ చేయండి"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(అటాచ్మెంట్)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "సవరించిన సందేశాన్ని పంపండి"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "ఎమోజీ, స్టిక్కర్ లేదా GIF ను జోడించండి"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "సందేశాన్ని సవరించండి"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "గ్రేడియెంట్ చివర"
   },
+  "icu:GIF--download": {
+    "messageformat": "GIF అటాచ్‌మెంట్‌ను డౌన్‌లోడ్ చేయండి"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "అనుకూల సమయం"
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "గోప్యత"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "డేటా వినియోగం"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "ప్రసార మాధ్యమం దానంతట అదే దిగుమతి"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "చిత్రాలు"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "వీడియోలు"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "ఆడియో"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "పత్రాలు"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "స్వర సందేశాలు మరియు స్టిక్కర్‌లు ఎల్లప్పుడూ ఆటో-డౌన్‌లోడ్ చేయబడతాయి."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "{date} {time} వద్ద చివరిగా దిగుమతి చేయబడింది"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "అప్‌డేట్ డౌన్‌లోడ్ చేయబడింది"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "మీ ఫోన్‌పై Signal ని ఓపెన్ చేయండి"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "మీరు మీ ఫోన్‌లో Signal ను తెరవకపోతే మీ ఖాతా త్వరలో తొలగించబడుతుంది. ఒకవేళ మీరు దీన్ని విజయవంతంగా పూర్తి చేసి ఉంటే ఈ సందేశం వెళ్లిపోతుంది. <learnMoreLink>మరింత తెలుసుకోండి</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal సాంకేతిక సమస్యలను ఎదుర్కొంటోంది. వీలైనంత త్వరగా సేవని పునరుద్ధరించడానికి మేము కృషి చేస్తున్నాము."
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "మీ మైక్రోఫోన్‌కు యాక్సెస్‌ను అనుమతించండి"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "మీ కెమెరాకు యాక్సెస్‌ను అనుమతించండి"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "కాల్‌లో చేరడానికి లేదా కాల్‌ను ప్రారంభించడానికి:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "మీ వీడియోను ఎనేబుల్ చేయడానికి:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "స్వర సందేశాలు పంపించడానికి:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "కింద “{buttonName}” పై క్లిక్ చేయండి"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "“Signal” ను ఆన్ చేయండి"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "సెట్టింగ్‌లకు వెళ్లండి"
   },
   "icu:MyStories__title": {
     "messageformat": "నా కథలు"
@@ -5857,16 +6097,13 @@
     "messageformat": "చిన్న ట్వీక్‌లు, బగ్ ఫిక్స్‌లు, మరియు పనితీరు మెరుగుదలలు. Signal ఉపయోగించినందుకు మీకు ధన్యవాదాలు!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "ఇప్పుడు మీరు టచ్ స్క్రీన్ పరికరాలలో చాట్ జాబితా సైడ్ బార్ పరిమాణాన్ని సర్దుబాటు చేయవచ్చు. కాబట్టి మీరు లాగడానికి ప్రయత్నించినప్పుడు అది అంత లాగడం కాదు మరియు మీ స్క్రీన్ పై ఉన్న మరకలు మీ వేలికొనల నుండి వెలువడే శక్తికి సాక్ష్యం."
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "స్టిక్కర్ డౌన్‌లోడ్ పనితీరు మెరుగుదలలు."
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "కొన్ని చాట్‌లను సరిగ్గా తెరవకుండా నిరోధించే అరుదైన బగ్‌ను మేము పరిష్కరించాము."
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "Signal సెట్టింగ్స్ లోని కొత్త \"డేటా వినియోగం\" ఫీచర్ ఫోటోలు, వీడియోలు, ఆడియో ఫైల్‌లు లేదా ఇతర డాక్యుమెంట్‌లను ఆటోమెటిక్‌గా డౌన్‌లోడ్ చేయాలా వద్దా అని ఎంచుకోవడాన్ని సులభం చేస్తుంది."
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "ఇప్పుడు మీరు మీ చాట్ చరిత్ర మరియు మీ చివరి 45 రోజుల మీడియాను కొత్త లింక్ చేయబడిన పరికరానికి బదిలీ చేయడానికి ఎంచుకోవచ్చు. బదిలీ ప్రక్రియ ఎండ్-టు-ఎండ్ గుప్తీకరించబడింది మరియు పూర్తిగా ఐచ్ఛికం. గతాన్ని విడిచిపెట్టాలా వద్దా అనే ఎంపిక చేసే విషయానికి వస్తే, మీరు మీ స్వంత పరికరాలకు వదిలివేయబడతారు."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Android మరియు iOS లకు సరిపోయేలా డెస్క్‌టాప్ యాప్‌లోని బటన్‌పై టెక్స్ట్‌ను మేము అప్‌డేట్ చేశాము. ఇది చాలా చిన్న మార్పులాగా అనిపించవచ్చు మరియు ఇది చిన్న మార్పే, కానీ కొన్నిసార్లు మీరు ఎంత శ్రద్ధ వహిస్తారో చూపించేవి ఈ చిన్న విషయాలే."
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "ఇప్పుడు మీరు మరొకరి Signal యూజర్‌నేమ్‌తో చాట్‌ను ప్రారంభించడానికి ప్రయత్నించినప్పుడు, ఒకవేళ మీరు అనుకోకుండా “@” చిహ్నాన్ని ముందుగా టైప్ చేసినప్పటికీ కూడా ఇది పని చేస్తుంది."
   }
 }

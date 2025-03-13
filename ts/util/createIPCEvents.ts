@@ -2,10 +2,14 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 
 import { ipcRenderer } from 'electron';
+import type { SystemPreferences } from 'electron';
 import type { AudioDevice } from '@signalapp/ringrtc';
 import { noop } from 'lodash';
 
-import type { ZoomFactorType } from '../types/Storage.d';
+import type {
+  AutoDownloadAttachmentType,
+  ZoomFactorType,
+} from '../types/Storage.d';
 import type {
   ConversationColorType,
   CustomColorType,
@@ -52,6 +56,9 @@ import type {
 } from './preload';
 import type { SystemTraySetting } from '../types/SystemTraySetting';
 import { drop } from './drop';
+import { sendSyncRequests } from '../textsecure/syncRequests';
+import { waitForEvent } from '../shims/events';
+import { DEFAULT_AUTO_DOWNLOAD_ATTACHMENT } from '../textsecure/Storage';
 
 type SentMediaQualityType = 'standard' | 'high';
 type NotificationSettingType = 'message' | 'name' | 'count' | 'off';
@@ -61,6 +68,7 @@ export type IPCEventsValuesType = {
   audioNotification: boolean | undefined;
   audioMessage: boolean;
   autoConvertEmoji: boolean;
+  autoDownloadAttachment: AutoDownloadAttachmentType;
   autoDownloadUpdate: boolean;
   autoLaunch: boolean;
   callRingtoneNotification: boolean;
@@ -114,7 +122,7 @@ export type IPCEventsCallbacksType = {
   getConversationsWithCustomColor: (x: string) => Array<ConversationType>;
   getMediaAccessStatus: (
     mediaType: 'screen' | 'microphone' | 'camera'
-  ) => Promise<string | unknown>;
+  ) => Promise<ReturnType<SystemPreferences['getMediaAccessStatus']>>;
   installStickerPack: (packId: string, key: string) => Promise<void>;
   isPrimary: () => boolean;
   removeCustomColor: (x: string) => void;
@@ -405,6 +413,13 @@ export function createIPCEvents(
       window.storage.get('typingIndicators', false),
 
     // Configurable settings
+    getAutoDownloadAttachment: () =>
+      window.storage.get(
+        'auto-download-attachment',
+        DEFAULT_AUTO_DOWNLOAD_ATTACHMENT
+      ),
+    setAutoDownloadAttachment: (setting: AutoDownloadAttachmentType) =>
+      window.storage.put('auto-download-attachment', setting),
     getAutoDownloadUpdate: () =>
       window.storage.get('auto-download-update', true),
     setAutoDownloadUpdate: value =>
@@ -487,15 +502,14 @@ export function createIPCEvents(
     },
 
     isPrimary: () => window.textsecure.storage.user.getDeviceId() === 1,
-    syncRequest: () =>
-      new Promise<void>((resolve, reject) => {
-        const FIVE_MINUTES = 5 * durations.MINUTE;
-        const syncRequest = window.getSyncRequest(FIVE_MINUTES);
-        syncRequest.addEventListener('success', () => resolve());
-        syncRequest.addEventListener('timeout', () =>
-          reject(new Error('timeout'))
-        );
-      }),
+    syncRequest: async () => {
+      const contactSyncComplete = waitForEvent(
+        'contactSync:complete',
+        5 * durations.MINUTE
+      );
+      await sendSyncRequests();
+      return contactSyncComplete;
+    },
     getLastSyncTime: () => window.storage.get('synced_at'),
     setLastSyncTime: value => window.storage.put('synced_at', value),
     getUniversalExpireTimer: () => universalExpireTimer.get(),

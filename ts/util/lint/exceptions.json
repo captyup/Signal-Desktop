@@ -550,14 +550,14 @@
   },
   {
     "rule": "DOM-outerHTML",
-    "path": "node_modules/domutils/node_modules/dom-serializer/lib/esm/index.js",
+    "path": "node_modules/dom-serializer/lib/esm/index.js",
     "line": " * Can be thought of as the equivalent of the `outerHTML` of the passed node(s).",
     "reasonCategory": "falseMatch",
     "updated": "2023-01-11T23:51:00.603Z"
   },
   {
     "rule": "DOM-outerHTML",
-    "path": "node_modules/domutils/node_modules/dom-serializer/lib/index.js",
+    "path": "node_modules/dom-serializer/lib/index.js",
     "line": " * Can be thought of as the equivalent of the `outerHTML` of the passed node(s).",
     "reasonCategory": "falseMatch",
     "updated": "2023-01-11T23:51:00.603Z"
@@ -582,6 +582,250 @@
     "line": "        const actualCount = await elementHandle.$$eval(selector, (el) => el.length);",
     "reasonCategory": "usageTrusted",
     "updated": "2023-10-03T18:55:06.301Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var visualElementRef = React.useRef(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var ref = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": " * const ref = useRef(null)",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var isPressing = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var cancelPointerEndListeners = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var state = React.useRef({",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var panSession = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var isMounted = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var presentChildren = React.useRef(childrenToRender);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var allChildren = React.useRef(new Map()).current;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var isInitialRender = React.useRef(true);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var context = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var loadedRenderer = React.useRef(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var isReordering = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var measuredLayout = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var activeSpringAnimation = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/cjs/index.js",
+    "line": "    var index = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var visualElementRef = React.useRef(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var ref = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "     * const ref = useRef(null)",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var isPressing = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var cancelPointerEndListeners = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var state = React.useRef({",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var panSession = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var isMounted = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var presentChildren = React.useRef(childrenToRender);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var allChildren = React.useRef(new Map()).current;",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var isInitialRender = React.useRef(true);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var context = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var loadedRenderer = React.useRef(undefined);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var isReordering = React.useRef(false);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var measuredLayout = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var activeSpringAnimation = React.useRef(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.dev.js",
+    "line": "        var index = React.useRef(0);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "node_modules/framer-motion/dist/framer-motion.js",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "eval",
@@ -1006,18 +1250,6 @@
     "updated": "2024-06-24T19:19:28.335Z"
   },
   {
-    "rule": "DOM-innerHTML",
-    "path": "node_modules/prettier-fallback/plugins/html.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2024-06-25T17:33:38.376Z"
-  },
-  {
-    "rule": "DOM-outerHTML",
-    "path": "node_modules/prettier-fallback/plugins/html.js",
-    "reasonCategory": "notExercisedByOurApp",
-    "updated": "2024-06-25T17:33:38.376Z"
-  },
-  {
     "rule": "eval",
     "path": "node_modules/protobufjs/dist/light/protobuf.js",
     "line": "        var mod = eval(\"quire\".replace(/^/,\"re\"))(moduleName); // eslint-disable-line no-eval",
@@ -1410,30 +1642,23 @@
   {
     "rule": "React-useRef",
     "path": "node_modules/use-composed-ref/dist/use-composed-ref.cjs.js",
-    "line": "  var prevUserRef = React.useRef();",
+    "line": "  var prevUserRef = React__default[\"default\"].useRef();",
     "reasonCategory": "usageTrusted",
     "updated": "2022-06-16T23:23:32.306Z"
   },
   {
     "rule": "React-useRef",
     "path": "node_modules/use-composed-ref/dist/use-composed-ref.esm.js",
-    "line": "  var prevUserRef = useRef();",
+    "line": "  var prevUserRef = React.useRef();",
     "reasonCategory": "usageTrusted",
-    "updated": "2022-06-16T23:23:32.306Z"
+    "updated": "2025-03-06T21:17:11.182Z"
   },
   {
     "rule": "React-useRef",
-    "path": "node_modules/use-latest/dist/use-latest.cjs.dev.js",
-    "line": "  var ref = React__namespace.useRef(value);",
+    "path": "node_modules/use-latest/dist/use-latest.cjs.js",
+    "line": "  var ref = React__default[\"default\"].useRef(value);",
     "reasonCategory": "usageTrusted",
-    "updated": "2022-06-16T23:23:32.306Z"
-  },
-  {
-    "rule": "React-useRef",
-    "path": "node_modules/use-latest/dist/use-latest.cjs.prod.js",
-    "line": "  var ref = React__namespace.useRef(value);",
-    "reasonCategory": "usageTrusted",
-    "updated": "2022-06-16T23:23:32.306Z"
+    "updated": "2025-03-06T21:22:04.581Z"
   },
   {
     "rule": "React-useRef",
@@ -2290,6 +2515,13 @@
   },
   {
     "rule": "React-useRef",
+    "path": "ts/components/conversation/AttachmentStatusIcon.tsx",
+    "line": "  const timerRef = useRef<NodeJS.Timeout | undefined>();",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-21T04:17:59.239Z"
+  },
+  {
+    "rule": "React-useRef",
     "path": "ts/components/conversation/CallingNotification.tsx",
     "line": "    const menuTriggerRef = React.useRef<ContextMenuTriggerType | null>(null);",
     "reasonCategory": "usageTrusted",
@@ -2485,11 +2717,129 @@
   },
   {
     "rule": "React-useRef",
-    "path": "ts/components/installScreen/InstallScreenChoosingDeviceNameStep.tsx",
-    "line": "  const hasFocusedRef = useRef<boolean>(false);",
+    "path": "ts/components/fun/base/FunImage.tsx",
+    "line": "  const imageRef = useRef<HTMLImageElement>(null);",
     "reasonCategory": "usageTrusted",
-    "updated": "2021-12-06T23:07:28.947Z",
-    "reasonDetail": "Doesn't touch the DOM."
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunScroller.tsx",
+    "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunScroller.tsx",
+    "line": "  const scrollerInnerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunScroller.tsx",
+    "line": "  const observerRef = useRef<IntersectionObserver | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunScroller.tsx",
+    "line": "  const onScrollChangeRef = useRef(props.onScrollSectionChange);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunScroller.tsx",
+    "line": "  const ref = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunSubNav.tsx",
+    "line": "  const outerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunSubNav.tsx",
+    "line": "  const innerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/base/FunSubNav.tsx",
+    "line": "  const ref = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/data/infinite.ts",
+    "line": "  const loaderRef = useRef(options.loader);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/data/infinite.ts",
+    "line": "  const hasNextPageRef = useRef(options.hasNextPage);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/data/infinite.ts",
+    "line": "  const querySignalRef = useRef<AbortSignal | null>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/data/infinite.ts",
+    "line": "  const stateRef = useRef(state);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/keyboard/FunKeyboard.tsx",
+    "line": "  const keyboardRef = useRef(props.keyboard);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/keyboard/FunKeyboard.tsx",
+    "line": "  const onStateChangeRef = useRef(props.onStateChange);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/panels/FunPanelEmojis.tsx",
+    "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/panels/FunPanelGifs.tsx",
+    "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
+  },
+  {
+    "rule": "React-useRef",
+    "path": "ts/components/fun/panels/FunPanelStickers.tsx",
+    "line": "  const scrollerRef = useRef<HTMLDivElement>(null);",
+    "reasonCategory": "usageTrusted",
+    "updated": "2025-02-19T20:14:46.879Z"
   },
   {
     "rule": "React-useRef",

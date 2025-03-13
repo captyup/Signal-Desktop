@@ -442,14 +442,6 @@ const windowConfigParsed = safeParseUnknown(
 );
 if (windowConfigParsed.success) {
   windowConfig = windowConfigParsed.data;
-  windowConfig.fullscreen = true;
-  windowConfig.autoHideMenuBar = true;
-}
-if (windowConfig && windowConfig?.fullscreen !== true) {
-  windowConfig.fullscreen = true;
-}
-if (windowConfig && windowConfig?.autoHideMenuBar !== true) {
-  windowConfig.autoHideMenuBar = true;
 }
 
 if (windowFromUserConfig) {
@@ -703,8 +695,7 @@ async function createWindow() {
     height,
     minWidth: MIN_WIDTH,
     minHeight: MIN_HEIGHT,
-    autoHideMenuBar: true,
-    frame: false,
+    autoHideMenuBar: false,
     titleBarStyle: mainTitleBarStyle,
     backgroundColor: isTestEnvironment(getEnvironment())
       ? '#ffffff' // Tests should always be rendered on a white background
@@ -742,7 +733,7 @@ async function createWindow() {
   const startInTray =
     isTestEnvironment(getEnvironment()) ||
     (await systemTraySettingCache.get()) ===
-    SystemTraySetting.MinimizeToAndStartInSystemTray;
+      SystemTraySetting.MinimizeToAndStartInSystemTray;
 
   const haveFullWindowsBounds =
     isNumber(windowOptions.x) &&
@@ -752,15 +743,15 @@ async function createWindow() {
   if (haveFullWindowsBounds) {
     getLogger().info(
       `visibleOnAnyScreen(window): x=${windowOptions.x}, y=${windowOptions.y}, ` +
-      `width=${windowOptions.width}, height=${windowOptions.height}`
+        `width=${windowOptions.width}, height=${windowOptions.height}`
     );
 
     const visibleOnAnyScreen = some(screen.getAllDisplays(), display => {
       const displayBounds = get(display, 'bounds');
       getLogger().info(
         `visibleOnAnyScreen(display #${display.id}): ` +
-        `x=${displayBounds.x}, y=${displayBounds.y}, ` +
-        `width=${displayBounds.width}, height=${displayBounds.height}`
+          `x=${displayBounds.x}, y=${displayBounds.y}, ` +
+          `width=${displayBounds.width}, height=${displayBounds.height}`
       );
 
       return isVisible(windowOptions as BoundsType, displayBounds);
@@ -1092,7 +1083,7 @@ ipc.on('title-bar-double-click', () => {
 
   if (OS.isMacOS()) {
     switch (
-    systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string')
+      systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string')
     ) {
       case 'Minimize':
         mainWindow.minimize();
@@ -1630,7 +1621,7 @@ const runSQLCorruptionHandler = async () => {
 
   getLogger().error(
     'Detected sql corruption in main process. ' +
-    `Restarting the application immediately. Error: ${error.message}`
+      `Restarting the application immediately. Error: ${error.message}`
   );
 
   await onDatabaseError(error);
@@ -1845,14 +1836,14 @@ const onDatabaseError = async (error: Error) => {
     );
     messageDetail = previousBackendFlag
       ? i18n('icu:databaseError__safeStorageBackendChangeWithPreviousFlag', {
-        currentBackend,
-        previousBackend,
-        previousBackendFlag,
-      })
+          currentBackend,
+          previousBackend,
+          previousBackendFlag,
+        })
       : i18n('icu:databaseError__safeStorageBackendChange', {
-        currentBackend,
-        previousBackend,
-      });
+          currentBackend,
+          previousBackend,
+        });
   } else {
     // Otherwise, this is some other kind of DB error, let's give them the option to
     // delete.
@@ -1879,8 +1870,8 @@ const onDatabaseError = async (error: Error) => {
   if (buttonIndex === copyErrorAndQuitButtonIndex) {
     clipboard.writeText(
       `Database startup error:\n\n${redactAll(Errors.toLogFormat(error))}\n\n` +
-      `App Version: ${app.getVersion()}\n` +
-      `OS: ${os.platform()}`
+        `App Version: ${app.getVersion()}\n` +
+        `OS: ${os.platform()}`
     );
   } else if (
     typeof deleteAllDataButtonIndex === 'number' &&
@@ -2964,10 +2955,10 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
   const files = onlyFiles
     ? onlyFiles.map(f => join(userDataPath, f))
     : await fastGlob(userDataGlob, {
-      markDirectories: true,
-      onlyFiles: false,
-      ignore: ['**/Singleton*'],
-    });
+        markDirectories: true,
+        onlyFiles: false,
+        ignore: ['**/Singleton*'],
+      });
 
   getLogger().info(`Ensuring file permissions for ${files.length} files`);
 
@@ -2997,11 +2988,31 @@ async function ensureFilePermissions(onlyFiles?: Array<string>) {
 ipc.handle('get-media-access-status', async (_event, value) => {
   // This function is not supported on Linux
   if (!systemPreferences.getMediaAccessStatus) {
-    return undefined;
+    return 'unknown';
   }
 
   return systemPreferences.getMediaAccessStatus(value);
 });
+
+ipc.handle(
+  'open-system-media-permissions',
+  async (_event, mediaType: 'camera' | 'microphone') => {
+    if (!OS.isMacOS()) {
+      return;
+    }
+    if (mediaType === 'camera') {
+      await shell.openExternal(
+        'x-apple.systempreferences:com.apple.preference.security?Privacy_Camera'
+      );
+    } else if (mediaType === 'microphone') {
+      await shell.openExternal(
+        'x-apple.systempreferences:com.apple.preference.security?Privacy_Microphone'
+      );
+    } else {
+      throw missingCaseError(mediaType);
+    }
+  }
+);
 
 ipc.handle('get-auto-launch', async () => {
   return app.getLoginItemSettings(await getDefaultLoginItemSettings())

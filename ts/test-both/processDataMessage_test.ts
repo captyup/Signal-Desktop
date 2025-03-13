@@ -11,7 +11,7 @@ import {
 } from '../textsecure/processDataMessage';
 import type { ProcessedAttachment } from '../textsecure/Types.d';
 import { SignalService as Proto } from '../protobuf';
-import { IMAGE_GIF, IMAGE_JPEG } from '../types/MIME';
+import { IMAGE_GIF, IMAGE_JPEG, LONG_MESSAGE } from '../types/MIME';
 import { generateAci } from '../types/ServiceId';
 import { uuidToBytes } from '../util/uuidToBytes';
 
@@ -86,6 +86,30 @@ describe('processDataMessage', () => {
     ]);
   });
 
+  it('should move long text attachments to bodyAttachment', () => {
+    const out = check({
+      attachments: [
+        UNPROCESSED_ATTACHMENT,
+        {
+          ...UNPROCESSED_ATTACHMENT,
+          contentType: LONG_MESSAGE,
+        },
+      ],
+    });
+
+    assert.deepStrictEqual(out.attachments, [
+      {
+        ...PROCESSED_ATTACHMENT,
+        downloadPath: 'random-path',
+      },
+    ]);
+    assert.deepStrictEqual(out.bodyAttachment, {
+      ...PROCESSED_ATTACHMENT,
+      downloadPath: 'random-path',
+      contentType: LONG_MESSAGE,
+    });
+  });
+
   it('should process attachments with incrementalMac/chunkSize', () => {
     const out = check({
       attachments: [
@@ -157,7 +181,7 @@ describe('processDataMessage', () => {
     assert.strictEqual(out.profileKey, 'Khc3');
   });
 
-  it('should process quote', () => {
+  it('should process quote, dropping second attachment', () => {
     const out = check({
       quote: {
         id: Long.fromNumber(1),
@@ -166,7 +190,12 @@ describe('processDataMessage', () => {
         attachments: [
           {
             contentType: 'image/jpeg',
-            fileName: 'image.jpg',
+            fileName: 'image1.jpg',
+            thumbnail: UNPROCESSED_ATTACHMENT,
+          },
+          {
+            contentType: 'image/jpeg',
+            fileName: 'image2.jpg',
             thumbnail: UNPROCESSED_ATTACHMENT,
           },
         ],
@@ -180,7 +209,7 @@ describe('processDataMessage', () => {
       attachments: [
         {
           contentType: IMAGE_JPEG,
-          fileName: 'image.jpg',
+          fileName: 'image1.jpg',
           thumbnail: PROCESSED_ATTACHMENT,
         },
       ],
@@ -189,7 +218,7 @@ describe('processDataMessage', () => {
     });
   });
 
-  it('should process contact', () => {
+  it('should process contact, dropping second contact', () => {
     const out = check({
       contact: [
         {
@@ -210,8 +239,36 @@ describe('processDataMessage', () => {
       {
         avatar: { avatar: PROCESSED_ATTACHMENT, isProfile: false },
       },
+    ]);
+  });
+
+  it('should process preview, dropping second preview', () => {
+    const out = check({
+      preview: [
+        {
+          description:
+            'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+          image: UNPROCESSED_ATTACHMENT,
+          title: 'Signal Private Messenger #1',
+          url: 'https://signal.org',
+        },
+        {
+          description: 'Say "hello" again',
+          image: UNPROCESSED_ATTACHMENT,
+          title: 'Signal Private Messenger #2',
+          url: 'https://signal.org',
+        },
+      ],
+    });
+
+    assert.deepStrictEqual(out.preview, [
       {
-        avatar: { avatar: PROCESSED_ATTACHMENT, isProfile: true },
+        date: undefined,
+        description:
+          'Say "hello" to a different messaging experience. An unexpected focus on privacy, combined with all of the features you expect.',
+        image: PROCESSED_ATTACHMENT,
+        title: 'Signal Private Messenger #1',
+        url: 'https://signal.org',
       },
     ]);
   });

@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Kvaliteta poslanih medija"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "Slanje visokokvalitetnih medija zahtjeva veću potrošnju mobilnih podataka."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Standardno"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} nepročitana poruka} few {{count,number} nepročitane poruke} many {{count,number} nepročitanih poruka} other {{count,number} nepročitanih poruka}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "Radi vaše sigurnosti, povijest razgovora se ne prenosi na nove povezane uređaje."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "Označili ste vaš sigurnosni broj s {name} kao provjernim"
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Nevažeći odgovor usluge za pohranu. Molimo podijelite svoj zapisnik pogreške."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {1 stavka} few {{count,number} stavke} many {{count,number} stavki} other {{count,number} stavki}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Medijski zapis više nije dostupan."
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "Medijski zapis nije dostupan"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "Glasovna poruka nije dostupna"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "Medijski zapis koji nestaje nakon prikaza nije dostupan"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Nije moguće preuzeti medijski zapis koji nestaje nakon prikaza"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "Datoteka nije dostupna"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "Ova glasovna poruka nije prenesena s vašeg telefona kad je ovaj uređaj povezan. Datoteke i medijske zapise starije od 45 dana u trenutku povezivanja uređaja nije moguće sinkronizirati."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "Ovaj medijski zapis koji nestaje nakon prikaza više nije moguće preuzeti. Zamoli korisnika {name} da ga ponovno pošalje."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Nije moguće preuzeti medijski zapis koji nestaje nakon prikaza. {name} će ga morati ponovno poslati."
   },
   "icu:save": {
     "messageformat": "Spremi"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Dohvaćanje broja telefona nije uspjelo. Provjerite internetsku vezu i pokušajte ponovo."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Preuzimanje nije uspjelo"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Poruke je moguće uređivati samo u roku od 24 sata od trenutka slanja."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "Zastava"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Smajlić"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Naljepnice"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIF-ovi"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Pretraži emotikone"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Pretraži emotikone"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Kategorije emotikona"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nedavno korišteno"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Smajlići i osobe"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Životinje i priroda"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Hrana i piće"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Aktivnosti"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Putovanja i mjesta"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Predmeti"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Simboli"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Zastave"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "Nisu pronađeni emotikoni"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Promjena željene boje kože"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Odaberite svoju zadanu boju kože"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Rezultati pretraživanja"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Nedavno korišteno"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Smajlići i osobe"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Životinje i priroda"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Hrana i piće"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Putovanja i mjesta"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Aktivnosti"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Predmeti"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Simboli"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Zastave"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Pretraži naljepnice"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Pretraži naljepnice"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Paketi naljepnica"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nedavno korišteno"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Rezultati pretraživanja"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Nedavno korišteno"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "Nema naljepnica"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Pretraži GIF-ove putem Tenora"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Pretraži Tenor"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "Kategorije GIF-ova"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Nedavno korišteno"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Popularno"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Slavlje"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Ljubav"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Palac gore"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Iznenađenje"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Uzbuđenje"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Tuga"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Ljutnja"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Učitavanje GIF-ova"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Nije moguće učitati GIF-ove. Provjerite internetsku vezu i pokušajte ponovno"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Pokušajte ponovno"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "Nije pronađen nijedan GIF"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Odustani"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Pregledano"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "Pregledano"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Medijski zapis"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "Medijski zapis koji nestaje nakon prikaza"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Već ste pregledali ovu poruku."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "Pogledaj video"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "Videozapis koji nestaje nakon prikaza"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "Fotografija koja nestaje nakon prikaza"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Klikni za prikaz"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(privitak)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Pošalji uređenu poruku"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Dodaj emotikon, naljepnicu ili GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Uredi poruku"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Kraj gradijenta"
   },
+  "icu:GIF--download": {
+    "messageformat": "Preuzmi GIF privitak"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Prilagođeno vrijeme…"
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "Privatnost"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Upotreba podatkovnih podataka"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "Automatsko preuzimanje medijskih zapisa"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "Fotografije"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "Videozapisi"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "Zvuk"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "Dokumenti"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Glasovne poruke i naljepnice se uvijek automatski preuzimaju."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Posljednji uvoz {date} u {time}"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Ažuriranje je preuzeto"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "Otvorite Signal na vašem telefonu"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Ako ne otvorite Signal na svom telefonu, vaš će račun uskoro biti izbrisan. Ova poruka će nestati čim to uspješno napravite. <learnMoreLink>Saznaj više</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal ima tehničkih poteškoća. Naporno radimo na što bržem vraćanju usluge."
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Omogućite pristup mikrofonu"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Omogućite pristup kameri"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "Da biste se pridružili ili započeli poziv:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "Za korištenje videopoziva:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "Za slanje glasovnih poruka:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Pritisnite gumb „{buttonName}“ ispod"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Uključite „Signal“"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Otvori postavke"
   },
   "icu:MyStories__title": {
     "messageformat": "Moje priče"
@@ -5857,16 +6097,13 @@
     "messageformat": "Manja podešavanja, ispravci grešaka i poboljšanje rada aplikacije. Hvala vam što koristite Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Sada možete prilagoditi širinu bočne trake s popisom razgovora na uređajima sa zaslonom osjetljivim na dodir."
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Postupak preuzimanja naljepnica je poboljšan."
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Ispravili smo rijetku pogrešku koja je sprječavala ispravno otvaranje određenih razgovora."
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "Uz novu značajku potrošnje podataka u postavkama Signala sada možete jednostavno odabrati hoćete li da se fotografije, videozapisi, audio datoteke i drugi dokumenti automatski preuzimaju."
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Sada, kad povežete novo računalo sa svojim Signal računom, možete prenijeti svoju povijest razgovora i medijske zapise iz posljednjih 45 dana na novi povezani uređaj. Proces prijenosa je sveobuhvatno šifriran i potpuno neobavezan."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Ažurirali smo tekst na gumbu aplikacije za Desktop tako da odgovara gumbu aplikacije za Android i iOS."
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Sada kada pokušate započeti razgovor s nečijim korisničkim imenom za Signal, funkcionirat će čak i ako prvo slučajno upišete simbol „@“."
   }
 }

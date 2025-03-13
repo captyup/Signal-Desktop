@@ -26,6 +26,7 @@
 @use 'components/App.scss';
 @use 'components/AttachmentDetailPill.scss';
 @use 'components/AttachmentNotAvailableModal.scss';
+@use 'components/AttachmentStatusIcon.scss';
 @use 'components/AudioCapture.scss';
 @use 'components/AutoSizeInput.scss';
 @use 'components/Avatar.scss';
@@ -100,6 +101,7 @@
 @use 'components/EditNicknameAndNoteModal.scss';
 @use 'components/EditUsernameModalBody.scss';
 @use 'components/ForwardMessageModal.scss';
+@use 'components/fun/Fun.scss';
 @use 'components/GradientDial.scss';
 @use 'components/GroupDescription.scss';
 @use 'components/GroupDialog.scss';
@@ -110,7 +112,6 @@
 @use 'components/IncomingCallBar.scss';
 @use 'components/Input.scss';
 @use 'components/InstallScreenBackupImportStep.scss';
-@use 'components/InstallScreenChoosingDeviceNameStep.scss';
 @use 'components/InstallScreenErrorStep.scss';
 @use 'components/InstallScreenLinkInProgressStep.scss';
 @use 'components/InstallScreenQrCodeNotScannedStep.scss';
@@ -126,6 +127,7 @@
 @use 'components/LuciditvListTile.scss';
 @use 'components/LocalDeleteWarningModal.scss';
 @use 'components/MediaEditor.scss';
+@use 'components/MediaPermissionsModal.scss';
 @use 'components/MediaQualitySelector.scss';
 @use 'components/MessageAudio.scss';
 @use 'components/MessageBody.scss';
@@ -179,6 +181,7 @@
 @use 'components/StoryViewsNRepliesModal.scss';
 @use 'components/SystemMessage.scss';
 @use 'components/Tabs.scss';
+@use 'components/TapToViewNotAvailableModal.scss';
 @use 'components/TextAttachment.scss';
 @use 'components/TimelineDateHeader.scss';
 @use 'components/TimelineFloatingHeader.scss';

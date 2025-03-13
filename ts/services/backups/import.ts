@@ -658,6 +658,7 @@ export class BackupImportStream extends Writable {
           attachmentDownloadJobPromises.push(
             queueAttachmentDownloads(model, {
               source: AttachmentDownloadSource.BACKUP_IMPORT,
+              isManualDownload: false,
             })
           );
         }
@@ -924,6 +925,9 @@ export class BackupImportStream extends Writable {
       profileSharing: contact.profileSharing === true,
       profileName: dropNull(contact.profileGivenName),
       profileFamilyName: dropNull(contact.profileFamilyName),
+      systemGivenName: dropNull(contact.systemGivenName),
+      systemFamilyName: dropNull(contact.systemFamilyName),
+      systemNickname: dropNull(contact.systemNickname),
       hideStory: contact.hideStory === true,
       username: dropNull(contact.username),
       expireTimerVersion: 1,

@@ -93,6 +93,12 @@ export function renderToast({
     );
   }
 
+  if (toastType === ToastType.AttachmentDownloadFailed) {
+    return (
+      <Toast onClose={hideToast}>{i18n('icu:Toast--download-failed')}</Toast>
+    );
+  }
+
   if (toastType === ToastType.AttachmentDownloadStillInProgress) {
     return (
       <Toast onClose={hideToast}>
@@ -324,6 +330,20 @@ export function renderToast({
         }}
       >
         {i18n('icu:Toast--FailedToImportBackup')}
+      </Toast>
+    );
+  }
+
+  if (toastType === ToastType.InvalidStorageServiceHeaders) {
+    return (
+      <Toast
+        onClose={hideToast}
+        toastAction={{
+          label: i18n('icu:Toast__ActionLabel--SubmitLog'),
+          onClick: onShowDebugLog,
+        }}
+      >
+        {i18n('icu:Toast--InvalidStorageServiceHeaders')}
       </Toast>
     );
   }

@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "அனுப்பிய மீடியா தரம்"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "உயர்தரத்தை அனுப்புகிறது ஊடகம் அதிக தரவைப் பயன்படுத்தும்."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "தரநிலை"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, one {{count,number} படிக்காத செய்தி} other {{count,number} படிக்காத செய்திகள்}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "உங்கள் பாதுகாப்பிற்காக, சாட் வரலாறு புதிய இணைக்கப்பட்ட டிவைஸ்களுக்கு மாற்றப்படாது."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "சரிபார்க்கப்பட்டபடி உங்கள் பாதுகாப்பு எண்ணை {name}  உடன் குறித்தீர்கள்"
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "சேமிப்பகச் சேவையிலிருந்து தவறான பதில் கிடைத்தது. உங்கள் பதிவுகளைப் பகிருங்கள்."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, one {{count,number} பொருள்} other {{count,number} உருப்படிகள்}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "இந்த ஊடகம் இனி கிடைக்கப்பெறாது."
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "இந்த ஊடகம் கிடைக்கவில்லை"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "வாய்ஸ் மெசேஜ் கிடைக்கவில்லை"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "ஒரு முறை-காணும் ஊடகம் கிடைக்கவில்லை"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "ஒரு முறை-காணும் ஊடகத்தைப் பதிவிறக்க முடியாது"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "கோப்பு கிடைக்கவில்லை"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "இந்தச் சாதனம் இணைக்கப்படும்போது, இந்த வாய்ஸ் மெசேஜ் உங்கள் தொலைபேசியிலிருந்து இடமாற்றப்படவில்லை. சாதனத்தை இணைக்கும் நேரத்தில் 45 நாட்களுக்கு மேலான பழைய ஊடகம் மற்றும் கோப்புகளை ஒத்திசைக்க முடியாது."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "இந்த ஒரு முறை-காணும் ஊடகம் பதிவிறக்குவதற்குக் கிடைக்காது. {name} என்பவரிடம் அதை மீண்டும் அனுப்பும்படி கேளுங்கள்."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "ஒரு முறை-காணும் ஊடகத்தைப் பதிவிறக்க முடியாது. {name} என்பவர் அதை மீண்டும் அனுப்ப வேண்டும்."
   },
   "icu:save": {
     "messageformat": "சேமி"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "தொலைபேசி எண்ணைப் பெறுவதில் தோல்வி. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும்முயற்சிக்கவும்."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "பதிவிறக்க முடியவில்லை"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "நீங்கள் இந்த மெசேஜை அனுப்பியதிலிருந்து 24 மணிநேரத்திற்குள் மட்டுமே திருத்தங்களைச் செய்ய முடியும்."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "கொடி"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "உணர்வு படங்கள்"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "ஒட்டிப்படங்கள்"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIF கள் "
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "தேடல் ஈமோஜி"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "தேடல் ஈமோஜி"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "எமோஜி வகைகள்"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "ஸ்மைலிகள் மற்றும் மக்கள்"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "விலங்குகள் & இயற்கை"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "உணவு & பானம்"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "செயல்பாடுகள்"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "பயணம் & இடங்கள்"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "பொருட்கள்"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "சின்னங்கள்"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "கொடிகள்"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "ஈமோஜிகள் எதுவும் கிடைக்கவில்லை"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "ஸ்கின் டோன் விருப்பத்தை மாற்றுக"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "உங்களின் இயல்புநிலை ஸ்கின்டோனை தேர்வுசெய்க"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "தேடல் முடிவுகள்"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "ஸ்மைலிகள் மற்றும் மக்கள்"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "விலங்குகள் & இயற்கை"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "உணவு & பானம்"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "பயணம் & இடங்கள்"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "செயல்பாடுகள்"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "பொருட்கள்"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "சின்னங்கள்"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "கொடிகள்"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "தேடல் ஒட்டிகள்"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "தேடல் ஒட்டிகள்"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "ஸ்டிக்கர் பேக்குகள்"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "தேடல் முடிவுகள்"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "ஸ்டிக்கர்கள் எதுவும் கிடைக்கவில்லை"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Tenor வழியே GIFகள்"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Tenorஐத் தேடுக"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIF வகைகள்"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "சமீபத்தில் பயன்படுத்தப்பட்டது"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "டிரெண்டிங்"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "கொண்டாட்டம்"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "காதல்"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "தம்ஸ் அப்"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "வியப்பு"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "உற்சாகம்"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "சோகம்"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "கோபம்"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "GIFகளை ஏற்றுகிறது"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "GIFகளை ஏற்ற முடியவில்லை. உங்கள் இணைப்பைச் சரிபார்த்து மீண்டும் முயலுங்கள்"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "மீண்டும் முயற்சி செய்"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "GIFகள் எதுவும் இல்லை"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "ரத்துசெய்"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "பார்க்கப்பட்டவை"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "பார்க்கப்பட்டவை"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "ஊடகம்"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "ஒரு முறை பார்க்கக்கூடிய மீடியா"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "நீங்கள் ஏற்கனவே இந்த செய்தியைப் பார்த்தேன்."
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "வீடியோவைக் காண்க"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "ஒரு முறை-காணும் காணொளி"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "ஒரு முறை-காணும் படம்"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "காண்பதற்குக் கிளிக் செய்யுங்கள்"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(இணைப்பு)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "திருத்தப்பட்ட மெசேஜை அனுப்பும்"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "எமோஜி, ஸ்டிக்கர், அல்லது GIFஐச் சேர்க்கவும்"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "செய்தியைத் திருத்தவும்"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "கலர் கிரேடியண்ட் முடிவு"
   },
+  "icu:GIF--download": {
+    "messageformat": "GIF இணைப்பை பதிவிறக்கு"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "விருப்ப நேரம்…"
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "தனியுரிமை"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "டேட்டா பயன்பாடு"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "மீடியா தானாக பதிவிறக்கம்"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "புகைப்படம்"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "காணொளி"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "ஒலி"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "ஆவணங்கள்"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "வாய்ஸ் மெசேஜ்கள் மற்றும் ஸ்டிக்கர்கள் எப்போதும் தானாகவே பதிவிறக்கப்படுகின்றன."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "கடைசியாக இறக்குமதி {date} {time} இல்"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "புதுப்பிப்பு பதிவிறக்கப்பட்டது"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "உங்கள் மொபைலில் சிக்னல்-ஐத் திறக்கவும்"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "உங்கள் பேசியில் சிக்னலைத் திறக்காவிட்டால் உங்கள் கணக்கு விரைவில் நீக்கப்படும். நீங்கள் அதை வெற்றிகரமாக செய்திருந்தால் இந்த மெசேஜ் தோன்றாது. <learnMoreLink>மேலும் அறிக</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal தொழில்நுட்ப சிக்கல்களை எதிர்கொள்கிறது. சேவையை விரைவாக மீட்டெடுக்க நாங்கள் விரைவாக வேலை செய்து வருகிறோம்."
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "உங்கள் மைக்ரோஃபோனை அணுக அனுமதிக்கவும்"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "உங்கள் கேமராவை அணுக அனுமதிக்கவும்"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "அழைப்பில் இணைய அல்லது அழைப்பை மேற்கொள்ள:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "உங்கள் வீடியோவைச் செயல்படுத்த:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "வாய்ஸ் மெசேஜ்களை அனுப்ப:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "கீழே உள்ள “{buttonName}”ஐக் கிளிக் செய்யுங்கள்"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "\"சிக்னல்\"ஐ ஆன் செய்யவும்"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "அமைப்புகளுக்குச் செல்"
   },
   "icu:MyStories__title": {
     "messageformat": "எனது ஸ்டோரீஸ்"
@@ -5857,16 +6097,13 @@
     "messageformat": "சிறு மாற்றங்கள், பிழை திருத்தங்கள் மற்றும் செயல்திறன் மேம்பாடுகள். சிக்னலைப் பயன்படுத்தியதற்கு நன்றி!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "இப்போது நீங்கள் தொடுதிரை சாதனங்களில் சாட் பட்டியல் பக்கப்பட்டியின் அளவை மாற்றியமைக்கலாம்."
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "ஸ்டிக்கர்கள் ஒட்டிக்கொண்டதாக உணர வேண்டும், அதேவேளையில் ஒட்டாமல் இருக்க வேண்டும், எனவே இப்போது நீங்கள் புதிதாக இணைக்கப்பட்ட சிக்னல் டெஸ்க்டாப்பில் ஒரு ஸ்டிக்கரைக் கிளிக் செய்யலாம், மற்ற இணைப்புகளும் பதிவிறக்கம் செய்யும்போதுகூட அந்த ஸ்டிக்கர் பதிவிறக்கம் தானாகவே முன்னுரிமை பெறப்படும்."
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "தேர்ந்தெடுக்கப்பட்ட பிறகு சில சாட்ஸ் சரியாகத் திறப்பதைத் தடுக்கும் ஒரு அரிய பிழையை நாங்கள் சரிசெய்துள்ளோம், எனவே இப்போது சிக்னல் டெஸ்க்டாப் அவர்கள் சொன்னதை நினைவில் வைத்துக் கொள்ள முயலும்போது அது காலியாக இருக்காது."
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "சிக்னல் அமைப்புகளில் காணப்படும் புதிய \"டேட்டா பயன்பாடு\" அம்சமானது படங்கள், காணொளிகள், ஒலிக் கோப்புகள் அல்லது பிற ஆவணங்களைத் தானாகவே பதிவிறக்க வேண்டுமா அல்லது இல்லையா என்பதைத் தேர்ந்தெடுப்பதை எளிதாக்குகிறது."
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "இப்போது உங்கள் சாட் வரலாற்றையும் உங்கள் கடைசி 45 நாட்கள் ஊடகத்தையும் புதிதாக இணைக்கப்பட்ட சாதனத்திற்கு இடமாற்ற நீங்கள் தேர்வு செய்யலாம். இடமாற்றச் செயல்முறை இருமுனை மறைகுறியாக்கப்பட்டுள்ளது, மேலும் விருப்பத்திற்குரியது. கடந்த கால சாதனங்களிலிருந்து வெளியேறலாமா வேண்டாமா என்பதைத் தேர்வுசெய்தவுடன், நீங்கள் உங்கள் சொந்த சாதனங்களிலிருந்து வெளியேறிவிடுவீர்கள்."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Android மற்றும் iOS உடன் பொருத்த டெஸ்க்டாப் செயலியில் இருக்கும் ஒரு பொத்தானில் உரையைப் புதுப்பித்தோம்."
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "இப்போது ஒருவரின் சிக்னல் பயனர்பெயருடன் நீங்கள் சாட்டைத் தொடங்க முயலும்போது, நீங்கள் தற்செயலாக “@” குறியீட்டை முதலில் தட்டச்சு செய்தாலும் அது செயல்படும்."
   }
 }

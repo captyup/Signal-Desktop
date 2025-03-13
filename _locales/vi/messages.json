@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "Chất lượng tập tin đa phương tiện đã gửi"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "Việc gửi tập tin đa phương tiện chất lượng cao sẽ tốn nhiều lưu lượng hơn."
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "Tiêu chuẩn"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, other {{count,number} tin nhắn chưa đọc}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "Vì lý do bảo mật, lịch sử trò chuyện không được chuyển sang các thiết bị được liên kết mới."
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "Bạn đã đánh dấu Số An toàn của bạn với {name} là đã được xác minh"
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "Nhận được phản hồi không hợp lệ từ dịch vụ lưu trữ. Vui lòng chia sẻ nhật ký gỡ lỗi."
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number} Mục}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "Tập tin đa phương tiện không còn khả dụng."
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "Tập tin đa phương tiện này không có sẵn"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "Tin nhắn thoại không có sẵn"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "Đa phương tiện xem một lần này không còn sẵn có"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "Không thể tải xuống đa phương tiện xem một lần"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "Tập tin không có sẵn"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "Tin nhắn thoại này không được chuyển từ điện thoại của bạn khi thiết bị này được liên kết. Đa phương tiện và tập tin cũ hơn 45 ngày tại thời điểm liên kết thiết bị thì không thể được đồng bộ."
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "Đa phương tiện xem một lần này không còn sẵn có để tải xuống. Hãy nhờ {name} gửi lại."
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "Không thể tải xuống đa phương tiện xem một lần. {name} cần gửi lại."
   },
   "icu:save": {
     "messageformat": "Lưu"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "Tìm số điện thoại không thành công. Kiểm tra kết nối của bạn và thử lại."
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "Tải xuống không thành công"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "Các chỉnh sửa chỉ có thể được thực hiện trong vòng 24 giờ kể từ lúc bạn gửi tin nhắn này."
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "Cờ"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "Emoji"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "Nhãn dán"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "Ảnh GIF"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "Tìm kiếm emoji"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "Tìm kiếm emoji"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "Danh mục Emoji"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "Sử dụng gần đây"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "Mặt cười và Con người"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "Thú vật & Thiên nhiên"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "Đồ ăn & Thức uống"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "Hoạt động"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "Du lịch & Nơi chốn"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "Đồ vật"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "Kí hiệu"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "Cờ"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "Không tìm thấy biểu tượng cảm xúc"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "Đổi lựa chọn màu da ưu tiên"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "Chọn màu da mặc định của bạn"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "Kết quả tìm kiếm"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "Sử dụng gần đây"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "Mặt cười và Con người"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "Thú vật & Thiên nhiên"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "Đồ ăn & Thức uống"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "Du lịch & Nơi chốn"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "Hoạt động"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "Đồ vật"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "Kí hiệu"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "Cờ"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "Tìm kiếm nhãn dán"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "Tìm kiếm nhãn dán"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "Gói Nhãn dán"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "Sử dụng gần đây"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "Kết quả tìm kiếm"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "Sử dụng gần đây"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "Không tìm thấy nhãn dán"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Tìm GIF qua Tenor"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Tìm qua Tenor"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "Danh mục GIF"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "Sử dụng gần đây"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "Đang thịnh hành"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "Chúc mừng"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "Yêu thích"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "Ra hiệu đồng ý"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "Ngạc nhiên"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "Hào hứng"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "Buồn"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "Tức giận"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "Đang tải GIF"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "Không thể tải GIF. Kiểm tra kết nối của bạn và thử lại"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "Thử lại"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "Không tìm thấy GIF"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "Hủy"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "Đã xem"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "Đã xem"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "Đa phương tiện"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "Đa phương tiện Xem Một Lần"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "Bạn đã sẵn sàng xem ảnh này"
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "Xem video"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "Video xem một lần"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "Ảnh xem một lần"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "Bấm để xem"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(tập tin đính kèm)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "Gửi tin nhắn đã chỉnh sửa"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "Thêm Emoji, Nhãn dán hoặc GIF"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "Chỉnh sửa tin nhắn"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "Kết thúc chuyển sắc"
   },
+  "icu:GIF--download": {
+    "messageformat": "Tải GIF đính kèm"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "Thời gian tuỳ chỉnh…"
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "Riêng tư"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "Sử dụng dữ liệu"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "Tự động tải đa phương tiện"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "Ảnh"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "Video"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "Âm thanh"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "Tài liệu"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "Tin nhắn thoại và nhãn dán luôn được tự động tải xuống."
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "Lần nhập cuối cùng vào lúc {date} {time}"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "Đã tải Bản Cập Nhật"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "Mở Signal trên điện thoại của bạn"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "Tài khoản của bạn sẽ sớm bị xóa trừ khi bạn mở Signal trên điện thoại của mình. Thông điệp này sẽ không còn nếu bạn hoàn thành việc đó. <learnMoreLink>Tìm hiểu thêm</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signal đang gặp trục trặc kĩ thuật. Chúng thôi đang cố hết sức để khôi phục dịch vụ càng sớm càng tốt."
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "Cho phép truy cập microphone của bạn"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "Cho phép truy cập camera của bạn"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "Để tham gia hoặc bắt đầu một cuộc gọi:"
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "Để bật video của bạn:"
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "Để gửi tin nhắn thoại:"
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "Bấm vào nút \"{buttonName}\" dưới đây"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "Bật \"Signal\""
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "Đến mục cài đặt"
   },
   "icu:MyStories__title": {
     "messageformat": "Các Story của tôi"
@@ -5857,16 +6097,13 @@
     "messageformat": "Các tinh chỉnh, sửa lỗi, và cải thiện hiệu năng. Cảm ơn bạn đã sử dụng Signal!",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "Giờ đây bạn có thể điều chỉnh kích thước thanh bên danh sách cuộc trò chuyện trên các thiết bị màn hình cảm ứng."
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "Cải thiện hiệu suất tải nhãn dán."
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "Chúng tôi đã sửa một lỗi hiếm gặp khiến một số cuộc trò chuyện không mở đúng cách."
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "Tính năng 'Sử dụng dữ liệu' mới trong cài đặt Signal giúp bạn dễ dàng chọn có tự động tải xuống ảnh, video, tệp âm thanh hoặc tài liệu khác hay không."
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "Giờ đây bạn có thể chọn chuyển lịch sử trò chuyện và tập tin đa phương tiện trong 45 ngày vừa qua của mình đến Máy tính mới liên kết với thiết bị Signal chính."
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Chúng tôi đã cập nhật nội dung của nút bấm trên phiên bản ứng dụng Máy tính để khớp với Android và iOS."
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "Giờ đây bạn có thể nhập ký tự “@” trước khi nhập tên người dùng Signal của một người để bắt đầu cuộc trò chuyện."
   }
 }

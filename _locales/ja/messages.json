@@ -38,6 +38,9 @@
   "icu:Preferences__sent-media-quality": {
     "messageformat": "送信メディアの画質"
   },
+  "icu:Preferences__sent-media-quality__description": {
+    "messageformat": "高画質なメディアの送信には、より多くのデータを使用します。"
+  },
   "icu:sentMediaQualityStandard": {
     "messageformat": "標準"
   },
@@ -407,9 +410,6 @@
   "icu:unreadMessages": {
     "messageformat": "{count, plural, other {{count,number}件の未読メッセージ}}"
   },
-  "icu:messageHistoryUnsynced": {
-    "messageformat": "セキュリティ保護のため、過去のチャットは新しくリンクされた端末には転送されません。"
-  },
   "icu:youMarkedAsVerified": {
     "messageformat": "{name} に対する安全番号を検証済みにしました"
   },
@@ -586,6 +586,9 @@
   },
   "icu:Toast--FailedToSendWithEndorsements": {
     "messageformat": "Failed to send message with endorsements"
+  },
+  "icu:Toast--InvalidStorageServiceHeaders": {
+    "messageformat": "クラウドストレージサービスから無効な応答がありました。ログを共有してください。"
   },
   "icu:Toast--FailedToImportBackup": {
     "messageformat": "Failed to process some frames during backup import. Please share your logs."
@@ -1139,9 +1142,6 @@
   "icu:downloadNItems": {
     "messageformat": "{count, plural, other {{count,number}個}}"
   },
-  "icu:mediaNoLongerAvailable": {
-    "messageformat": "このメディアはご利用になれなくなりました。"
-  },
   "icu:mediaNotAvailable": {
     "messageformat": "このメディアはダウンロードできません"
   },
@@ -1162,6 +1162,12 @@
   },
   "icu:attachmentNotAvailable__voice": {
     "messageformat": "ボイスメッセージはご利用になれません"
+  },
+  "icu:attachmentNotAvailable__tapToView": {
+    "messageformat": "使い捨てメディアを表示できません"
+  },
+  "icu:attachmentNotAvailable__tapToViewCannotDownload": {
+    "messageformat": "使い捨てメディアをダウンロードできません。"
   },
   "icu:AttachmentNotAvailableModal__title--file": {
     "messageformat": "ファイルがダウンロードできません"
@@ -1192,6 +1198,12 @@
   },
   "icu:AttachmentNotAvailableModal__body--voice-message": {
     "messageformat": "この端末をリンクしたときにこのボイスメッセージはスマートフォンから移行されませんでした。端末をリンクした時点で45日以上経過したメディアやファイルは同期できません。"
+  },
+  "icu:TapToViewNotAvailableModal__body--expired": {
+    "messageformat": "この使い捨てメディアはダウンロードできなくなりました。{name} さんにもう一度送信してもらってください。"
+  },
+  "icu:TapToViewNotAvailableModal__body--error": {
+    "messageformat": "使い捨てメディアをダウンロードできません。{name} さんがもう一度送信する必要があります。"
   },
   "icu:save": {
     "messageformat": "保存"
@@ -1874,6 +1886,9 @@
   "icu:Toast--failed-to-fetch-phone-number": {
     "messageformat": "電話番号の取得に失敗しました。接続を確認して再度お試しください。"
   },
+  "icu:Toast--download-failed": {
+    "messageformat": "ダウンロードできませんでした"
+  },
   "icu:ToastManager__CannotEditMessage_24": {
     "messageformat": "編集は、このメッセージを送信後24時間以内のみ可能です。"
   },
@@ -2252,6 +2267,159 @@
   "icu:EmojiPicker__button--flag": {
     "messageformat": "旗"
   },
+  "icu:FunPicker__Tab--Emojis": {
+    "messageformat": "絵文字"
+  },
+  "icu:FunPicker__Tab--Stickers": {
+    "messageformat": "ステッカー"
+  },
+  "icu:FunPicker__Tab--Gifs": {
+    "messageformat": "GIF"
+  },
+  "icu:FunPanelEmojis__SearchLabel": {
+    "messageformat": "絵文字を検索"
+  },
+  "icu:FunPanelEmojis__SearchPlaceholder": {
+    "messageformat": "絵文字を検索"
+  },
+  "icu:FunPanelEmojis__SubNavLabel": {
+    "messageformat": "絵文字カテゴリー"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Recents": {
+    "messageformat": "最近使ったもの"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--SmileysAndPeople": {
+    "messageformat": "顔文字と人"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--AnimalsAndNature": {
+    "messageformat": "動物と自然"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--FoodAndDrink": {
+    "messageformat": "食べ物と飲み物"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Activities": {
+    "messageformat": "活動"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--TravelAndPlaces": {
+    "messageformat": "旅行と場所"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Objects": {
+    "messageformat": "オブジェクト"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Symbols": {
+    "messageformat": "記号"
+  },
+  "icu:FunPanelEmojis__SubNavCategoryLabel--Flags": {
+    "messageformat": "旗"
+  },
+  "icu:FunPanelEmojis__SearchResults__EmptyHeading": {
+    "messageformat": "該当する絵文字はありません"
+  },
+  "icu:FunPanelEmojis__ChangeSkinToneButtonLabel": {
+    "messageformat": "スキントーンの設定を変更する"
+  },
+  "icu:FunPanelEmojis__SkinTonePicker__ChooseDefaultLabel": {
+    "messageformat": "デフォルトのスキントーンを選択してください"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SearchResults": {
+    "messageformat": "検索結果"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Recents": {
+    "messageformat": "最近使ったもの"
+  },
+  "icu:FunPanelEmojis__SectionTitle--SmileysAndPeople": {
+    "messageformat": "顔文字と人"
+  },
+  "icu:FunPanelEmojis__SectionTitle--AnimalsAndNature": {
+    "messageformat": "動物と自然"
+  },
+  "icu:FunPanelEmojis__SectionTitle--FoodAndDrink": {
+    "messageformat": "食べ物と飲み物"
+  },
+  "icu:FunPanelEmojis__SectionTitle--TravelAndPlaces": {
+    "messageformat": "旅行と場所"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Activities": {
+    "messageformat": "活動"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Objects": {
+    "messageformat": "オブジェクト"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Symbols": {
+    "messageformat": "記号"
+  },
+  "icu:FunPanelEmojis__SectionTitle--Flags": {
+    "messageformat": "旗"
+  },
+  "icu:FunPanelStickers__SearchLabel": {
+    "messageformat": "ステッカーを検索"
+  },
+  "icu:FunPanelStickers__SearchPlaceholder": {
+    "messageformat": "ステッカーを検索"
+  },
+  "icu:FunPanelSticker__SubNavLabel": {
+    "messageformat": "ステッカーパック"
+  },
+  "icu:FunPanelStickers__SubNavCategoryLabel--Recents": {
+    "messageformat": "最近使ったもの"
+  },
+  "icu:FunPanelStickers__SectionTitle--SearchResults": {
+    "messageformat": "検索結果"
+  },
+  "icu:FunPanelStickers__SectionTitle--Recents": {
+    "messageformat": "最近使ったもの"
+  },
+  "icu:FunPanelStickers__SearchResults__EmptyHeading": {
+    "messageformat": "ステッカーはありません"
+  },
+  "icu:FunPanelGifs__SearchLabel--Tenor": {
+    "messageformat": "Tenor内でGIFを検索"
+  },
+  "icu:FunPanelGifs__SearchPlaceholder--Tenor": {
+    "messageformat": "Tenorを検索"
+  },
+  "icu:FunPanelGifs__SubNavLabel": {
+    "messageformat": "GIFカテゴリー"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Recents": {
+    "messageformat": "最近使ったもの"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Trending": {
+    "messageformat": "トレンド"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Celebrate": {
+    "messageformat": "お祝い"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Love": {
+    "messageformat": "ラブ"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--ThumbsUp": {
+    "messageformat": "いいね"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Surprised": {
+    "messageformat": "驚き"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Excited": {
+    "messageformat": "ワクワク"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Sad": {
+    "messageformat": "悲しみ"
+  },
+  "icu:FunPanelGifs__SubNavCategoryLabel--Angry": {
+    "messageformat": "怒り"
+  },
+  "icu:FunPanelGifs__SearchResults__LoadingLabel": {
+    "messageformat": "GIFを読み込み中です"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorHeading": {
+    "messageformat": "GIFを読み込めませんでした。インターネット接続を確認して再度試してください"
+  },
+  "icu:FunPanelGifs__SearchResults__ErrorRetryButton": {
+    "messageformat": "再試行"
+  },
+  "icu:FunPanelGifs__SearchResults__EmptyHeading": {
+    "messageformat": "GIFが見つかりませんでした"
+  },
   "icu:confirmation-dialog--Cancel": {
     "messageformat": "キャンセル"
   },
@@ -2291,8 +2459,14 @@
   "icu:Message--tap-to-view-expired": {
     "messageformat": "閲覧済み"
   },
+  "icu:Message--tap-to-view--viewed": {
+    "messageformat": "閲覧済み"
+  },
   "icu:Message--tap-to-view--outgoing": {
     "messageformat": "メディア"
+  },
+  "icu:Message--tap-to-view--media": {
+    "messageformat": "使い捨てメディア"
   },
   "icu:Message--tap-to-view--incoming--expired-toast": {
     "messageformat": "このメッセージは閲覧済みです。"
@@ -2305,6 +2479,15 @@
   },
   "icu:Message--tap-to-view--incoming-video": {
     "messageformat": "動画を見る"
+  },
+  "icu:Message--tap-to-view--video": {
+    "messageformat": "使い捨て動画"
+  },
+  "icu:Message--tap-to-view--photo": {
+    "messageformat": "使い捨て写真"
+  },
+  "icu:Message--tap-to-view--helper-text": {
+    "messageformat": "クリックして表示する"
   },
   "icu:Conversation--getDraftPreview--attachment": {
     "messageformat": "(添付ファイル)"
@@ -3773,6 +3956,9 @@
   "icu:CompositionArea__edit-action--send": {
     "messageformat": "編集したメッセージを送信する"
   },
+  "icu:CompositionArea__FunButtonLabel": {
+    "messageformat": "絵文字、ステッカー、GIFを追加する"
+  },
   "icu:CompositionInput__editing-message": {
     "messageformat": "メッセージの編集"
   },
@@ -4349,6 +4535,9 @@
   "icu:GradientDial__knob-end": {
     "messageformat": "グラデーション終了"
   },
+  "icu:GIF--download": {
+    "messageformat": "GIFをダウンロードする"
+  },
   "icu:customDisappearingTimeOption": {
     "messageformat": "カスタム時間…"
   },
@@ -4652,6 +4841,27 @@
   "icu:Preferences__button--privacy": {
     "messageformat": "プライバシー"
   },
+  "icu:Preferences__button--data-usage": {
+    "messageformat": "データ通信量"
+  },
+  "icu:Preferences__media-auto-download": {
+    "messageformat": "メディアの自動ダウンロード"
+  },
+  "icu:Preferences__media-auto-download__photos": {
+    "messageformat": "写真"
+  },
+  "icu:Preferences__media-auto-download__videos": {
+    "messageformat": "動画"
+  },
+  "icu:Preferences__media-auto-download__audio": {
+    "messageformat": "音声"
+  },
+  "icu:Preferences__media-auto-download__documents": {
+    "messageformat": "文書"
+  },
+  "icu:Preferences__media-auto-download__description": {
+    "messageformat": "ボイスメッセージとステッカーは常に自動でダウンロードされます。"
+  },
   "icu:Preferences--lastSynced": {
     "messageformat": "最終インポート: {date} {time}"
   },
@@ -4808,6 +5018,12 @@
   "icu:DialogUpdate__downloaded": {
     "messageformat": "アップデートがダウンロードされました"
   },
+  "icu:CriticalIdlePrimaryDevice__title": {
+    "messageformat": "ご利用のスマートフォンでSignalを開いてください"
+  },
+  "icu:CriticalIdlePrimaryDevice__body": {
+    "messageformat": "ご利用のスマートフォンでSignalを開かないと、アカウントは間もなく削除されます。Signalを開くと、このメッセージは表示されなくなります。<learnMoreLink>さらに詳しく</learnMoreLink>"
+  },
   "icu:DialogNetworkStatus__outage": {
     "messageformat": "Signalは技術的な問題を抱えています。私たちは、これをできるだけ早く解決するよう対応しています。"
   },
@@ -4948,6 +5164,30 @@
   },
   "icu:MediaEditor__crop-preset--9-16": {
     "messageformat": "9:16"
+  },
+  "icu:MediaPermissionsModal__title--microphone": {
+    "messageformat": "マイクへのアクセスの許可"
+  },
+  "icu:MediaPermissionsModal__title--camera": {
+    "messageformat": "カメラへのアクセスを許可する"
+  },
+  "icu:MediaPermissionsModal__subtitle--call": {
+    "messageformat": "通話に参加する、または通話を開始するには："
+  },
+  "icu:MediaPermissionsModal__subtitle--call--camera": {
+    "messageformat": "動画を有効にする："
+  },
+  "icu:MediaPermissionsModal__subtitle--voice-note": {
+    "messageformat": "ボイスメッセージを送信するには："
+  },
+  "icu:MediaPermissionsModal__step-1": {
+    "messageformat": "下にある「{buttonName}」をクリックする"
+  },
+  "icu:MediaPermissionsModal__step-2": {
+    "messageformat": "「Signal」をオンにする"
+  },
+  "icu:MediaPermissionsModal__open": {
+    "messageformat": "設定へ"
   },
   "icu:MyStories__title": {
     "messageformat": "マイストーリー"
@@ -5857,16 +6097,13 @@
     "messageformat": "細かな微調整、バグ修正、パフォーマンスの向上。 Signalをご利用いただきありがとうございます。",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.39--0": {
-    "messageformat": "タッチスクリーン用端末で、チャットリストのサイドバーの長さを調整できるようになりました。"
+  "icu:WhatsNew__v7.45--0": {
+    "messageformat": "ステッカーのダウンロードパフォーマンスを改善しました。"
   },
-  "icu:WhatsNew__v7.40--0": {
-    "messageformat": "ごくまれに一部のチャットが正しく開かないバグが発生していましたが、これを修正しました。"
+  "icu:WhatsNew__v7.46--0": {
+    "messageformat": "Signalの設定に新しく追加された「データ使用量」機能を使うと、写真、動画、音声ファイル、その他のドキュメントを自動的にダウンロードするかどうかを簡単に選択できます。"
   },
-  "icu:WhatsNew__v7.40--1": {
-    "messageformat": "チャット履歴と過去45日間のメディアを、新しいリンク済み端末に移行するかどうかを選択できるようになりました。移行プロセスはエンドツーエンドで暗号化されており、完全にオプションです。"
-  },
-  "icu:WhatsNew__v7.43--0": {
-    "messageformat": "Desktopアプリのボタンのテキストを、AndroidとiOSと同じになるようにアップデートしました。"
+  "icu:WhatsNew__v7.46--1": {
+    "messageformat": "誰かのSignalユーザーネームでチャットを始めようとしたときに、最初に誤って「@」記号を入力してもチャットを開始できるようになりました。"
   }
 }

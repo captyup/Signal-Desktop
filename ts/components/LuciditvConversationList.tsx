@@ -386,7 +386,7 @@ export function LuciditvConversationList({
                 name={row.contact.title}
                 imgUrl={row.contact.avatarUrl}
                 onClick={() => {
-                  onOutgoingAudioCallInConversation(row.contact.id);
+                  onOutgoingVideoCallInConversation(row.contact.id);
                 }}
               />
             );
@@ -430,7 +430,19 @@ export function LuciditvConversationList({
           result = undefined;
           break;
         case RowType.SelectSingleGroup:
-          result = undefined;
+          if (!row.group.id) {
+            result = undefined;
+          } else {
+            result = (
+              <PersonCard
+                name={row.group.title}
+                imgUrl=""
+                onClick={() => {
+                  onOutgoingVideoCallInConversation(row.group.id);
+                }}
+              />
+            );
+          }
           break;
         case RowType.StartNewConversation:
           result = undefined;

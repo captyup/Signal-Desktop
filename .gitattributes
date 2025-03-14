@@ -7,4 +7,5 @@ Luciditv*.jsx merge=manual
 stylesheets/manifest.scss merge=manual
 ts/state/smart/Inbox.tsx merge=manual
 ts/state/smart/App.tsx merge=manual
+app/main.ts merge=manual
 package.json merge=manual

@@ -387,6 +387,7 @@ export function LuciditvConversationList({
                 imgUrl={row.contact.avatarUrl}
                 onClick={() => {
                   onOutgoingVideoCallInConversation(row.contact.id);
+                  onSelectConversation(row.contact.id);
                 }}
               />
             );
@@ -439,6 +440,7 @@ export function LuciditvConversationList({
                 imgUrl=""
                 onClick={() => {
                   onOutgoingVideoCallInConversation(row.group.id);
+                  onSelectConversation(row.group.id);
                 }}
               />
             );

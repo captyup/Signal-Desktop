@@ -64,6 +64,10 @@ function renderItem({
   nextMessageId,
   previousMessageId,
   unreadIndicatorPlacement,
+  showLuciditvTimeline,
+  setShowLuciditvTimeline,
+  luciditvTimerId,
+  setLuciditvTimerId,
 }: SmartLuciditvTimelineItemProps): JSX.Element {
   return (
     <SmartLuciditvTimelineItem
@@ -77,6 +81,10 @@ function renderItem({
       previousMessageId={previousMessageId}
       nextMessageId={nextMessageId}
       unreadIndicatorPlacement={unreadIndicatorPlacement}
+      showLuciditvTimeline={showLuciditvTimeline}
+      setShowLuciditvTimeline={setShowLuciditvTimeline}
+      luciditvTimerId={luciditvTimerId}
+      setLuciditvTimerId={setLuciditvTimerId}
     />
   );
 }
@@ -239,8 +247,17 @@ export const SmartLuciditvTimeline = memo(function SmartTimeline({
   const isSomeoneTyping = Object.keys(typingContactIdTimestamps).length > 0;
   const targetedMessageId = targetedMessage?.id;
 
+  const [showLuciditvTimeline, setShowLuciditvTimeline] = React.useState(true);
+  const [luciditvTimerId, setLuciditvTimerId] = React.useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
+
   return (
     <LuciditvTimeline
+      showLuciditvTimeline={showLuciditvTimeline}
+      setShowLuciditvTimeline={setShowLuciditvTimeline}
+      luciditvTimerId={luciditvTimerId}
+      setLuciditvTimerId={setLuciditvTimerId}
       acknowledgeGroupMemberNameCollisions={
         acknowledgeGroupMemberNameCollisions
       }

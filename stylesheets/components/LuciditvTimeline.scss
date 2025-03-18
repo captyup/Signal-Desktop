@@ -1,0 +1,55 @@
+// Copyright 2022 Signal Messenger, LLC
+// SPDX-License-Identifier: AGPL-3.0-only
+
+@use '../mixins';
+@use '../variables';
+
+.luciditv-module-call-manager {
+  pointer-events: none;
+
+  &:has(.module-timeline__last-message) {
+    height: 90vh;
+    width: 100vw;
+    overflow: hidden;
+    position: absolute;
+    align-content: center;
+    justify-items: center;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+  }
+}
+
+.luciditv-module-timeline--hide {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.luciditv-module-timeline {
+  width: 100%;
+
+  .module-timeline__last-message {
+    align-content: center;
+    justify-items: center;
+    height: 100%;
+  }
+
+  .module-message__container--incoming {
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    gap: 10px;
+  }
+
+  .module-timeline__messages {
+    justify-content: center;
+  }
+
+  .module-message__author-avatar-container {
+    display: none;
+  }
+
+  .module-message__metadata {
+    display: none;
+  }
+}

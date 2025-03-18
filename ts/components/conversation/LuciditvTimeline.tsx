@@ -3,7 +3,13 @@
 
 import { first, get, isNumber, last, throttle } from 'lodash';
 import classNames from 'classnames';
-import type { ReactChild, ReactNode, RefObject, UIEvent } from 'react';
+import type {
+  ReactChild,
+  ReactNode,
+  RefObject,
+  SetStateAction,
+  UIEvent,
+} from 'react';
 import React from 'react';
 
 import type { ReadonlyDeep } from 'type-fest';
@@ -77,6 +83,13 @@ export type PropsDataType = {
   scrollToIndex: number | null;
   scrollToIndexCounter: number;
   totalUnseen: number;
+
+  showLuciditvTimeline: boolean;
+  setShowLuciditvTimeline: (showLuciditvTimeline: boolean) => void;
+  luciditvTimerId: ReturnType<typeof setTimeout> | null;
+  setLuciditvTimerId: (
+    luciditvTimerId: ReturnType<typeof setTimeout> | null
+  ) => void;
 };
 
 type PropsHousekeepingType = {
@@ -131,6 +144,12 @@ type PropsHousekeepingType = {
     nextMessageId: undefined | string;
     previousMessageId: undefined | string;
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
+    showLuciditvTimeline: boolean;
+    setShowLuciditvTimeline: (showLuciditvTimeline: boolean) => void;
+    luciditvTimerId: ReturnType<typeof setTimeout> | null;
+    setLuciditvTimerId: (
+      luciditvTimerId: ReturnType<typeof setTimeout> | null
+    ) => void;
   }) => JSX.Element;
   renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
@@ -848,6 +867,10 @@ export class LuciditvTimeline extends React.Component<
       totalUnseen,
       unreadCount,
       unreadMentionsCount,
+      showLuciditvTimeline,
+      setShowLuciditvTimeline,
+      luciditvTimerId,
+      setLuciditvTimerId,
     } = this.props;
     const {
       scrollLocked,
@@ -986,6 +1009,10 @@ export class LuciditvTimeline extends React.Component<
               nextMessageId,
               previousMessageId,
               unreadIndicatorPlacement,
+              showLuciditvTimeline,
+              setShowLuciditvTimeline,
+              luciditvTimerId,
+              setLuciditvTimerId,
             })}
           </ErrorBoundary>
         </div>
@@ -1132,7 +1159,9 @@ export class LuciditvTimeline extends React.Component<
               className={classNames(
                 'module-timeline',
                 isGroupV1AndDisabled ? 'module-timeline--disabled' : null,
-                `module-timeline--width-${widthBreakpoint}`
+                `module-timeline--width-${widthBreakpoint}`,
+                'luciditv-module-timeline',
+                showLuciditvTimeline ? null : 'luciditv-module-timeline--hide'
               )}
               role="presentation"
               tabIndex={-1}
@@ -1174,17 +1203,14 @@ export class LuciditvTimeline extends React.Component<
                   {/* )} */}
 
                   {messageNodes}
-                  {`haveNewest: ${haveNewest}`}
-                  {`items: ${items}`}
-                  {/* {`latestItem: ${latestItem}`} */}
 
                   {/* {haveNewest && renderTypingBubble(id)} */}
 
-                  <div
-                    className="module-timeline__messages__at-bottom-detector"
-                    ref={this.#atBottomDetectorRef}
-                    style={AT_BOTTOM_DETECTOR_STYLE}
-                  />
+                  {/* <div */}
+                  {/*   className="module-timeline__messages__at-bottom-detector" */}
+                  {/*   ref={this.#atBottomDetectorRef} */}
+                  {/*   style={AT_BOTTOM_DETECTOR_STYLE} */}
+                  {/* /> */}
                 </div>
               </main>
               {shouldShowScrollDownButtons ? (

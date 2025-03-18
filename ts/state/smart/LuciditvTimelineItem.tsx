@@ -1,7 +1,7 @@
 // Copyright 2019 Signal Messenger, LLC
 // SPDX-License-Identifier: AGPL-3.0-only
 
-import type { RefObject } from 'react';
+import type { RefObject, SetStateAction } from 'react';
 import React, { useCallback, memo } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -49,6 +49,13 @@ export type SmartLuciditvTimelineItemProps = {
   nextMessageId: undefined | string;
   previousMessageId: undefined | string;
   unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
+
+  showLuciditvTimeline: boolean;
+  setShowLuciditvTimeline: (showLuciditvTimeline: boolean) => void;
+  luciditvTimerId: ReturnType<typeof setTimeout> | null;
+  setLuciditvTimerId: (
+    luciditvTimerId: ReturnType<typeof setTimeout> | null
+  ) => void;
 };
 
 function renderContact(contactId: string): JSX.Element {
@@ -73,6 +80,10 @@ export const SmartLuciditvTimelineItem = memo(
       nextMessageId,
       previousMessageId,
       unreadIndicatorPlacement,
+      showLuciditvTimeline,
+      setShowLuciditvTimeline,
+      luciditvTimerId,
+      setLuciditvTimerId,
     } = props;
 
     const i18n = useSelector(getIntl);
@@ -179,7 +190,38 @@ export const SmartLuciditvTimelineItem = memo(
       [conversationId, toggleMessageRequestActionsConfirmation]
     );
 
-    if (item?.type !== 'message') {
+    React.useEffect(() => {
+      // clear timeout
+      if (luciditvTimerId) {
+        clearTimeout(luciditvTimerId);
+        setLuciditvTimerId(null);
+      }
+      // check show
+      if (
+        previousMessageId !== messageId &&
+        item?.type === 'message' &&
+        !showLuciditvTimeline
+      ) {
+        // show
+        setShowLuciditvTimeline(true);
+        // set time out
+        setLuciditvTimerId(
+          setTimeout(() => {
+            setShowLuciditvTimeline(false);
+          }, 3000)
+        );
+      }
+    }, [
+      previousMessageId,
+      messageId,
+      item,
+      showLuciditvTimeline,
+      setShowLuciditvTimeline,
+      luciditvTimerId,
+      setLuciditvTimerId,
+    ]);
+
+    if (item?.type !== 'message' || item?.data?.author?.isMe) {
       return <div />;
     }
 

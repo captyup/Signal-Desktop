@@ -52,6 +52,8 @@ import {
   createScrollerLock,
   ScrollerLockContext,
 } from '../../hooks/useScrollLock';
+import { useTimelineItem } from '../../state/selectors/timeline';
+import type { TimelineItemType } from './LuciditvTimelineItem';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };
@@ -84,12 +86,8 @@ export type PropsDataType = {
   scrollToIndexCounter: number;
   totalUnseen: number;
 
-  showLuciditvTimeline: boolean;
-  setShowLuciditvTimeline: (showLuciditvTimeline: boolean) => void;
-  luciditvTimerId: ReturnType<typeof setTimeout> | null;
-  setLuciditvTimerId: (
-    luciditvTimerId: ReturnType<typeof setTimeout> | null
-  ) => void;
+  latestItem: TimelineItemType | undefined;
+  luciditvTimelineTimeStampRef: RefObject<number>;
 };
 
 type PropsHousekeepingType = {
@@ -144,12 +142,6 @@ type PropsHousekeepingType = {
     nextMessageId: undefined | string;
     previousMessageId: undefined | string;
     unreadIndicatorPlacement: undefined | UnreadIndicatorPlacement;
-    showLuciditvTimeline: boolean;
-    setShowLuciditvTimeline: (showLuciditvTimeline: boolean) => void;
-    luciditvTimerId: ReturnType<typeof setTimeout> | null;
-    setLuciditvTimerId: (
-      luciditvTimerId: ReturnType<typeof setTimeout> | null
-    ) => void;
   }) => JSX.Element;
   renderMiniPlayer: (options: { shouldFlow: boolean }) => JSX.Element;
   renderTypingBubble: (id: string) => JSX.Element;
@@ -193,6 +185,9 @@ type StateType = {
   newestBottomVisibleMessageId?: string;
   oldestPartiallyVisibleMessageId?: string;
   widthBreakpoint: WidthBreakpoint;
+
+  showLuciditvTimelineTimerId: NodeJS.Timeout | undefined;
+  showLuciditvTimeline: boolean;
 };
 
 const scrollToUnreadIndicator = Symbol('scrollToUnreadIndicator');
@@ -232,6 +227,9 @@ export class LuciditvTimeline extends React.Component<
     // These may be swiftly overridden.
     lastMeasuredWarningHeight: 0,
     widthBreakpoint: WidthBreakpoint.Wide,
+
+    showLuciditvTimelineTimerId: undefined,
+    showLuciditvTimeline: false,
   };
 
   #onScrollLockChange = (): void => {
@@ -644,6 +642,7 @@ export class LuciditvTimeline extends React.Component<
       items: oldItems,
       messageChangeCounter: previousMessageChangeCounter,
       messageLoadingState: previousMessageLoadingState,
+      latestItem: previousLatestItem,
     } = prevProps;
     const {
       conversationType,
@@ -652,7 +651,28 @@ export class LuciditvTimeline extends React.Component<
       items: newItems,
       messageChangeCounter,
       messageLoadingState,
+      latestItem: newLatestItem,
+      luciditvTimelineTimeStampRef,
     } = this.props;
+
+    const { showLuciditvTimelineTimerId } = this.state;
+
+    if (
+      previousLatestItem?.timestamp !== newLatestItem?.timestamp &&
+      (luciditvTimelineTimeStampRef?.current ?? 0) <
+        (newLatestItem?.timestamp ?? 0) &&
+      newLatestItem?.type === 'message'
+    ) {
+      clearTimeoutIfNecessary(showLuciditvTimelineTimerId);
+      this.setState({
+        showLuciditvTimeline: true,
+      });
+      this.setState({
+        showLuciditvTimelineTimerId: setTimeout(() => {
+          this.setState({ showLuciditvTimeline: false });
+        }, 3000),
+      });
+    }
 
     const containerEl = this.#containerRef.current;
     if (!this.#scrollerLock.isLocked() && containerEl && snapshot) {
@@ -867,10 +887,6 @@ export class LuciditvTimeline extends React.Component<
       totalUnseen,
       unreadCount,
       unreadMentionsCount,
-      showLuciditvTimeline,
-      setShowLuciditvTimeline,
-      luciditvTimerId,
-      setLuciditvTimerId,
     } = this.props;
     const {
       scrollLocked,
@@ -880,6 +896,7 @@ export class LuciditvTimeline extends React.Component<
       newestBottomVisibleMessageId,
       oldestPartiallyVisibleMessageId,
       widthBreakpoint,
+      showLuciditvTimeline,
     } = this.state;
 
     // As a performance optimization, we don't need to render anything if this
@@ -1009,10 +1026,6 @@ export class LuciditvTimeline extends React.Component<
               nextMessageId,
               previousMessageId,
               unreadIndicatorPlacement,
-              showLuciditvTimeline,
-              setShowLuciditvTimeline,
-              luciditvTimerId,
-              setLuciditvTimerId,
             })}
           </ErrorBoundary>
         </div>
@@ -1161,7 +1174,9 @@ export class LuciditvTimeline extends React.Component<
                 isGroupV1AndDisabled ? 'module-timeline--disabled' : null,
                 `module-timeline--width-${widthBreakpoint}`,
                 'luciditv-module-timeline',
-                showLuciditvTimeline ? null : 'luciditv-module-timeline--hide'
+                showLuciditvTimeline
+                  ? 'luciditv-module-timeline--show'
+                  : 'luciditv-module-timeline--hide'
               )}
               role="presentation"
               tabIndex={-1}
@@ -1213,25 +1228,25 @@ export class LuciditvTimeline extends React.Component<
                   {/* /> */}
                 </div>
               </main>
-              {shouldShowScrollDownButtons ? (
-                <div className="module-timeline__scrolldown-buttons">
-                  {unreadMentionsCount ? (
-                    <ScrollDownButton
-                      variant={ScrollDownButtonVariant.UNREAD_MENTIONS}
-                      count={unreadMentionsCount}
-                      onClick={() => scrollToOldestUnreadMention(id)}
-                      i18n={i18n}
-                    />
-                  ) : null}
-
-                  <ScrollDownButton
-                    variant={ScrollDownButtonVariant.UNREAD_MESSAGES}
-                    count={areUnreadBelowCurrentPosition ? unreadCount : 0}
-                    onClick={this.#onClickScrollDownButton}
-                    i18n={i18n}
-                  />
-                </div>
-              ) : null}
+              {/* {shouldShowScrollDownButtons ? ( */}
+              {/*   <div className="module-timeline__scrolldown-buttons"> */}
+              {/*     {unreadMentionsCount ? ( */}
+              {/*       <ScrollDownButton */}
+              {/*         variant={ScrollDownButtonVariant.UNREAD_MENTIONS} */}
+              {/*         count={unreadMentionsCount} */}
+              {/*         onClick={() => scrollToOldestUnreadMention(id)} */}
+              {/*         i18n={i18n} */}
+              {/*       /> */}
+              {/*     ) : null} */}
+              {/**/}
+              {/*     <ScrollDownButton */}
+              {/*       variant={ScrollDownButtonVariant.UNREAD_MESSAGES} */}
+              {/*       count={areUnreadBelowCurrentPosition ? unreadCount : 0} */}
+              {/*       onClick={this.#onClickScrollDownButton} */}
+              {/*       i18n={i18n} */}
+              {/*     /> */}
+              {/*   </div> */}
+              {/* ) : null} */}
             </div>
           )}
         </SizeObserver>

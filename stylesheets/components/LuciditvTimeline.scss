@@ -6,28 +6,29 @@
 
 .luciditv-module-call-manager {
   pointer-events: none;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  position: absolute;
+  align-content: center;
+  justify-items: center;
+  z-index: 1000;
+}
 
-  &:has(.module-timeline__last-message) {
-    height: 90vh;
-    width: 100vw;
-    overflow: hidden;
-    position: absolute;
-    align-content: center;
-    justify-items: center;
-    z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 1;
-    transition: opacity 0.5s ease-in-out;
-  }
+.luciditv-module-timeline--show {
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 1;
 }
 
 .luciditv-module-timeline--hide {
+  background-color: rgba(0, 0, 0, 0);
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
 }
 
 .luciditv-module-timeline {
   width: 100%;
+  height: 100%;
+  transition: opacity 1s ease-in-out, background-color 1s ease-in-out;
 
   .module-timeline__last-message {
     align-content: center;

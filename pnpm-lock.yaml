@@ -128,14 +128,14 @@ importers:
         specifier: 9.0.13
         version: 9.0.13
       '@signalapp/libsignal-client':
-        specifier: 0.67.0
-        version: 0.67.0
+        specifier: 0.67.3
+        version: 0.67.3
       '@signalapp/quill-cjs':
         specifier: 2.1.2
         version: 2.1.2
       '@signalapp/ringrtc':
-        specifier: 2.50.1
-        version: 2.50.1
+        specifier: 2.50.2
+        version: 2.50.2
       '@tanstack/react-virtual':
         specifier: 3.11.2
         version: 3.11.2(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
@@ -144,7 +144,7 @@ importers:
         version: 4.5.3(patch_hash=e5f339ecf72fbab1c91505e7713e127a7184bfe8164aa3a9afe9bf45a0ad6b89)
       antd:
         specifier: ^5.21.4
-        version: 5.24.3(moment@2.30.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+        version: 5.24.4(moment@2.30.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       backbone:
         specifier: 1.6.0
         version: 1.6.0(patch_hash=342b4b6012f8aecfa041554256444cb25af75bc933cf2ab1e91c4f66a8e47a31)
@@ -2633,8 +2633,8 @@ packages:
   '@signalapp/libsignal-client@0.60.2':
     resolution: {integrity: sha512-tU4kNP/yCwkFntb2ahXOSQJtzdy+YifAB2yv5hw0qyKSidRHLn6bYiz4Zo2tjxLDRoBLAUxCRsQramStiqNZdA==}
 
-  '@signalapp/libsignal-client@0.67.0':
-    resolution: {integrity: sha512-K0MdgOQMqQkeXM9bBRa4FRw+q/IE6a+IICgw7wUwaO7y11IWLCRfaam/hNtHS1uzwPx6D1Ebo0pwKO9kHeShPw==}
+  '@signalapp/libsignal-client@0.67.3':
+    resolution: {integrity: sha512-GIiXJMqiIByPZbomytoYQcQLJ3pNgHBCjt5BvlE/3rkrmNwyXW1UVqszX6/WfZi91aqUapO4+7Op+8JCbDGRWA==}
 
   '@signalapp/mock-server@11.1.0':
     resolution: {integrity: sha512-SYYek3QCh57vZZGNVQW+fSXMr+xHjnO8sMAFfj8DovjqW4HIBWbt3itGyyjxSoIXnaCMK346O6I/R79w8xY/aw==}
@@ -2646,8 +2646,8 @@ packages:
     resolution: {integrity: sha512-y2sgqdivlrG41J4Zvt/82xtH/PZjDlgItqlD2g/Cv3ZbjlR6cGhTNXbfNygCJB8nXj+C7I28pjt1Zm3k0pv2mg==}
     engines: {npm: '>=8.2.3'}
 
-  '@signalapp/ringrtc@2.50.1':
-    resolution: {integrity: sha512-kR43qdCLjasttxqUGe1wKRszAXTe/KYlrDnqOA30qUHMkXFZEWnvc1vsYLDLU9eTtXcV2uNMDk+MUOv9hAl1qg==}
+  '@signalapp/ringrtc@2.50.2':
+    resolution: {integrity: sha512-fZgfz4asC4CZsvrhxYMDVbIz0iffde9GhWEgIBpAxgEiLpuURx9YRK1ghnn9eonfZNEXwhrTUXUBlC6xYyy1rQ==}
 
   '@sinclair/typebox@0.27.8':
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
@@ -3671,8 +3671,8 @@ packages:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
 
-  antd@5.24.3:
-    resolution: {integrity: sha512-H5fopyOVRAnegfwLuEdjhPR+l5z3/lo4aQyDsgIYhfmeBcRgN/XNkefVxzRHNuWHeYr9E9LbyxEQcMF91sy5lg==}
+  antd@5.24.4:
+    resolution: {integrity: sha512-s89666DcoWeekJFaIqbtz2vRlIvgPR28GuDYYGUpW1mVP08bV7HZAPBH5lFJKYNGKrN3dHbZGgRK5aNRD2iPHg==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -8187,8 +8187,8 @@ packages:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
 
-  rc-image@7.11.0:
-    resolution: {integrity: sha512-aZkTEZXqeqfPZtnSdNUnKQA0N/3MbgR7nUnZ+/4MfSFWPFHZau4p5r5ShaI0KPEMnNjv4kijSCFq/9wtJpwykw==}
+  rc-image@7.11.1:
+    resolution: {integrity: sha512-XuoWx4KUXg7hNy5mRTy1i8c8p3K8boWg6UajbHpDXS5AlRVucNfTi5YxTtPBTBzegxAZpvuLfh3emXFt6ybUdA==}
     peerDependencies:
       react: '>=16.9.0'
       react-dom: '>=16.9.0'
@@ -12749,7 +12749,7 @@ snapshots:
       type-fest: 4.26.1
       uuid: 8.3.2
 
-  '@signalapp/libsignal-client@0.67.0':
+  '@signalapp/libsignal-client@0.67.3':
     dependencies:
       node-gyp-build: 4.8.4
       type-fest: 4.26.1
@@ -12787,7 +12787,7 @@ snapshots:
       lodash: 4.17.21
       quill-delta: 5.1.0
 
-  '@signalapp/ringrtc@2.50.1':
+  '@signalapp/ringrtc@2.50.2':
     dependencies:
       https-proxy-agent: 7.0.6
       tar: 6.2.1
@@ -14057,7 +14057,7 @@ snapshots:
 
   ansi-styles@6.2.1: {}
 
-  antd@5.24.3(moment@2.30.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  antd@5.24.4(moment@2.30.1)(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
     dependencies:
       '@ant-design/colors': 7.2.0
       '@ant-design/cssinjs': 1.23.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
@@ -14081,7 +14081,7 @@ snapshots:
       rc-drawer: 7.2.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       rc-dropdown: 4.2.1(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       rc-field-form: 2.7.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
-      rc-image: 7.11.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
+      rc-image: 7.11.1(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       rc-input: 1.7.3(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       rc-input-number: 9.4.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
       rc-mentions: 2.19.1(react-dom@17.0.2(react@17.0.2))(react@17.0.2)
@@ -19526,7 +19526,7 @@ snapshots:
       react: 17.0.2
       react-dom: 17.0.2(react@17.0.2)
 
-  rc-image@7.11.0(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
+  rc-image@7.11.1(react-dom@17.0.2(react@17.0.2))(react@17.0.2):
     dependencies:
       '@babel/runtime': 7.26.7
       '@rc-component/portal': 1.1.2(react-dom@17.0.2(react@17.0.2))(react@17.0.2)

@@ -2667,8 +2667,13 @@ ipc.on('show-debug-log', showDebugLogWindow);
 ipc.on(
   'show-debug-log-save-dialog',
   async (_event: Electron.Event, logText: string) => {
+    // Workaround KDE portal file dialog default path issue
+    const defaultPath = OS.isLinuxUsingKDE()
+      ? '~/debuglog.txt'
+      : 'debuglog.txt';
+
     const { filePath } = await dialog.showSaveDialog({
-      defaultPath: 'debuglog.txt',
+      defaultPath,
       showsTagField: false,
     });
     if (filePath) {
@@ -3052,10 +3057,13 @@ ipc.handle('show-save-dialog', async (_event, { defaultPath }) => {
     return { canceled: true };
   }
 
+  // Workaround KDE portal file dialog default path issue
+  const osDefaultPath = OS.isLinuxUsingKDE() ? `~/${defaultPath}` : defaultPath;
+
   const { canceled, filePath: selectedFilePath } = await dialog.showSaveDialog(
     mainWindow,
     {
-      defaultPath,
+      defaultPath: osDefaultPath,
       showsTagField: false,
     }
   );

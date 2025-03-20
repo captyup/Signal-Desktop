@@ -190,6 +190,7 @@ export type ActiveCallStateType = {
   pip: boolean;
   presentingSource?: PresentedSource;
   presentingSourcesAvailable?: ReadonlyArray<PresentableSource>;
+  selfViewExpanded: boolean;
   settingsDialogOpen: boolean;
   showNeedsScreenRecordingPermissionsWarning?: boolean;
   showParticipantsList: boolean;
@@ -659,6 +660,7 @@ const TOGGLE_NEEDS_SCREEN_RECORDING_PERMISSIONS =
 const START_DIRECT_CALL = 'calling/START_DIRECT_CALL';
 const TOGGLE_PARTICIPANTS = 'calling/TOGGLE_PARTICIPANTS';
 const TOGGLE_PIP = 'calling/TOGGLE_PIP';
+const TOGGLE_SELF_VIEW_EXPANDED = 'calling/TOGGLE_SELF_VIEW_EXPANDED';
 const TOGGLE_SETTINGS = 'calling/TOGGLE_SETTINGS';
 const SWITCH_TO_PRESENTATION_VIEW = 'calling/SWITCH_TO_PRESENTATION_VIEW';
 const SWITCH_FROM_PRESENTATION_VIEW = 'calling/SWITCH_FROM_PRESENTATION_VIEW';
@@ -941,9 +943,11 @@ type ToggleParticipantsActionType = ReadonlyDeep<{
 }>;
 
 type TogglePipActionType = ReadonlyDeep<{
-  type: 'calling/TOGGLE_PIP';
+  type: typeof TOGGLE_PIP;
 }>;
-
+type ToggleSelfViewExpandedActionType = ReadonlyDeep<{
+  type: typeof TOGGLE_SELF_VIEW_EXPANDED;
+}>;
 type ToggleSettingsActionType = ReadonlyDeep<{
   type: 'calling/TOGGLE_SETTINGS';
 }>;
@@ -1008,6 +1012,7 @@ export type CallingActionType =
   | ToggleNeedsScreenRecordingPermissionsActionType
   | ToggleParticipantsActionType
   | TogglePipActionType
+  | ToggleSelfViewExpandedActionType
   | SetPresentingFulfilledActionType
   | ToggleSettingsActionType
   | SuggestLowerHandActionType
@@ -1284,7 +1289,7 @@ function declineCall(
 
     const call = getOwn(getState().calling.callsByConversation, conversationId);
     if (!call) {
-      log.error('Trying to decline a non-existent call');
+      log.warn('Trying to decline a non-existent call');
       return;
     }
 
@@ -2292,12 +2297,18 @@ const _startCallLinkLobby = async ({
       dispatch(togglePip());
     } else {
       log.warn(
-        `${logId}: Attempted to start lobby while already waiting for it!`
+        `${logId}: Attempted to start lobby while already waiting for this call!`
       );
     }
     return;
   }
   if (activeCallState) {
+    if (activeCallState.state !== 'Active') {
+      log.warn(
+        `${logId}: Call wasn't active; still showing leave call modal`,
+        activeCallState
+      );
+    }
     dispatch(
       toggleConfirmLeaveCallModal({
         type: 'adhoc-rootKey',
@@ -2480,12 +2491,18 @@ function startCallingLobby({
         dispatch(togglePip());
       } else {
         log.warn(
-          `${logId}: Attempted to start lobby while already waiting for it!`
+          `${logId}: Attempted to start lobby while already waiting for this call!`
         );
       }
       return;
     }
     if (activeCallState) {
+      if (activeCallState.state !== 'Active') {
+        log.warn(
+          `${logId}: Call wasn't active; still showing leave call modal`,
+          activeCallState
+        );
+      }
       dispatch(
         toggleConfirmLeaveCallModal({
           type: 'conversation',
@@ -2568,8 +2585,12 @@ function startCall(
 
     log.info(`${logId}: starting, mode ${callMode}`);
 
-    if (activeCallState?.state === 'Waiting') {
-      log.error(`${logId}: Call is not ready; `);
+    if (
+      !activeCallState ||
+      activeCallState?.state === 'Waiting' ||
+      activeCallState?.conversationId !== conversationId
+    ) {
+      log.error(`${logId}: Call is not ready`, activeCallState);
       return;
     }
 
@@ -2646,6 +2667,12 @@ function toggleParticipants(): ToggleParticipantsActionType {
 function togglePip(): TogglePipActionType {
   return {
     type: TOGGLE_PIP,
+  };
+}
+
+function toggleSelfViewExpanded(): ToggleSelfViewExpandedActionType {
+  return {
+    type: TOGGLE_SELF_VIEW_EXPANDED,
   };
 }
 
@@ -2741,6 +2768,7 @@ export const actions = {
   toggleParticipants,
   togglePip,
   toggleScreenRecordingPermissionsDialog,
+  toggleSelfViewExpanded,
   toggleSettings,
   updateCallLinkName,
   updateCallLinkRestrictions,
@@ -2859,6 +2887,14 @@ export function reducer(
   if (action.type === WAITING_FOR_CALLING_LOBBY) {
     const { conversationId } = action.payload;
 
+    if (state.activeCallState) {
+      log.warn(
+        `${action.type}: Already have an active call!`,
+        state.activeCallState
+      );
+      return state;
+    }
+
     return {
       ...state,
       activeCallState: {
@@ -2867,8 +2903,17 @@ export function reducer(
       },
     };
   }
+
   if (action.type === WAITING_FOR_CALL_LINK_LOBBY) {
     const { roomId } = action.payload;
+
+    if (state.activeCallState) {
+      log.warn(
+        `${action.type}: Already have an active call!`,
+        state.activeCallState
+      );
+      return state;
+    }
 
     return {
       ...state,
@@ -2878,23 +2923,44 @@ export function reducer(
       },
     };
   }
+
   if (action.type === CALL_LOBBY_FAILED) {
     const { conversationId } = action.payload;
 
     const { activeCallState } = state;
-    if (!activeCallState || activeCallState.conversationId !== conversationId) {
+    if (
+      !activeCallState ||
+      activeCallState.conversationId !== conversationId ||
+      activeCallState.state !== 'Waiting'
+    ) {
       log.warn(
-        `${action.type}: Active call does not match target conversation`
+        `${action.type}: Active call does not match target conversation`,
+        activeCallState
       );
+      return state;
     }
 
     return removeConversationFromState(state, conversationId);
   }
+
   if (
     action.type === START_CALLING_LOBBY ||
     action.type === START_CALL_LINK_LOBBY
   ) {
     const { callMode, conversationId } = action.payload;
+
+    const { activeCallState } = state;
+    if (
+      !activeCallState ||
+      activeCallState.conversationId !== conversationId ||
+      activeCallState.state !== 'Waiting'
+    ) {
+      log.warn(
+        `${action.type}: Active call does not match target conversation`,
+        activeCallState
+      );
+      return state;
+    }
 
     let call: DirectCallStateType | GroupCallStateType;
     let newAdhocCalls: AdhocCallsType;
@@ -2998,6 +3064,7 @@ export function reducer(
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
+        selfViewExpanded: false,
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing,
@@ -3007,13 +3074,28 @@ export function reducer(
   }
 
   if (action.type === START_DIRECT_CALL) {
+    const { conversationId } = action.payload;
+
+    const { activeCallState } = state;
+    if (
+      activeCallState &&
+      (activeCallState.state === 'Waiting' ||
+        activeCallState.conversationId !== conversationId)
+    ) {
+      log.warn(
+        `${action.type}: Cannot start call; activeCall doesn't match conversation`,
+        activeCallState
+      );
+      return state;
+    }
+
     return {
       ...state,
       callsByConversation: {
         ...callsByConversation,
-        [action.payload.conversationId]: {
+        [conversationId]: {
           callMode: CallMode.Direct,
-          conversationId: action.payload.conversationId,
+          conversationId,
           callState: CallState.Prering,
           isIncoming: false,
           isVideoCall: action.payload.hasLocalVideo,
@@ -3023,12 +3105,13 @@ export function reducer(
       activeCallState: {
         state: 'Active',
         callMode: CallMode.Direct,
-        conversationId: action.payload.conversationId,
+        conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
+        selfViewExpanded: false,
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: true,
@@ -3038,13 +3121,16 @@ export function reducer(
   }
 
   if (action.type === ACCEPT_CALL_PENDING) {
-    const call = getOwn(
-      state.callsByConversation,
-      action.payload.conversationId
-    );
+    const { conversationId } = action.payload;
+    const call = getOwn(state.callsByConversation, conversationId);
     if (!call) {
       log.warn('Unable to accept a non-existent call');
       return state;
+    }
+
+    const { activeCallState } = state;
+    if (!activeCallState || activeCallState.conversationId !== conversationId) {
+      log.warn(`${action.type}: Active call didn't match:`, activeCallState);
     }
 
     return {
@@ -3052,12 +3138,13 @@ export function reducer(
       activeCallState: {
         state: 'Active',
         callMode: call.callMode,
-        conversationId: action.payload.conversationId,
+        conversationId,
         hasLocalAudio: true,
         hasLocalVideo: action.payload.asVideoCall,
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
+        selfViewExpanded: false,
         settingsDialogOpen: false,
         showParticipantsList: false,
         outgoingRing: false,
@@ -3150,13 +3237,27 @@ export function reducer(
   }
 
   if (action.type === INCOMING_DIRECT_CALL) {
+    const { conversationId } = action.payload;
+
+    const { activeCallState } = state;
+    if (activeCallState && activeCallState.conversationId !== conversationId) {
+      log.warn(
+        `${action.type}: activeCallState didn't match conversation; overriding.`,
+        activeCallState
+      );
+    }
+
     return {
       ...state,
+      activeCallState: {
+        state: 'Waiting',
+        conversationId,
+      },
       callsByConversation: {
         ...callsByConversation,
-        [action.payload.conversationId]: {
+        [conversationId]: {
           callMode: CallMode.Direct,
-          conversationId: action.payload.conversationId,
+          conversationId,
           callState: CallState.Prering,
           isIncoming: true,
           isVideoCall: action.payload.isVideoCall,
@@ -3219,13 +3320,27 @@ export function reducer(
   }
 
   if (action.type === OUTGOING_CALL) {
+    const { conversationId } = action.payload;
+
+    const { activeCallState } = state;
+    if (
+      activeCallState &&
+      (activeCallState.state === 'Waiting' ||
+        activeCallState.conversationId !== conversationId)
+    ) {
+      log.warn(
+        `${action.type}: Cannot start call; activeCall doesn't match conversation`
+      );
+      return state;
+    }
+
     return {
       ...state,
       callsByConversation: {
         ...callsByConversation,
-        [action.payload.conversationId]: {
+        [conversationId]: {
           callMode: CallMode.Direct,
-          conversationId: action.payload.conversationId,
+          conversationId,
           callState: CallState.Prering,
           isIncoming: false,
           isVideoCall: action.payload.hasLocalVideo,
@@ -3235,13 +3350,14 @@ export function reducer(
       activeCallState: {
         state: 'Active',
         callMode: CallMode.Direct,
-        conversationId: action.payload.conversationId,
+        conversationId,
         hasLocalAudio: action.payload.hasLocalAudio,
         hasLocalVideo: action.payload.hasLocalVideo,
         localAudioLevel: 0,
         viewMode: CallViewMode.Paginated,
         pip: false,
         settingsDialogOpen: false,
+        selfViewExpanded: false,
         showParticipantsList: false,
         outgoingRing: true,
         joinedAt: null,
@@ -3935,6 +4051,21 @@ export function reducer(
       activeCallState: {
         ...activeCallState,
         pip: !activeCallState.pip,
+      },
+    };
+  }
+  if (action.type === TOGGLE_SELF_VIEW_EXPANDED) {
+    const { activeCallState } = state;
+    if (activeCallState?.state !== 'Active') {
+      log.warn('Cannot toggle PiP when there is no active call');
+      return state;
+    }
+
+    return {
+      ...state,
+      activeCallState: {
+        ...activeCallState,
+        selfViewExpanded: !activeCallState.selfViewExpanded,
       },
     };
   }

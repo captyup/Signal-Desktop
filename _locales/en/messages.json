@@ -307,10 +307,6 @@
     "messageformat": "Optimizing application...",
     "description": "Message shown on the loading screen while we are doing application optimizations"
   },
-  "icu:migratingToSQLCipher": {
-    "messageformat": "Optimizing messages... {status} complete.",
-    "description": "(Deleted 2025/02/06) Message shown on the loading screen while we are doing application optimizations"
-  },
   "icu:archivedConversations": {
     "messageformat": "Archived Chats",
     "description": "Shown in place of the search box when showing archived conversation list"
@@ -954,10 +950,6 @@
   "icu:noSearchResultsOnlyUnreadFilter": {
     "messageformat": "No unread chats",
     "description": "Shown in the search left pane when no results were found with only filter by unread enabled"
-  },
-  "icu:noSearchResults--sms-only": {
-    "messageformat": "SMS/MMS contacts are not available on Desktop.",
-    "description": "(Deleted 2025/02/06) Shown in the search left pane when no results were found and primary device has SMS/MMS handling enabled"
   },
   "icu:noSearchResultsInConversation": {
     "messageformat": "No results for \"{searchTerm}\" in {conversationName}",
@@ -3555,6 +3547,10 @@
     "messageformat": "Toggle video on and off",
     "description": "Shown in the shortcuts guide"
   },
+  "icu:Keyboard--toggle-preview": {
+    "messageformat": "Toggle expanded preview on and off",
+    "description": "Shown in the shortcuts guide"
+  },
   "icu:Keyboard--accept-video-call": {
     "messageformat": "Answer call with video (video calls only)",
     "description": "Shown in the calling keyboard shortcuts guide"
@@ -4114,6 +4110,14 @@
   "icu:calling__pip--off": {
     "messageformat": "Fullscreen call",
     "description": "Title for picture-in-picture toggle"
+  },
+  "icu:calling__preview--maximize": {
+    "messageformat": "Maximize preview",
+    "description": "Title for button to make in-call video preview bigger"
+  },
+  "icu:calling__preview--minimize": {
+    "messageformat": "Minimize preview",
+    "description": "Title for button to make in-call video preview smaller"
   },
   "icu:calling__change-view": {
     "messageformat": "Change view",
@@ -8104,16 +8108,16 @@
     "description": "Release notes for releases that only include bug fixes",
     "ignoreUnused": true
   },
-  "icu:WhatsNew__v7.45--0": {
-    "messageformat": "Stickers should feel sticky, not stuck, so now you can click on a sticker on a newly linked Signal Desktop and that sticker download will automatically get prioritized even when other attachments are downloading too.",
-    "description": "(Deleted 2025/03/06) Release notes for version 7.45"
-  },
   "icu:WhatsNew__v7.46--0": {
     "messageformat": "The new \"Data usage\" feature in Signal settings makes it easy to choose whether or not to automatically download photos, videos, audio files, or other documents. If Signal stops automatically downloading the latest tracks from your friend's boyfriend's band in the group chat, you can save your taste in music along with some free space on your hard drive.",
-    "description": "Release notes for version 7.46"
+    "description": "(Deleted 2025/03/12) Release notes for version 7.46"
   },
   "icu:WhatsNew__v7.46--1": {
     "messageformat": "Now when you attempt to start a chat with someone's Signal username, it will work even if you accidentally type the “@” symbol first. Some h@bits @re h@rd to bre@k.",
-    "description": "Release notes for version 7.46"
+    "description": "(Deleted 2025/03/12) Release notes for version 7.46"
+  },
+  "icu:WhatsNew__v7.47--0": {
+    "messageformat": "Now you can expand your local video preview during a call to get a better look at yourself or reflect on who you are.",
+    "description": "Release notes for version 7.47"
   }
 }

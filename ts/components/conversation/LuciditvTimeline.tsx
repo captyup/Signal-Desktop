@@ -54,6 +54,7 @@ import {
 } from '../../hooks/useScrollLock';
 import { useTimelineItem } from '../../state/selectors/timeline';
 import type { TimelineItemType } from './LuciditvTimelineItem';
+import type { PropsData as TimelineMessageProps } from './TimelineMessage';
 
 const AT_BOTTOM_THRESHOLD = 15;
 const AT_BOTTOM_DETECTOR_STYLE = { height: AT_BOTTOM_THRESHOLD };
@@ -661,6 +662,7 @@ export class LuciditvTimeline extends React.Component<
       previousLatestItem?.timestamp !== newLatestItem?.timestamp &&
       (luciditvTimelineTimeStampRef?.current ?? 0) <
         (newLatestItem?.timestamp ?? 0) &&
+      (newLatestItem?.data as TimelineMessageProps)?.author?.isMe &&
       newLatestItem?.type === 'message'
     ) {
       clearTimeoutIfNecessary(showLuciditvTimelineTimerId);

@@ -10,7 +10,8 @@ import { getConversation } from '../../util/getConversation';
 import { getChallengeURL } from '../../challenge';
 import { writeProfile } from '../../services/writeProfile';
 import { strictAssert } from '../../util/assert';
-import { SmartCallManager } from './CallManager';
+// import { SmartCallManager } from './CallManager';
+import { SmartLuciditvCallManager } from './LuciditvCallManager';
 import { SmartGlobalModalContainer } from './GlobalModalContainer';
 import { SmartLightbox } from './Lightbox';
 import { SmartStoryViewer } from './StoryViewer';
@@ -27,16 +28,19 @@ import { ErrorBoundary } from '../../components/ErrorBoundary';
 import { ModalContainer } from '../../components/ModalContainer';
 import { getApp } from '../selectors/app';
 import { SmartLuciditvInbox } from './LuciditvInbox';
+// import { SmartInbox } from './Inbox';
 import { SmartFunProvider } from './FunProvider';
 
 function renderInbox(): JSX.Element {
   return <SmartLuciditvInbox />;
+  // return <SmartInbox />;
 }
 
 function renderCallManager(): JSX.Element {
   return (
     <ModalContainer className="module-calling__modal-container">
-      <SmartCallManager />
+      {/* <SmartCallManager /> */}
+      <SmartLuciditvCallManager />
     </ModalContainer>
   );
 }

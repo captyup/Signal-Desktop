@@ -5,7 +5,7 @@ import React, { useEffect, useCallback, useMemo, useRef } from 'react';
 import classNames from 'classnames';
 import { isNumber } from 'lodash';
 
-import { ipcRenderer } from 'electron';
+// import { ipcRenderer } from 'electron';
 import type { LeftPaneHelper, ToFindType } from './leftPane/LeftPaneHelper';
 import { FindDirection } from './leftPane/LeftPaneHelper';
 import type { LeftPaneInboxPropsType } from './leftPane/LeftPaneInboxHelper';
@@ -699,9 +699,9 @@ export function LuciditvLeftPane({
     maxWidth: '1280px',
     width: '100%',
   };
-  const toggleDevTools = async () => {
-    await ipcRenderer.invoke('executeMenuRole', 'toggleDevTools');
-  };
+  // const toggleDevTools = async () => {
+  //   await ipcRenderer.invoke('executeMenuRole', 'toggleDevTools');
+  // };
   return (
     <LuciditvNavSidebar
       title={i18n('icu:LeftPane--chats')}
@@ -801,9 +801,9 @@ export function LuciditvLeftPane({
         </div>
         {preRowsNode && <React.Fragment key={0}>{preRowsNode}</React.Fragment>}
         <div className="module-left-pane__list--measure" ref={measureRef}>
-          <button type="button" onClick={toggleDevTools}>
-            Dev Tools
-          </button>
+          {/* <button type="button" onClick={toggleDevTools}> */}
+          {/*   Dev Tools */}
+          {/* </button> */}
           <div
             className="module-left-pane__list--wrapper"
             style={listWrapperStyle}
